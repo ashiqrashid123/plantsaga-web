@@ -3,57 +3,210 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Privacy Policy - PlantSaga</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy | PlantSaga</title>
+    <!-- Modern Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@600;700;800&display=swap"
+        rel="stylesheet">
     <style>
+        :root {
+            --primary: #0a2e1f;
+            --primary-soft: #1a4d3a;
+            --accent: #d4af37;
+            --sage: #8a9a5b;
+            --bg-warm: #fdfbf7;
+            --text-main: #1c1c1c;
+            --text-muted: #5a5a5a;
+            --white: #ffffff;
+            --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.04);
+        }
+
         body {
-            font-family: sans-serif;
-            line-height: 1.6;
-            max-width: 800px;
-            margin: 40px auto;
-            padding: 20px;
-            color: #333;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-warm);
+            color: var(--text-main);
+            line-height: 1.8;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 100px 24px;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 40px;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            transform: translateX(-5px);
+            color: var(--sage);
+        }
+
+        .policy-card {
+            background: var(--white);
+            padding: 60px;
+            border-radius: 40px;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(0, 0, 0, 0.015);
         }
 
         h1 {
-            color: #2d5a27;
-            border-bottom: 2px solid #2d5a27;
-            padding-bottom: 10px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+            letter-spacing: -0.02em;
+        }
+
+        .last-updated {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 50px;
+            display: block;
         }
 
         h2 {
-            margin-top: 30px;
-            color: #444;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.6rem;
+            color: var(--primary);
+            margin-top: 50px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        h2::before {
+            content: "";
+            width: 6px;
+            height: 6px;
+            background: var(--accent);
+            border-radius: 50%;
+        }
+
+        p {
+            margin-bottom: 20px;
+        }
+
+        ul {
+            margin-bottom: 24px;
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 12px;
+        }
+
+        .contact-box {
+            background: #f4fef8;
+            padding: 30px;
+            border-radius: 20px;
+            margin-top: 60px;
+            border: 1px solid #e2f0e7;
+        }
+
+        .contact-box strong {
+            color: var(--primary);
+        }
+
+        @media (max-width: 600px) {
+            .policy-card {
+                padding: 40px 24px;
+            }
+
+            h1 {
+                font-size: 2.2rem;
+            }
         }
     </style>
 </head>
 
 <body>
-    <h1>Privacy Policy for PlantSaga</h1>
-    <p><strong>Last Updated:</strong> October 2025</p>
+    <div class="container">
+        <a href="index.html" class="back-link">← Back to Homepage</a>
 
-    <p>At PlantSaga, we are committed to protecting your privacy. This policy explains how we handle your information.
-    </p>
+        <article class="policy-card">
+            <h1>Privacy Policy</h1>
+            <span class="last-updated">Last Updated: January 2, 2026</span>
 
-    <h2>1. Information We Collect</h2>
-    <p>We collect information you provide directly to us, such as your name, email address (team.plantsaga@gmail.com),
-        and photos of plants you upload for identification.</p>
+            <p>At PlantSaga, we are committed to protecting your personal data and your privacy. This policy outlines
+                how we collect, use, and safeguard your information in compliance with the General Data Protection
+                Regulation (GDPR) and other applicable privacy laws.</p>
 
-    <h2>2. Use of AI Technology</h2>
-    <p>PlantSaga uses AI to analyze images for plant identification and health diagnosis. These images are processed
-        securely.</p>
+            <h2>1. Information We Collect</h2>
+            <p>We only collect information that is necessary to provide you with the best plant care experience. This
+                includes:</p>
+            <ul>
+                <li><strong>Personal Identity:</strong> Name and email address (provided during account creation).</li>
+                <li><strong>Plant Data:</strong> Photos of plants, species names, and health status logs you upload.
+                </li>
+                <li><strong>Usage Data:</strong> Information on how you interact with our AI diagnostics and community
+                    features.</li>
+            </ul>
 
-    <h2>3. Data Sharing</h2>
-    <p>We do not sell your personal data. Data is only shared with essential service providers (e.g., cloud storage) to
-        keep the app running.</p>
+            <h2>2. Legal Basis for Processing</h2>
+            <p>Under GDPR, we process your data based on:</p>
+            <ul>
+                <li><strong>Your Consent:</strong> For example, when you upload plant photos or sign up for our
+                    newsletter.</li>
+                <li><strong>Contractual Necessity:</strong> To provide you with the services offered by the PlantSaga
+                    app.</li>
+                <li><strong>Legitimate Interests:</strong> To improve our AI technology and ensure the security of our
+                    platform.</li>
+            </ul>
 
-    <h2>4. Account Deletion</h2>
-    <p>You may request to delete your account and all associated plant data at any time via the app settings or by
-        emailing us.</p>
+            <h2>3. Your Data Rights (GDPR)</h2>
+            <p>You have the following rights regarding your personal data:</p>
+            <ul>
+                <li><strong>Right to Access:</strong> You can request a copy of the personal data we hold about you.
+                </li>
+                <li><strong>Right to Rectification:</strong> You can ask us to correct any inaccurate or incomplete
+                    information.</li>
+                <li><strong>Right to Erasure ("Right to be Forgotten"):</strong> You can request that we delete your
+                    data at any time.</li>
+                <li><strong>Right to Data Portability:</strong> You can request to receive your data in a structured,
+                    commonly used format.</li>
+                <li><strong>Right to Object:</strong> You can object to the processing of your data for direct marketing
+                    purposes.</li>
+            </ul>
 
-    <h2>5. Contact Us</h2>
-    <p>If you have questions, please contact us at: <strong>team.plantsaga@gmail.com</strong></p>
+            <h2>4. Use of AI Technology</h2>
+            <p>PlantSaga utilizes advanced artificial intelligence to analyze plant imagery. These images are used to
+                identify species and diagnose health issues. We process these images securely and never use them for
+                personal identification beyond your plant's needs.</p>
 
-    <p><a href="index.html">← Back to Home</a></p>
+            <h2>5. Data Retention & Security</h2>
+            <p>We retain your data only for as long as necessary to provide our services or as required by law. We
+                implement industry-standard security measures to protect your data from unauthorized access, loss, or
+                misuse.</p>
+
+            <h2>6. International Transfers</h2>
+            <p>Your information may be stored and processed in countries outside of your own. However, we ensure that
+                any international transfers comply with GDPR through standard contractual clauses or other legal
+                safeguards.</p>
+
+            <div class="contact-box">
+                <p><strong>Contact Our Data Protection Team</strong></p>
+                <p>If you have any questions about this policy or wish to exercise your data rights, please contact us
+                    at: <br>
+                    <strong>team.plantsaga@gmail.com</strong>
+                </p>
+            </div>
+        </article>
+    </div>
 </body>
 
 </html>
