@@ -24,15 +24,18 @@
 
     <style>
         :root {
-            --primary: #1b4332;
-            --primary-light: #2d6a4f;
-            --accent: #95d5b2;
-            --bg-color: #f8faf8;
-            --text-main: #1a1a1a;
-            --text-muted: #4a5568;
+            --primary: #0a2e1f;
+            --primary-soft: #1a4d3a;
+            --accent: #d4af37;
+            /* Gold accent */
+            --sage: #8a9a5b;
+            --bg-warm: #fdfbf7;
+            --text-main: #1c1c1c;
+            --text-muted: #5a5a5a;
             --white: #ffffff;
-            --shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.04);
+            --shadow-bold: 0 20px 50px rgba(0, 0, 0, 0.1);
+            --transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
         }
 
         * {
@@ -43,72 +46,95 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background-color: var(--bg-color);
-            background: radial-gradient(circle at top right, #eaf4ed, var(--bg-color));
+            background-color: var(--bg-warm);
             color: var(--text-main);
-            line-height: 1.6;
+            line-height: 1.7;
             overflow-x: hidden;
         }
 
         .container {
-            max-width: 1000px;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 60px 24px;
+            padding: 0 24px;
         }
 
-        /* Header & Logo */
-        header {
-            text-align: center;
-            margin-bottom: 60px;
-            animation: slideDown 0.8s ease-out;
+        /* Top Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(253, 251, 247, 0.8);
+            backdrop-filter: blur(15px);
+            z-index: 1000;
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.03);
         }
 
-        .logo {
-            width: 80px;
-            height: 80px;
-            border-radius: 20px;
-            box-shadow: var(--shadow);
-            margin-bottom: 24px;
-            transition: var(--transition);
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .logo:hover {
-            transform: scale(1.05) rotate(5deg);
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            text-decoration: none;
+        }
+
+        .nav-logo {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(10, 46, 31, 0.1);
+        }
+
+        .brand-name {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--primary);
+            letter-spacing: -0.02em;
         }
 
         /* Hero Section */
         .hero {
-            text-align: center;
-            margin-bottom: 80px;
+            padding-top: 180px;
+            padding-bottom: 100px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            text-align: left;
             animation: fadeIn 1s ease-out;
         }
 
         h1 {
             font-family: 'Outfit', sans-serif;
-            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-size: clamp(3rem, 8vw, 5.5rem);
             font-weight: 800;
-            line-height: 1.1;
+            line-height: 1.05;
             color: var(--primary);
-            margin-bottom: 24px;
-            letter-spacing: -0.03em;
+            margin-bottom: 30px;
+            letter-spacing: -0.04em;
         }
 
         .tagline {
-            font-size: clamp(1.1rem, 3vw, 1.4rem);
-            color: var(--primary-light);
-            font-weight: 500;
-            max-width: 700px;
-            margin: 0 auto 40px;
-            opacity: 0.9;
+            font-size: clamp(1.2rem, 3vw, 1.6rem);
+            color: var(--text-muted);
+            font-weight: 400;
+            max-width: 600px;
+            margin-bottom: 48px;
+            border-left: 3px solid var(--accent);
+            padding-left: 24px;
         }
 
-        /* App Stores */
+        /* App Stores Row */
         .app-links {
             display: flex;
-            justify-content: center;
             gap: 16px;
             flex-wrap: wrap;
-            margin-bottom: 20px;
         }
 
         .app-button {
@@ -117,21 +143,20 @@
             gap: 12px;
             background: var(--primary);
             color: var(--white);
-            padding: 12px 28px;
-            border-radius: 14px;
+            padding: 14px 32px;
+            border-radius: 16px;
             text-decoration: none;
             font-weight: 600;
-            font-size: 0.95rem;
+            font-size: 1rem;
             transition: var(--transition);
-            box-shadow: 0 4px 15px rgba(27, 67, 50, 0.2);
-            cursor: pointer;
             border: none;
+            cursor: pointer;
         }
 
         .app-button:hover {
-            background: var(--primary-light);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(27, 67, 50, 0.3);
+            background: var(--primary-soft);
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(10, 46, 31, 0.2);
         }
 
         .app-button svg {
@@ -140,91 +165,142 @@
             fill: currentColor;
         }
 
-        /* Content Sections */
+        /* Content Section - Asymmetric Layout */
+        .story-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+            margin-bottom: 120px;
+        }
+
         .main-card {
             background: var(--white);
-            padding: 48px;
-            border-radius: 32px;
-            box-shadow: var(--shadow);
-            margin-bottom: 60px;
-            border: 1px solid rgba(0, 0, 0, 0.02);
-            animation: slideUp 1s ease-out;
+            padding: 60px;
+            border-radius: 40px;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(0, 0, 0, 0.015);
         }
 
-        .story-text {
-            font-size: 1.15rem;
+        .main-card p {
+            margin-bottom: 24px;
+            font-size: 1.1rem;
             color: var(--text-muted);
-            margin-bottom: 30px;
         }
 
+        .main-card strong {
+            color: var(--primary);
+        }
+
+        .legacy-quote {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            line-height: 1.2;
+            color: var(--primary);
+            grid-column: span 1;
+        }
+
+        .accent-dot {
+            color: var(--accent);
+        }
+
+        /* Features */
         .features-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 32px;
-            margin-top: 48px;
-            text-align: left;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px;
+            margin-top: 100px;
+            margin-bottom: 120px;
+        }
+
+        .feature-item {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 30px;
+            transition: var(--transition);
+            border: 1px solid transparent;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .feature-item:hover {
+            border-color: var(--sage);
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-bold);
         }
 
         .feature-item h3 {
             font-family: 'Outfit', sans-serif;
             color: var(--primary);
-            margin-bottom: 8px;
-            font-size: 1.25rem;
+            margin-bottom: 16px;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
 
-        .feature-item p {
-            font-size: 0.95rem;
-            color: var(--text-muted);
+        .feature-item h3::before {
+            content: "";
+            width: 8px;
+            height: 8px;
+            background: var(--accent);
+            border-radius: 50%;
         }
 
         /* Footer */
         footer {
+            padding: 100px 0 60px;
+            background: #f4efea;
             text-align: center;
-            padding: 40px 0;
-            border-top: 1px solid rgba(0, 0, 0, 0.05);
-            animation: fadeIn 1.5s ease-out;
+            border-radius: 60px 60px 0 0;
         }
 
         .support-card {
-            background: #edf5f0;
-            display: inline-block;
-            padding: 16px 32px;
-            border-radius: 100px;
-            margin-bottom: 32px;
-            transition: var(--transition);
+            background: var(--white);
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 30px 60px;
+            border-radius: 30px;
+            box-shadow: var(--shadow-soft);
+            margin-bottom: 60px;
         }
 
-        .support-card:hover {
-            background: #e2ede5;
-        }
-
-        .support-card p {
+        .support-card span {
             font-size: 0.9rem;
-            font-weight: 500;
+            color: var(--text-muted);
+            margin-bottom: 8px;
         }
 
         .support-card a {
             color: var(--primary);
             text-decoration: none;
-            font-weight: 700;
-        }
-
-        .footer-nav {
-            display: flex;
-            justify-content: center;
-            gap: 24px;
-            margin-top: 24px;
-        }
-
-        .footer-nav a {
-            color: #999;
-            text-decoration: none;
-            font-size: 0.85rem;
-            font-weight: 500;
+            font-size: 1.4rem;
+            font-weight: 800;
+            font-family: 'Outfit', sans-serif;
             transition: var(--transition);
         }
 
-        .footer-nav a:hover {
+        .support-card a:hover {
+            color: var(--sage);
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
             color: var(--primary);
         }
 
@@ -232,17 +308,7 @@
         @keyframes fadeIn {
             from {
                 opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
-        }
-
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
+                transform: translateY(20px);
             }
 
             to {
@@ -251,42 +317,48 @@
             }
         }
 
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(40px);
+        @media (max-width: 900px) {
+            .story-section {
+                grid-template-columns: 1fr;
+                gap: 40px;
             }
 
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @media (max-width: 640px) {
-            .container {
-                padding: 40px 20px;
-            }
-
-            .main-card {
-                padding: 32px 24px;
+            .hero {
+                padding-top: 140px;
             }
 
             h1 {
-                font-size: 2.5rem;
+                font-size: 3.5rem;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .main-card {
+                padding: 40px 24px;
+            }
+
+            .support-card {
+                padding: 30px 24px;
+                width: 100%;
             }
         }
     </style>
 </head>
 
 <body>
-    <div class="container">
-        <header>
-            <img src="logo.png" alt="PlantSaga Logo" class="logo">
-        </header>
+    <nav>
+        <div class="container nav-content">
+            <a href="#" class="brand">
+                <img src="logo.png" alt="PlantSaga Logo" class="nav-logo">
+                <span class="brand-name">PlantSaga</span>
+            </a>
+        </div>
+    </nav>
 
+    <div class="container">
         <section class="hero">
-            <h1>Every Plant Has a Story.<br>Start Writing Yours with PlantSaga.</h1>
+            <h1>Every Plant Has a Story<span class="accent-dot">.</span><br>Start Writing Yours<span
+                    class="accent-dot">.</span></h1>
             <p class="tagline">The story of your plants. AI care, photo diaries, community, and marketplace.</p>
 
             <div class="app-links">
@@ -305,64 +377,63 @@
                     Google Play
                 </button>
             </div>
-            <p style="font-size: 0.8rem; color: #888; margin-top: 10px;">Coming Soon to Mobile</p>
         </section>
 
-        <main class="main-card">
-            <div class="story-text">
-                <p style="margin-bottom: 24px;">Transform your plant care from a chore into a journey.
-                    <strong>PlantSaga</strong> is the definitive companion for the modern plant parent, combining
-                    cutting-edge AI technology with a thriving global community.</p>
-
-                <p style="margin-bottom: 24px;">The heart of PlantSaga is tracing the history, journey, and story of a
-                    plant. Through detailed photo diaries and comprehensive care logs, you create a living archive of
-                    every leaf and bloom.</p>
-
-                <p style="margin-bottom: 24px;">When your plant outgrows its space or you're ready for something new,
-                    you can pass that legacy to new owners in our <strong>Marketplace</strong> or preserve its journey
-                    in the <strong>Memories</strong> section.</p>
-
-                <p
-                    style="font-style: italic; font-weight: 500; color: var(--primary); margin-top: 40px; font-size: 1.25rem;">
-                    Your plants aren't just decor; they are a legacy. <br>
-                    Document the past. Nurture the present. Seed the future.
-                </p>
+        <section class="story-section">
+            <div class="legacy-quote">
+                Your plants aren't just decor<span class="accent-dot">;</span> they are a legacy<span
+                    class="accent-dot">.</span>
             </div>
-
-            <div class="features-grid">
-                <div class="feature-item">
-                    <h3>AI Care</h3>
-                    <p>Advanced diagnostics and personalized care schedules.</p>
-                </div>
-                <div class="feature-item">
-                    <h3>Photo Diaries</h3>
-                    <p>Visual timelines of growth and milestones.</p>
-                </div>
-                <div class="feature-item">
-                    <h3>Community</h3>
-                    <p>Connect with local and global plant enthusiasts.</p>
-                </div>
-                <div class="feature-item">
-                    <h3>Marketplace</h3>
-                    <p>Securely buy and sell plants with their histories.</p>
-                </div>
+            <div class="main-card">
+                <p>Transform your plant care from a chore into a journey. <strong>PlantSaga</strong> is the definitive
+                    companion for the modern plant parent, combining cutting-edge AI technology with a thriving global
+                    community.</p>
+                <p>The heart of PlantSaga is tracing the history, journey, and story of a plant. Through detailed photo
+                    diaries and comprehensive care logs, you create a living archive of every leaf and bloom.</p>
+                <p>When your plant outgrows its space or you're ready for something new, you can pass that legacy to new
+                    owners in our <strong>Marketplace</strong> or preserve its journey in the <strong>Memories</strong>
+                    section.</p>
             </div>
-        </main>
+        </section>
 
-        <footer>
-            <div class="support-card">
-                <p>Questions? Reach out: <a href="mailto:team.plantsaga@gmail.com">team.plantsaga@gmail.com</a></p>
+        <div class="features-grid">
+            <div class="feature-item">
+                <h3>AI Care</h3>
+                <p>Advanced diagnostics and personalized care schedules tailored to each species' unique story.</p>
             </div>
-
-            <p style="font-size: 0.9rem; color: #666;">Download PlantSaga and start your story today.</p>
-
-            <div class="footer-nav">
-                <a href="privacy.html">Privacy Policy</a>
-                <span style="color: #ddd;">|</span>
-                <span class="copyright" style="color: #999; font-size: 0.85rem;">© 2026 PlantSaga</span>
+            <div class="feature-item">
+                <h3>Photo Diaries</h3>
+                <p>Document every milestone and create stunning visual timelines of your plant's growth journey.</p>
             </div>
-        </footer>
+            <div class="feature-item">
+                <h3>Community</h3>
+                <p>Share local stories, swap tips, and connect with a global tribe of passionate plant parents.</p>
+            </div>
+            <div class="feature-item">
+                <h3>Marketplace</h3>
+                <p>Securely rehome plants while passing along their documented history and care legacy.</p>
+            </div>
+        </div>
     </div>
+
+    <footer>
+        <div class="container">
+            <div class="support-card">
+                <span>Start your story today</span>
+                <a href="mailto:team.plantsaga@gmail.com">team.plantsaga@gmail.com</a>
+            </div>
+
+            <p style="font-size: 1.1rem; color: var(--primary); font-weight: 600;">Document the past. Nurture the
+                present. Seed the future.</p>
+
+            <div class="footer-links">
+                <a href="privacy.html">Privacy Policy</a>
+                <a href="#">Instagram</a>
+                <a href="#">Twitter</a>
+            </div>
+            <p style="margin-top: 40px; font-size: 0.8rem; color: #999;">© 2026 PlantSaga. All rights reserved.</p>
+        </div>
+    </footer>
 
     <script>
         function showComingSoon() {
