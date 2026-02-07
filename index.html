@@ -100,35 +100,50 @@
             letter-spacing: -0.02em;
         }
 
-        /* Hero Section */
+        /* Hero Section - Modernized */
         .hero {
-            padding-top: 180px;
-            padding-bottom: 100px;
+            padding-top: 220px;
+            padding-bottom: 140px;
             display: flex;
             flex-direction: column;
-            align-items: flex-start;
-            text-align: left;
-            animation: fadeIn 1s ease-out;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(138, 154, 91, 0.08) 0%, transparent 70%);
+            z-index: -1;
+            filter: blur(60px);
         }
 
         h1 {
             font-family: 'Outfit', sans-serif;
-            font-size: clamp(3rem, 8vw, 5.5rem);
+            font-size: clamp(3.5rem, 9vw, 6.5rem);
             font-weight: 800;
-            line-height: 1.05;
+            line-height: 0.95;
             color: var(--primary);
             margin-bottom: 30px;
-            letter-spacing: -0.04em;
+            letter-spacing: -0.05em;
         }
 
         .tagline {
-            font-size: clamp(1.2rem, 3vw, 1.6rem);
+            font-size: clamp(1.3rem, 3.5vw, 1.8rem);
             color: var(--text-muted);
             font-weight: 400;
-            max-width: 600px;
-            margin-bottom: 48px;
-            border-left: 3px solid var(--accent);
-            padding-left: 24px;
+            max-width: 700px;
+            margin-bottom: 56px;
+            border-left: none;
+            padding-left: 0;
+            line-height: 1.5;
         }
 
         /* App Stores Row */
@@ -248,6 +263,189 @@
             border-radius: 50%;
         }
 
+        .showcase-content p {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+        }
+
+        /* Modernized Feature Showcase (UI Waterfall) */
+        .premium-showcase {
+            background: #051a11;
+            /* Even deeper green */
+            color: var(--white);
+            padding: 180px 0;
+            margin: 120px 0;
+            border-radius: 100px;
+            position: relative;
+            overflow: visible;
+            /* Allow 3D elements to float out slightly */
+            box-shadow: 0 60px 120px rgba(0, 0, 0, 0.4);
+        }
+
+        .premium-showcase::before {
+            content: "";
+            position: absolute;
+            top: -20%;
+            right: -10%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(138, 154, 91, 0.15) 0%, transparent 70%);
+            z-index: 0;
+        }
+
+        .showcase-header.light h2 {
+            color: var(--white);
+            font-size: clamp(3rem, 7vw, 5rem);
+            letter-spacing: -0.03em;
+        }
+
+        .showcase-header.light p {
+            color: rgba(255, 255, 255, 0.6) !important;
+            font-size: 1.2rem;
+        }
+
+        .analytical-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 80px;
+        }
+
+        .data-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 40px;
+            padding: 40px;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .data-card:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--accent);
+            transform: translateY(-8px);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-header h4 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.2rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .status-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #4ade80;
+            background: rgba(74, 222, 128, 0.1);
+            padding: 6px 12px;
+            border-radius: 100px;
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            background: #4ade80;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #4ade80;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(1.5);
+                opacity: 0.5;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .metric-value {
+            font-family: 'Outfit', sans-serif;
+            font-size: 4rem;
+            font-weight: 800;
+            line-height: 1;
+            margin: 10px 0;
+            letter-spacing: -0.05em;
+        }
+
+        .metric-unit {
+            font-size: 1.2rem;
+            opacity: 0.5;
+            margin-left: 4px;
+        }
+
+        .analytical-graphic {
+            height: 120px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 20px;
+            padding: 20px;
+            display: flex;
+            align-items: flex-end;
+            gap: 8px;
+        }
+
+        .bar {
+            flex: 1;
+            background: var(--white);
+            opacity: 0.1;
+            border-radius: 4px 4px 0 0;
+            transition: var(--transition);
+        }
+
+        .bar.active {
+            background: var(--accent);
+            opacity: 1;
+        }
+
+        .app-preview-mini {
+            width: 100%;
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            margin-top: 10px;
+        }
+
+        @media (max-width: 1100px) {
+            .analytical-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .analytical-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .premium-showcase {
+                border-radius: 40px;
+                padding: 100px 24px;
+            }
+
+            .metric-value {
+                font-size: 3rem;
+            }
+        }
+
         /* Footer */
         footer {
             padding: 100px 0 60px;
@@ -358,11 +556,11 @@
 
     <div class="container">
         <section class="hero">
-            <h1>Every Plant Has a Story<span class="accent-dot">.</span><br>Start Writing Yours<span
-                    class="accent-dot">.</span></h1>
-            <p class="tagline">The story of your plants. AI care, photo diaries, community, and marketplace.</p>
+            <h1>Intelligence Meets Nature<span class="accent-dot">.</span></h1>
+            <p class="tagline">The definitive companion for the modern plant parent. AI-powered care, 3D analytics, and
+                a thriving global community.</p>
 
-            <div class="app-links">
+            <div class="app-links" style="justify-content: center; width: 100%;">
                 <a href="https://apps.apple.com/us/app/plantsaga/id6757720295" class="app-button" target="_blank"
                     rel="noopener">
                     <svg viewBox="0 0 384 512">
@@ -399,26 +597,106 @@
             </div>
         </section>
 
+        <section class="premium-showcase">
+            <div class="container">
+                <div class="showcase-header light" style="text-align: center;">
+                    <h2>Contextual Intelligence</h2>
+                    <p style="margin: 0 auto; max-width: 600px; opacity: 0.7;">Botanical analysis driven by real-time
+                        data and scientific algorithms.</p>
+                </div>
+
+                <div class="analytical-grid">
+                    <!-- Light Intelligence -->
+                    <div class="data-card">
+                        <div class="card-header">
+                            <h4>The Light Lab</h4>
+                            <div class="status-badge">
+                                <div class="status-dot"></div> LIVE
+                            </div>
+                        </div>
+                        <div>
+                            <div class="metric-value">850<span class="metric-unit">LUX</span></div>
+                            <p style="opacity: 0.6; font-size: 0.9rem;">Bright Indirect Light detected.</p>
+                        </div>
+                        <img src="light_lab.png" class="app-preview-mini" alt="Light Lab Interface">
+                    </div>
+
+                    <!-- Moon Analytics -->
+                    <div class="data-card">
+                        <div class="card-header">
+                            <h4>Lunar Guide</h4>
+                            <div class="status-badge"
+                                style="color: var(--accent); background: rgba(212, 175, 55, 0.1);">
+                                SYNCED
+                            </div>
+                        </div>
+                        <div>
+                            <div class="metric-value" style="font-size: 2.8rem;">WANING MOON</div>
+                            <p style="opacity: 0.6; font-size: 0.9rem;">Pruning efficiency: High</p>
+                        </div>
+                        <img src="moon_guide.png" class="app-preview-mini" alt="Lunar Guide Interface">
+                    </div>
+
+                    <!-- Weather Data -->
+                    <div class="data-card">
+                        <div class="card-header">
+                            <h4>Weather Station</h4>
+                            <div class="status-badge">
+                                <div class="status-dot"></div> CONNECTED
+                            </div>
+                        </div>
+                        <div class="analytical-graphic">
+                            <div class="bar" style="height: 40%;"></div>
+                            <div class="bar" style="height: 60%;"></div>
+                            <div class="bar" style="height: 90%;"></div>
+                            <div class="bar active" style="height: 35%;"></div>
+                            <div class="bar" style="height: 50%;"></div>
+                            <div class="bar" style="height: 20%;"></div>
+                            <div class="bar" style="height: 80%;"></div>
+                        </div>
+                        <div>
+                            <p style="opacity: 0.6; font-size: 0.9rem;">3-Day Rainfall Analysis</p>
+                            <p style="font-weight: 700; color: var(--accent); font-size: 1.1rem;">Low Saturation Risk
+                            </p>
+                        </div>
+                        <img src="weather_station.png" class="app-preview-mini" alt="Weather Interface">
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <div class="features-grid">
             <div class="feature-item">
                 <h3>AI Assistance</h3>
                 <p>Leverage cutting-edge AI for instant identification and personalized diagnostic support.</p>
             </div>
             <div class="feature-item">
-                <h3>Plant Care & Tasks</h3>
-                <p>Stay on top of your plant's needs with smart scheduling and interactive care tasks.</p>
+                <h3>The Light Lab</h3>
+                <p>Measure real-time light intensity (Lux) using built-in sensors and receive compatibility analysis for
+                    your plants.</p>
+            </div>
+            <div class="feature-item">
+                <h3>Smart Weather-Sync</h3>
+                <p>View local weather and 'Soil Context' charts tracking 3-day rain history to prevent overwatering.</p>
+            </div>
+            <div class="feature-item">
+                <h3>Room-Based Organization</h3>
+                <p>Categorize your garden by tagging plants to specific locations like the Living Room, Bedroom, or
+                    Balcony.</p>
+            </div>
+            <div class="feature-item">
+                <h3>Premium Care Interface</h3>
+                <p>A redesigned, modern Care Schedule featuring real-time weather alerts and interactive task tracking.
+                </p>
             </div>
             <div class="feature-item">
                 <h3>Trace Plant Journey</h3>
                 <p>Document every leaf and bloom in a beautiful timeline to preserve your plant's unique history.</p>
             </div>
             <div class="feature-item">
-                <h3>Community</h3>
-                <p>Share local stories, swap tips, and connect with a global tribe of passionate plant parents.</p>
-            </div>
-            <div class="feature-item">
-                <h3>Marketplace</h3>
-                <p>Securely rehome plants while passing along their documented history and care legacy.</p>
+                <h3>Community & Marketplace</h3>
+                <p>Share stories, swap tips, and securely rehome plants while passing along their documented history.
+                </p>
             </div>
         </div>
     </div>
