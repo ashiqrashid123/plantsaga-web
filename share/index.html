@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PlantSaga | Shared Plant</title>
+
+    <!-- Dynamic OG Tags (Updated by JS) -->
+    <meta property="og:title" id="og-title" content="Check out this plant on PlantSaga">
+    <meta property="og:description" id="og-desc" content="Every plant has a story. Open PlantSaga to see more.">
+    <meta property="og:image" id="og-image" content="https://plantsaga.com/logo.png">
+    <meta property="og:type" content="website">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Icons -->
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+    <style>
+        :root {
+            --primary: #22c55e;
+            --primary-dark: #16a34a;
+            --secondary: #0a2e1f;
+            --text-main: #1a202c;
+            --text-muted: #64748b;
+            --bg-light: #f8f9fa;
+            --white: #ffffff;
+            --shadow-soft: 0 10px 25px rgba(0, 0, 0, 0.05);
+            --shadow-bold: 0 20px 40px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+            padding-bottom: 120px;
+        }
+
+        /* Navbar */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 64px;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-logo {
+            height: 32px;
+            border-radius: 8px;
+            margin-right: 12px;
+        }
+
+        .brand-name {
+            font-family: 'Outfit', sans-serif;
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--secondary);
+            letter-spacing: -0.5px;
+        }
+
+        /* Loader */
+        #loader {
+            position: fixed;
+            inset: 0;
+            background: var(--white);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            transition: opacity 0.5s ease;
+        }
+
+        .plant-loader {
+            width: 60px;
+            height: 60px;
+            background: var(--primary);
+            mask: url('data:image/svg+xml;utf8,<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L9.5 7H14.5L12 2ZM9.5 7L4.5 12H9.5V17L12 22L14.5 17V12H19.5L14.5 7H9.5Z"/></svg>') no-repeat center;
+            -webkit-mask: url('data:image/svg+xml;utf8,<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L9.5 7H14.5L12 2ZM9.5 7L4.5 12H9.5V17L12 22L14.5 17V12H19.5L14.5 7H9.5Z"/></svg>') no-repeat center;
+            animation: grow 2s ease-in-out infinite;
+        }
+
+        @keyframes grow {
+
+            0%,
+            100% {
+                transform: scale(0.8);
+                opacity: 0.5;
+            }
+
+            50% {
+                transform: scale(1.1);
+                opacity: 1;
+            }
+        }
+
+        /* Image Gallery */
+        .gallery-container {
+            position: relative;
+            width: 100%;
+            height: 50vh;
+            margin-top: 64px;
+            background: #e2e8f0;
+            overflow: hidden;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .gallery {
+            display: flex;
+            height: 100%;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .gallery::-webkit-scrollbar {
+            display: none;
+        }
+
+        .gallery-item {
+            flex: 0 0 100%;
+            width: 100%;
+            height: 100%;
+            scroll-snap-align: start;
+            object-fit: cover;
+        }
+
+        .gallery-nav {
+            position: absolute;
+            bottom: 24px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            pointer-events: none;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.4);
+            transition: var(--transition);
+        }
+
+        .dot.active {
+            background: var(--white);
+            width: 24px;
+            border-radius: 4px;
+        }
+
+        /* Plant Details */
+        .content {
+            padding: 32px 24px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .header-info {
+            margin-bottom: 32px;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #f0fdf4;
+            color: var(--primary-dark);
+            padding: 6px 14px;
+            border-radius: 100px;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 4px rgba(34, 197, 94, 0.1);
+        }
+
+        .plant-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 36px;
+            font-weight: 800;
+            color: var(--text-main);
+            letter-spacing: -1px;
+            line-height: 1.1;
+        }
+
+        .scientific-name {
+            font-size: 18px;
+            color: var(--text-muted);
+            font-style: italic;
+            margin-top: 4px;
+        }
+
+        /* Care Matrix */
+        .care-section {
+            margin-bottom: 40px;
+        }
+
+        .section-header {
+            font-family: 'Outfit', sans-serif;
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .care-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+
+        .care-card {
+            background: var(--white);
+            padding: 24px 16px;
+            border-radius: 24px;
+            box-shadow: var(--shadow-soft);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            transition: var(--transition);
+            border: 1px solid rgba(0, 0, 0, 0.02);
+        }
+
+        .care-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-bold);
+        }
+
+        .icon-circle {
+            width: 48px;
+            height: 48px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+        }
+
+        .care-card ion-icon {
+            font-size: 24px;
+        }
+
+        .care-card.water .icon-circle {
+            background: #eff6ff;
+            color: #3b82f6;
+        }
+
+        .care-card.light .icon-circle {
+            background: #fffbeb;
+            color: #f59e0b;
+        }
+
+        .care-card.temp .icon-circle {
+            background: #fef2f2;
+            color: #ef4444;
+        }
+
+        .care-card.humid .icon-circle {
+            background: #ecfeff;
+            color: #06b6d4;
+        }
+
+        .care-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .care-value {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-top: 4px;
+        }
+
+        /* About Section */
+        .about-card {
+            background: var(--white);
+            padding: 24px;
+            border-radius: 28px;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(0, 0, 0, 0.02);
+        }
+
+        .description {
+            font-size: 16px;
+            color: #4a5568;
+            line-height: 1.8;
+        }
+
+        /* Fixed Action Bar */
+        .action-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 24px 24px calc(24px + env(safe-area-inset-bottom));
+            display: flex;
+            justify-content: center;
+            z-index: 1000;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .btn-open {
+            background: var(--primary);
+            color: var(--white);
+            width: 100%;
+            max-width: 500px;
+            height: 64px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 18px;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            cursor: pointer;
+            box-shadow: 0 12px 24px -6px rgba(34, 197, 94, 0.4);
+            transition: var(--transition);
+        }
+
+        .btn-open:active {
+            transform: scale(0.96);
+            background: var(--primary-dark);
+        }
+
+        .btn-open ion-icon {
+            font-size: 24px;
+        }
+
+        /* Error View */
+        .error-view {
+            padding: 80px 40px;
+            text-align: center;
+        }
+
+        .error-view ion-icon {
+            font-size: 80px;
+            color: #cbd5e1;
+            margin-bottom: 24px;
+        }
+
+        @media (max-width: 480px) {
+            .plant-title {
+                font-size: 30px;
+            }
+
+            .care-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <img src="../logo.png" alt="PlantSaga" class="nav-logo">
+        <span class="brand-name">PlantSaga</span>
+    </nav>
+
+    <div id="loader">
+        <div class="plant-loader"></div>
+        <p style="margin-top: 24px; color: var(--text-muted); font-weight: 600; letter-spacing: 1px;">LOADING STORY...
+        </p>
+    </div>
+
+    <div id="main-content" style="display: none;">
+        <div class="gallery-container">
+            <div class="gallery" id="gallery-scroll"></div>
+            <div class="gallery-nav" id="gallery-dots"></div>
+        </div>
+
+        <div class="content">
+            <div class="header-info">
+                <div class="badge">
+                    <ion-icon name="sparkles"></ion-icon>
+                    Shared via PlantSaga
+                </div>
+                <h1 class="plant-title" id="plant-name">The Monsterra</h1>
+                <p class="scientific-name" id="sci-name">Monstera deliciosa</p>
+            </div>
+
+            <div class="care-section">
+                <h2 class="section-header">
+                    <ion-icon name="options-outline" style="color: var(--primary);"></ion-icon>
+                    Care Statistics
+                </h2>
+                <div class="care-grid">
+                    <div class="care-card water">
+                        <div class="icon-circle"><ion-icon name="water"></ion-icon></div>
+                        <span class="care-label">Watering</span>
+                        <span class="care-value" id="water-val">-</span>
+                    </div>
+                    <div class="care-card light">
+                        <div class="icon-circle"><ion-icon name="sunny"></ion-icon></div>
+                        <span class="care-label">Light</span>
+                        <span class="care-value" id="light-val">-</span>
+                    </div>
+                    <div class="care-card temp">
+                        <div class="icon-circle"><ion-icon name="thermometer"></ion-icon></div>
+                        <span class="care-label">Temp</span>
+                        <span class="care-value" id="temp-val">-</span>
+                    </div>
+                    <div class="care-card humid">
+                        <div class="icon-circle"><ion-icon name="cloud"></ion-icon></div>
+                        <span class="care-label">Humidity</span>
+                        <span class="care-value" id="humid-val">-</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="about-section">
+                <h2 class="section-header">
+                    <ion-icon name="book-outline" style="color: var(--primary);"></ion-icon>
+                    About Plant
+                </h2>
+                <div class="about-card">
+                    <p class="description" id="plant-desc">
+                        Identifying this plant's unique journey...
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="action-bar">
+            <button class="btn-open" onclick="launchApp()">
+                <ion-icon name="save-outline"></ion-icon>
+                Open in App to Save
+            </button>
+        </div>
+    </div>
+
+    <script type="importmap">
+        {
+          "imports": {
+            "firebase/app": "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js",
+            "firebase/firestore": "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js"
+          }
+        }
+    </script>
+
+    <script type="module">
+        import { initializeApp } from "firebase/app";
+        import { getFirestore, doc, getDoc, collectionGroup, query, where, getDocs } from "firebase/firestore";
+
+        const config = {
+            apiKey: "AIzaSyADNiXew2VJF-Ri9Ovg8IaIVr8_b0bDKyE",
+            authDomain: "plantapp-51c9a.firebaseapp.com",
+            projectId: "plantapp-51c9a",
+            storageBucket: "plantapp-51c9a.firebasestorage.app",
+            messagingSenderId: "374286040864"
+        };
+
+        const app = initializeApp(config);
+        const db = getFirestore(app);
+
+        const params = new URLSearchParams(window.location.search);
+        const pid = params.get('id');
+
+        async function init() {
+            if (!pid) return showError("Invalid share link.");
+
+            try {
+                // Fetch Global First
+                let data = null;
+                const gRef = doc(db, "globalPlants", pid);
+                const gSnap = await getDoc(gRef);
+
+                if (gSnap.exists()) {
+                    data = { ...gSnap.data(), isGlobal: true };
+                } else {
+                    // Search in User Collections
+                    const q = query(collectionGroup(db, 'plants'), where('__name__', '==', pid));
+                    const uSnap = await getDocs(q);
+                    if (!uSnap.empty) {
+                        const raw = uSnap.docs[0].data();
+                        if (raw.globalPlantId) {
+                            const ref = await getDoc(doc(db, "globalPlants", raw.globalPlantId));
+                            data = { ...ref.data(), ...raw };
+                        } else {
+                            data = raw;
+                        }
+                    }
+                }
+
+                if (data) populate(data);
+                else showError("Plant story not found.");
+
+            } catch (e) {
+                console.error(e);
+                showError("Connection issues. Please try again.");
+            }
+        }
+
+        function populate(d) {
+            document.getElementById('plant-name').innerText = d.nickname || d.name;
+            document.getElementById('sci-name').innerText = d.scientificName || "";
+            document.getElementById('plant-desc').innerText = d.description || "Every plant holds a secret. Open the app to discover more about this unique specimen.";
+
+            const care = d.careInstructions || {};
+            document.getElementById('water-val').innerText = care.watering?.frequency || "Weekly";
+            document.getElementById('light-val').innerText = care.sunlight?.requirement || "Medium";
+            document.getElementById('temp-val').innerText = care.temperature ? `${care.temperature.min}-${care.temperature.max}°C` : "18-26°C";
+            document.getElementById('humid-val').innerText = care.humidity?.requirement || "Medium";
+
+            // Images
+            const imgs = d.photos ? d.photos.map(p => p.url) : (d.images || []);
+            if (imgs.length === 0) imgs.push('https://plantsaga.com/logo.png');
+
+            const g = document.getElementById('gallery-scroll');
+            const dots = document.getElementById('gallery-dots');
+
+            g.innerHTML = imgs.map(u => `<img src="${u}" class="gallery-item">`).join('');
+            if (imgs.length > 1) {
+                dots.innerHTML = imgs.map((_, i) => `<div class="dot ${i === 0 ? 'active' : ''}"></div>`).join('');
+                g.onscroll = () => {
+                    const idx = Math.round(g.scrollLeft / g.clientWidth);
+                    dots.querySelectorAll('.dot').forEach((dot, i) => dot.classList.toggle('active', i === idx));
+                };
+            }
+
+            // SEO
+            document.title = `${d.name} | PlantSaga`;
+            document.getElementById('og-title').content = `${d.name} on PlantSaga`;
+            document.getElementById('og-image').content = imgs[0];
+
+            document.getElementById('loader').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('loader').style.display = 'none';
+                document.getElementById('main-content').style.display = 'block';
+            }, 500);
+        }
+
+        function showError(m) {
+            document.getElementById('loader').innerHTML = `
+                <div class="error-view">
+                    <ion-icon name="leaf-outline"></ion-icon>
+                    <h2>Specimen Missing</h2>
+                    <p style="color: #64748b; margin-top: 12px;">${m}</p>
+                    <a href="../" style="display:inline-block; margin-top:24px; color:var(--primary); font-weight:700; text-decoration:none;">Go back home</a>
+                </div>
+            `;
+        }
+
+        window.launchApp = () => {
+            const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+            const deep = `plantsaga://share/${pid}`;
+            const store = isIOS ? "https://apps.apple.com/us/app/plantsaga/id6757720295" : "https://play.google.com/store/apps/details?id=plant.care.app";
+
+            window.location.href = deep;
+            setTimeout(() => { if (!document.hidden) window.location.href = store; }, 2500);
+        };
+
+        init();
+    </script>
+</body>
+
+</html>
