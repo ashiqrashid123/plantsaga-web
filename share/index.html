@@ -491,12 +491,12 @@
         const db = getFirestore(app);
 
         const params = new URLSearchParams(window.location.search);
-        const plantId = params.get('id') || params.get('pid');
+        const plantId = params.get('pid') || params.get('id');
         const userId = params.get('uid');
 
         async function fetchPlantData() {
             if (!plantId) {
-                console.warn("⚠️ No plant ID specified in URL.");
+                console.warn("⚠️ No plant ID (pid or id) specified in URL.");
                 showError("No plant ID specified.");
                 return;
             }
