@@ -491,7 +491,8 @@
         const db = getFirestore(app);
 
         const params = new URLSearchParams(window.location.search);
-        const plantId = params.get('id');
+        const plantId = params.get('id') || params.get('pid');
+        const userId = params.get('uid');
 
         async function fetchPlantData() {
             if (!plantId) {
@@ -500,7 +501,7 @@
                 return;
             }
 
-            console.log("🔍 Initializing fetch for ID:", plantId);
+            console.log("🔍 Initializing fetch for ID:", plantId, "User ID:", userId);
 
             try {
                 // 1. Try Global Collection first (Priority)
@@ -517,65 +518,44 @@
                     console.error("❌ Global fetch error:", gErr.code, gErr.message);
                 }
 
-                // 2. Fallback: Search across all users for this specific plant ID
-                if (!plantData) {
-                    console.log("🔍 Not found in global, searching User Collections Group...");
+                // 2. Fallback: Search in specific user's collection if uid is provided
+                if (!plantData && userId) {
+                    console.log("🔍 Not found in global, searching direct path: users/" + userId + "/plants/" + plantId);
                     try {
-                        // For Collection Group queries, we search where the name/ID matches.
-                        // Note: Collection group query on __name__ requires the relative path if not using documentId()
-                        const q = query(
-                            collectionGroup(db, 'plants'),
-                            where('__name__', '>=', `users/0/plants/${plantId}`), // Attempting to find it in the hierarchy
-                            where('__name__', '<=', `users/z/plants/${plantId}\uf8ff`)
-                        );
+                        const uRef = doc(db, "users", userId, "plants", plantId);
+                        const uSnap = await getDoc(uRef);
 
-                        // Alternate more robust approach for just matching the ID part of the path:
-                        // Firestore doesn't easily allow matching ONLY the end of a path in collectionGroup.
-                        // However, we can try a more direct query if the user has an 'id' field, 
-                        // or we search for the document by its ID if we can.
-
-                        // We'll try the most standard way for a document ID match in a collection group:
-                        const qBasic = query(
-                            collectionGroup(db, 'plants'),
-                            where('__name__', '==', plantId) // This sometimes works depending on the SDK/Firebase version if ID is unique
-                        );
-
-                        console.log("📡 Executing Collection Group queries...");
-                        const querySnapshot = await getDocs(qBasic);
-
-                        if (!querySnapshot.empty) {
-                            console.log("✅ Found in User Plants collection group");
-                            const userPlant = querySnapshot.docs[0].data();
+                        if (uSnap.exists()) {
+                            console.log("✅ Found in User Plants collection");
+                            const userPlant = uSnap.data();
 
                             // Populating with global info if available
                             if (userPlant.globalPlantId) {
                                 console.log("🔍 Fetching linked global metadata:", userPlant.globalPlantId);
                                 const gInfoSnap = await getDoc(doc(db, "globalPlants", userPlant.globalPlantId));
-                                if (gInfoSnap.exists()) {
-                                    const gInfo = gInfoSnap.exists() ? gInfoSnap.data() : {};
-                                    plantData = {
-                                        ...gInfo,
-                                        ...userPlant,
-                                        name: userPlant._cachedPlantName || gInfo.name || "Unknown Plant",
-                                        scientificName: userPlant._cachedScientificName || gInfo.scientificName || "",
-                                        description: userPlant._cachedDescription || userPlant.notes?.[0] || gInfo.description || "",
-                                        images: userPlant.photos && userPlant.photos.length > 0
-                                            ? userPlant.photos.map(p => p.url)
-                                            : gInfo.images || []
-                                    };
-                                }
+                                const gInfo = gInfoSnap.exists() ? gInfoSnap.data() : {};
+
+                                plantData = {
+                                    ...gInfo,
+                                    ...userPlant,
+                                    name: userPlant._cachedPlantName || gInfo.name || "Unknown Plant",
+                                    scientificName: userPlant._cachedScientificName || gInfo.scientificName || "",
+                                    description: userPlant._cachedDescription || (userPlant.notes && userPlant.notes.length > 0 ? userPlant.notes[0] : "") || gInfo.description || "",
+                                    images: userPlant.photos && userPlant.photos.length > 0
+                                        ? userPlant.photos.map(p => p.url)
+                                        : gInfo.images || []
+                                };
                             } else {
                                 plantData = userPlant;
                             }
                         } else {
-                            console.log("❓ Not found in User Plants either.");
+                            console.log("❓ Not found in User Plants path.");
                         }
                     } catch (uErr) {
-                        console.error("❌ Collection Group Error:", uErr.code, uErr.message);
-                        if (uErr.code === 'permission-denied') {
-                            console.error("🔒 PERMISSION DENIED: Check Firestore rules for collectionGroup('plants').");
-                        }
+                        console.error("❌ User Path Fetch Error:", uErr.code, uErr.message);
                     }
+                } else if (!plantData && !userId) {
+                    console.log("⚠️ No uid provided, skipping user collection search.");
                 }
 
                 if (plantData) {
