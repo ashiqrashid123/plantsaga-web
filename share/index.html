@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PlantSaga | Shared Plant</title>
 
-    <!-- Dynamic OG Tags (Updated by JS) -->
+    <!-- Dynamic OG Tags -->
     <meta property="og:title" id="og-title" content="Check out this plant on PlantSaga">
     <meta property="og:description" id="og-desc" content="Every plant has a story. Open PlantSaga to see more.">
     <meta property="og:image" id="og-image" content="https://plantsaga.com/logo.png">
@@ -30,11 +30,12 @@
             --secondary: #0a2e1f;
             --text-main: #1a202c;
             --text-muted: #64748b;
-            --bg-light: #f8f9fa;
+            --bg-light: #f3f4f6;
             --white: #ffffff;
-            --shadow-soft: 0 10px 25px rgba(0, 0, 0, 0.05);
-            --shadow-bold: 0 20px 40px rgba(0, 0, 0, 0.1);
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --shadow-soft: 0 10px 25px rgba(0, 0, 0, 0.03);
+            --shadow-bold: 0 20px 40px rgba(0, 0, 0, 0.08);
+            --inner-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02);
+            --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
         }
 
         * {
@@ -49,30 +50,35 @@
             background-color: var(--bg-light);
             color: var(--text-main);
             line-height: 1.6;
-            overflow-x: hidden;
-            padding-bottom: 120px;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
         }
 
-        /* Navbar */
-        nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 64px;
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(12px);
-            z-index: 1000;
+        /* Compact Container */
+        .app-container {
+            width: 100%;
+            max-width: 500px;
+            background: var(--white);
+            min-height: 100vh;
+            position: relative;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.05);
+            padding-bottom: 120px;
+            /* Space for fixed button */
+        }
+
+        /* Header */
+        header {
+            padding: 20px;
             display: flex;
             align-items: center;
-            padding: 0 20px;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            justify-content: center;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.04);
         }
 
         .nav-logo {
-            height: 32px;
-            border-radius: 8px;
-            margin-right: 12px;
+            height: 28px;
+            margin-right: 8px;
         }
 
         .brand-name {
@@ -85,7 +91,7 @@
 
         /* Loader */
         #loader {
-            position: fixed;
+            position: absolute;
             inset: 0;
             background: var(--white);
             display: flex;
@@ -93,379 +99,344 @@
             align-items: center;
             justify-content: center;
             z-index: 2000;
-            transition: opacity 0.5s ease;
         }
 
         .plant-loader {
-            width: 60px;
-            height: 60px;
-            background: var(--primary);
-            mask: url('data:image/svg+xml;utf8,<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L9.5 7H14.5L12 2ZM9.5 7L4.5 12H9.5V17L12 22L14.5 17V12H19.5L14.5 7H9.5Z"/></svg>') no-repeat center;
-            -webkit-mask: url('data:image/svg+xml;utf8,<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L9.5 7H14.5L12 2ZM9.5 7L4.5 12H9.5V17L12 22L14.5 17V12H19.5L14.5 7H9.5Z"/></svg>') no-repeat center;
-            animation: grow 2s ease-in-out infinite;
+            width: 50px;
+            height: 50px;
+            border: 3px solid #f3f4f6;
+            border-top: 3px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
         }
 
-        @keyframes grow {
-
-            0%,
+        @keyframes spin {
             100% {
-                transform: scale(0.8);
-                opacity: 0.5;
-            }
-
-            50% {
-                transform: scale(1.1);
-                opacity: 1;
+                transform: rotate(360deg);
             }
         }
 
-        /* Image Gallery */
-        .gallery-container {
-            position: relative;
+        /* Product Gallery */
+        .gallery-wrap {
+            padding: 20px;
+            background: #fafafa;
+        }
+
+        .hero-image-container {
             width: 100%;
-            height: 50vh;
-            margin-top: 64px;
-            background: #e2e8f0;
+            height: 350px;
+            background: #fff;
+            border-radius: 20px;
             overflow: hidden;
-            box-shadow: var(--shadow-soft);
-        }
-
-        .gallery {
             display: flex;
-            height: 100%;
-            overflow-x: auto;
-            scroll-snap-type: x mandatory;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--inner-shadow);
+            position: relative;
         }
 
-        .gallery::-webkit-scrollbar {
+        .hero-image {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            transition: opacity 0.3s ease;
+        }
+
+        .hero-image.fade-out {
+            opacity: 0;
+        }
+
+        .thumbnail-row {
+            display: flex;
+            gap: 12px;
+            margin-top: 16px;
+            overflow-x: auto;
+            padding: 4px;
+            scrollbar-width: none;
+        }
+
+        .thumbnail-row::-webkit-scrollbar {
             display: none;
         }
 
-        .gallery-item {
-            flex: 0 0 100%;
+        .thumbnail {
+            width: 60px;
+            height: 60px;
+            flex-shrink: 0;
+            border-radius: 12px;
+            border: 2px solid transparent;
+            cursor: pointer;
+            overflow: hidden;
+            transition: var(--transition);
+            background: #fff;
+            padding: 2px;
+        }
+
+        .thumbnail.active {
+            border-color: var(--primary);
+            transform: scale(1.05);
+        }
+
+        .thumbnail img {
             width: 100%;
             height: 100%;
-            scroll-snap-align: start;
             object-fit: cover;
-        }
-
-        .gallery-nav {
-            position: absolute;
-            bottom: 24px;
-            left: 0;
-            right: 0;
-            display: flex;
-            justify-content: center;
-            gap: 6px;
-            pointer-events: none;
-        }
-
-        .dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.4);
-            transition: var(--transition);
-        }
-
-        .dot.active {
-            background: var(--white);
-            width: 24px;
-            border-radius: 4px;
+            border-radius: 8px;
         }
 
         /* Plant Details */
         .content {
-            padding: 32px 24px;
-            max-width: 800px;
-            margin: 0 auto;
+            padding: 24px;
         }
 
-        .header-info {
-            margin-bottom: 32px;
+        .badge-wrap {
+            display: flex;
+            justify-content: flex-start;
+            margin-bottom: 20px;
         }
 
         .badge {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
-            background: #f0fdf4;
+            gap: 8px;
+            background: rgba(34, 197, 94, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             color: var(--primary-dark);
-            padding: 6px 14px;
+            padding: 8px 16px;
             border-radius: 100px;
-            font-size: 13px;
-            font-weight: 700;
-            margin-bottom: 16px;
-            box-shadow: 0 2px 4px rgba(34, 197, 94, 0.1);
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: 1px solid rgba(34, 197, 94, 0.1);
+        }
+
+        .plant-header {
+            margin-bottom: 24px;
         }
 
         .plant-title {
             font-family: 'Outfit', sans-serif;
-            font-size: 36px;
+            font-size: 28px;
             font-weight: 800;
             color: var(--text-main);
-            letter-spacing: -1px;
             line-height: 1.1;
         }
 
         .scientific-name {
-            font-size: 18px;
+            font-size: 16px;
             color: var(--text-muted);
             font-style: italic;
             margin-top: 4px;
         }
 
-        /* Care Matrix */
-        .care-section {
-            margin-bottom: 40px;
-        }
-
-        .section-header {
-            font-family: 'Outfit', sans-serif;
-            font-size: 22px;
-            font-weight: 700;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+        /* Care Matrix Card */
+        .care-card {
+            background: #fff;
+            border-radius: 24px;
+            padding: 24px;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(0, 0, 0, 0.03);
+            margin-bottom: 30px;
         }
 
         .care-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 16px;
+            gap: 20px;
         }
 
-        .care-card {
-            background: var(--white);
-            padding: 24px 16px;
-            border-radius: 24px;
-            box-shadow: var(--shadow-soft);
+        .care-item {
             display: flex;
-            flex-direction: column;
             align-items: center;
-            text-align: center;
-            transition: var(--transition);
-            border: 1px solid rgba(0, 0, 0, 0.02);
+            gap: 12px;
         }
 
-        .care-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-bold);
-        }
-
-        .icon-circle {
-            width: 48px;
-            height: 48px;
-            border-radius: 16px;
+        .icon-box {
+            width: 40px;
+            height: 40px;
+            background: #f8fafc;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 12px;
+            font-size: 20px;
         }
 
-        .care-card ion-icon {
-            font-size: 24px;
-        }
-
-        .care-card.water .icon-circle {
-            background: #eff6ff;
+        .water i {
             color: #3b82f6;
         }
 
-        .care-card.light .icon-circle {
-            background: #fffbeb;
+        .light i {
             color: #f59e0b;
         }
 
-        .care-card.temp .icon-circle {
-            background: #fef2f2;
+        .temp i {
             color: #ef4444;
         }
 
-        .care-card.humid .icon-circle {
-            background: #ecfeff;
+        .humid i {
             color: #06b6d4;
         }
 
+        .care-info {
+            display: flex;
+            flex-direction: column;
+        }
+
         .care-label {
-            font-size: 13px;
-            font-weight: 600;
+            font-size: 10px;
+            font-weight: 700;
             color: var(--text-muted);
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
 
         .care-value {
-            font-size: 16px;
-            font-weight: 700;
+            font-size: 14px;
+            font-weight: 600;
             color: var(--text-main);
-            margin-top: 4px;
         }
 
         /* About Section */
-        .about-card {
-            background: var(--white);
-            padding: 24px;
-            border-radius: 28px;
-            box-shadow: var(--shadow-soft);
-            border: 1px solid rgba(0, 0, 0, 0.02);
+        .about-section h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 12px;
         }
 
         .description {
-            font-size: 16px;
-            color: #4a5568;
-            line-height: 1.8;
+            font-size: 15px;
+            color: #4b5563;
+            line-height: 1.7;
         }
 
-        /* Fixed Action Bar */
-        .action-bar {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            padding: 24px 24px calc(24px + env(safe-area-inset-bottom));
-            display: flex;
-            justify-content: center;
-            z-index: 1000;
-            border-top: 1px solid rgba(0, 0, 0, 0.05);
+        /* Fixed Footer */
+        .footer-action {
+            position: absolute;
+            bottom: 30px;
+            left: 20px;
+            right: 20px;
         }
 
-        .btn-open {
+        .btn-main {
             background: var(--primary);
-            color: var(--white);
+            color: #fff;
             width: 100%;
-            max-width: 500px;
-            height: 64px;
-            border-radius: 20px;
+            height: 60px;
+            border-radius: 18px;
             font-weight: 700;
-            font-size: 18px;
+            font-size: 16px;
             border: none;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 12px;
             cursor: pointer;
-            box-shadow: 0 12px 24px -6px rgba(34, 197, 94, 0.4);
+            box-shadow: 0 15px 30px rgba(34, 197, 94, 0.25);
             transition: var(--transition);
         }
 
-        .btn-open:active {
+        .btn-main:active {
             transform: scale(0.96);
-            background: var(--primary-dark);
         }
 
-        .btn-open ion-icon {
-            font-size: 24px;
-        }
-
-        /* Error View */
-        .error-view {
-            padding: 80px 40px;
+        /* Error state */
+        .error-msg {
+            padding: 40px;
             text-align: center;
-        }
-
-        .error-view ion-icon {
-            font-size: 80px;
-            color: #cbd5e1;
-            margin-bottom: 24px;
-        }
-
-        @media (max-width: 480px) {
-            .plant-title {
-                font-size: 30px;
-            }
-
-            .care-grid {
-                grid-template-columns: 1fr;
-            }
         }
     </style>
 </head>
 
 <body>
 
-    <nav>
-        <img src="../logo.png" alt="PlantSaga" class="nav-logo">
-        <span class="brand-name">PlantSaga</span>
-    </nav>
+    <div class="app-container">
+        <header>
+            <img src="../logo.png" alt="PlantSaga" class="nav-logo">
+            <span class="brand-name">PlantSaga</span>
+        </header>
 
-    <div id="loader">
-        <div class="plant-loader"></div>
-        <p style="margin-top: 24px; color: var(--text-muted); font-weight: 600; letter-spacing: 1px;">LOADING STORY...
-        </p>
+        <div id="loader">
+            <div class="plant-loader"></div>
+            <p style="margin-top: 20px; color: var(--text-muted); font-size: 14px; font-weight: 600;">GATHERING GROWTH
+                DATA...</p>
+        </div>
+
+        <div id="main-content" style="display: none;">
+            <div class="gallery-wrap">
+                <div class="hero-image-container">
+                    <img id="hero-image" src="" class="hero-image" alt="Plant Preview">
+                </div>
+                <div class="thumbnail-row" id="thumbnail-row">
+                    <!-- Thumbnails Injected -->
+                </div>
+            </div>
+
+            <div class="content">
+                <div class="badge-wrap">
+                    <div class="badge">
+                        <ion-icon name="sparkles"></ion-icon>
+                        Shared via PlantSaga
+                    </div>
+                </div>
+
+                <div class="plant-header">
+                    <h1 class="plant-title" id="plant-name">-</h1>
+                    <p class="scientific-name" id="sci-name">-</p>
+                </div>
+
+                <div class="care-card">
+                    <div class="care-grid">
+                        <div class="care-item water">
+                            <div class="icon-box"><ion-icon name="water"></ion-icon></div>
+                            <div class="care-info">
+                                <span class="care-label">Watering</span>
+                                <span class="care-value" id="water">-</span>
+                            </div>
+                        </div>
+                        <div class="care-item light">
+                            <div class="icon-box"><ion-icon name="sunny"></ion-icon></div>
+                            <div class="care-info">
+                                <span class="care-label">Light</span>
+                                <span class="care-value" id="light">-</span>
+                            </div>
+                        </div>
+                        <div class="care-item temp">
+                            <div class="icon-box"><ion-icon name="thermometer"></ion-icon></div>
+                            <div class="care-info">
+                                <span class="care-label">Temperature</span>
+                                <span class="care-value" id="temp">-</span>
+                            </div>
+                        </div>
+                        <div class="care-item humid">
+                            <div class="icon-box"><ion-icon name="cloud"></ion-icon></div>
+                            <div class="care-info">
+                                <span class="care-label">Humidity</span>
+                                <span class="care-value" id="humidity">-</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="about-section">
+                    <h3>About Plant</h3>
+                    <p class="description" id="description">-</p>
+                </div>
+            </div>
+
+            <div class="footer-action">
+                <button class="btn-main" onclick="launchApp()">
+                    <ion-icon name="save-outline" style="font-size: 20px;"></ion-icon>
+                    Open in App to Save
+                </button>
+            </div>
+        </div>
     </div>
 
-    <div id="main-content" style="display: none;">
-        <div class="gallery-container">
-            <div class="gallery" id="gallery-scroll"></div>
-            <div class="gallery-nav" id="gallery-dots"></div>
-        </div>
-
-        <div class="content">
-            <div class="header-info">
-                <div class="badge">
-                    <ion-icon name="sparkles"></ion-icon>
-                    Shared via PlantSaga
-                </div>
-                <h1 class="plant-title" id="plant-name">The Monsterra</h1>
-                <p class="scientific-name" id="sci-name">Monstera deliciosa</p>
-            </div>
-
-            <div class="care-section">
-                <h2 class="section-header">
-                    <ion-icon name="options-outline" style="color: var(--primary);"></ion-icon>
-                    Care Statistics
-                </h2>
-                <div class="care-grid">
-                    <div class="care-card water">
-                        <div class="icon-circle"><ion-icon name="water"></ion-icon></div>
-                        <span class="care-label">Watering</span>
-                        <span class="care-value" id="water-val">-</span>
-                    </div>
-                    <div class="care-card light">
-                        <div class="icon-circle"><ion-icon name="sunny"></ion-icon></div>
-                        <span class="care-label">Light</span>
-                        <span class="care-value" id="light-val">-</span>
-                    </div>
-                    <div class="care-card temp">
-                        <div class="icon-circle"><ion-icon name="thermometer"></ion-icon></div>
-                        <span class="care-label">Temp</span>
-                        <span class="care-value" id="temp-val">-</span>
-                    </div>
-                    <div class="care-card humid">
-                        <div class="icon-circle"><ion-icon name="cloud"></ion-icon></div>
-                        <span class="care-label">Humidity</span>
-                        <span class="care-value" id="humid-val">-</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="about-section">
-                <h2 class="section-header">
-                    <ion-icon name="book-outline" style="color: var(--primary);"></ion-icon>
-                    About Plant
-                </h2>
-                <div class="about-card">
-                    <p class="description" id="plant-desc">
-                        Identifying this plant's unique journey...
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        <div class="action-bar">
-            <button class="btn-open" onclick="launchApp()">
-                <ion-icon name="save-outline"></ion-icon>
-                Open in App to Save
-            </button>
-        </div>
-    </div>
-
+    <!-- Firebase -->
     <script type="importmap">
         {
           "imports": {
@@ -477,7 +448,7 @@
 
     <script type="module">
         import { initializeApp } from "firebase/app";
-        import { getFirestore, doc, getDoc, collectionGroup, query, where, getDocs } from "firebase/firestore";
+        import { getFirestore, doc, getDoc } from "firebase/firestore";
 
         const config = {
             apiKey: "AIzaSyADNiXew2VJF-Ri9Ovg8IaIVr8_b0bDKyE",
@@ -487,149 +458,131 @@
             messagingSenderId: "374286040864"
         };
 
-        const app = initializeApp(config);
-        const db = getFirestore(app);
+        const fb = initializeApp(config);
+        const db = getFirestore(fb);
 
         const params = new URLSearchParams(window.location.search);
-        const plantId = params.get('pid') || params.get('id');
-        const userId = params.get('uid');
+        const pid = params.get('pid') || params.get('id');
+        const uid = params.get('uid');
 
-        async function fetchPlantData() {
-            if (!plantId) {
-                console.warn("⚠️ No plant ID (pid or id) specified in URL.");
-                showError("No plant ID specified.");
-                return;
-            }
-
-            console.log("🔍 Initializing fetch for ID:", plantId, "User ID:", userId);
+        async function init() {
+            if (!pid) return showError("No specimen ID provided.");
+            console.log("Fetching PID:", pid, "UID:", uid);
 
             try {
-                // 1. Try Global Collection first (Priority)
-                let plantData = null;
-                const gRef = doc(db, "globalPlants", plantId);
-
-                try {
-                    const gSnap = await getDoc(gRef);
-                    if (gSnap.exists()) {
-                        console.log("✅ Found in globalPlants");
-                        plantData = { ...gSnap.data(), isGlobal: true };
-                    }
-                } catch (gErr) {
-                    console.error("❌ Global fetch error:", gErr.code, gErr.message);
-                }
-
-                // 2. Fallback: Search in specific user's collection if uid is provided
-                if (!plantData && userId) {
-                    console.log("🔍 Not found in global, searching direct path: users/" + userId + "/plants/" + plantId);
-                    try {
-                        const uRef = doc(db, "users", userId, "plants", plantId);
-                        const uSnap = await getDoc(uRef);
-
-                        if (uSnap.exists()) {
-                            console.log("✅ Found in User Plants collection");
-                            const userPlant = uSnap.data();
-
-                            // Populating with global info if available
-                            if (userPlant.globalPlantId) {
-                                console.log("🔍 Fetching linked global metadata:", userPlant.globalPlantId);
-                                const gInfoSnap = await getDoc(doc(db, "globalPlants", userPlant.globalPlantId));
-                                const gInfo = gInfoSnap.exists() ? gInfoSnap.data() : {};
-
-                                plantData = {
-                                    ...gInfo,
-                                    ...userPlant,
-                                    name: userPlant._cachedPlantName || gInfo.name || "Unknown Plant",
-                                    scientificName: userPlant._cachedScientificName || gInfo.scientificName || "",
-                                    description: userPlant._cachedDescription || (userPlant.notes && userPlant.notes.length > 0 ? userPlant.notes[0] : "") || gInfo.description || "",
-                                    images: userPlant.photos && userPlant.photos.length > 0
-                                        ? userPlant.photos.map(p => p.url)
-                                        : gInfo.images || []
-                                };
-                            } else {
-                                plantData = userPlant;
-                            }
+                let data = null;
+                // 1. Global
+                const gRef = doc(db, "globalPlants", pid);
+                const gSnap = await getDoc(gRef);
+                if (gSnap.exists()) {
+                    data = gSnap.data();
+                } else if (uid) {
+                    // 2. User Path
+                    const uRef = doc(db, "users", uid, "plants", pid);
+                    const uSnap = await getDoc(uRef);
+                    if (uSnap.exists()) {
+                        const raw = uSnap.data();
+                        if (raw.globalPlantId) {
+                            const ref = await getDoc(doc(db, "globalPlants", raw.globalPlantId));
+                            data = { ...ref.data(), ...raw };
                         } else {
-                            console.log("❓ Not found in User Plants path.");
+                            data = raw;
                         }
-                    } catch (uErr) {
-                        console.error("❌ User Path Fetch Error:", uErr.code, uErr.message);
                     }
-                } else if (!plantData && !userId) {
-                    console.log("⚠️ No uid provided, skipping user collection search.");
                 }
 
-                if (plantData) {
-                    renderPlant(plantData);
-                } else {
-                    showError("Specimen Missing. This plant might be private or doesn't exist.");
-                }
-
-            } catch (error) {
-                console.error("❌ Fatal Fetch Error:", error.code, error.message);
-                showError("Something went wrong while loading the plant.");
+                if (data) populate(data);
+                else showError("Specimen not found. It may be private or removed.");
+            } catch (e) {
+                console.error("Fetch Error:", e);
+                showError("Error connecting to PlantSaga network.");
             }
         }
 
-        function renderPlant(plantData) {
-            document.getElementById('plant-name').innerText = plantData.nickname || plantData.name;
-            document.getElementById('sci-name').innerText = plantData.scientificName || "";
-            document.getElementById('plant-desc').innerText = plantData.description || "Every plant holds a secret. Open the app to discover more about this unique specimen.";
+        function populate(d) {
+            document.getElementById('plant-name').innerText = d.nickname || d.name;
+            document.getElementById('sci-name').innerText = d.scientificName || "";
+            document.getElementById('description').innerText = d.description || (d.notes && d.notes.length > 0 ? d.notes[0] : "Discover more about this specimen in the app.");
 
-            const care = plantData.careInstructions || {};
-            document.getElementById('water-val').innerText = care.watering?.frequency || "Weekly";
-            document.getElementById('light-val').innerText = care.sunlight?.requirement || "Medium";
-            document.getElementById('temp-val').innerText = care.temperature ? `${care.temperature.min}-${care.temperature.max}°C` : "18-26°C";
-            document.getElementById('humid-val').innerText = care.humidity?.requirement || "Medium";
+            const c = d.careInstructions || {};
+            document.getElementById('water').innerText = c.watering?.frequency || "As needed";
+            document.getElementById('light').innerText = c.sunlight?.requirement || "Medium";
+            document.getElementById('temp').innerText = c.temperature ? `${c.temperature.min}-${c.temperature.max}°C` : "18-26°C";
+            document.getElementById('humidity').innerText = c.humidity?.requirement || "Normal";
 
-            // Images
-            const imgs = plantData.photos ? plantData.photos.map(p => p.url) : (plantData.images || []);
-            if (imgs.length === 0) imgs.push('https://plantsaga.com/logo.png');
+            // Gallery
+            const photos = d.photos ? d.photos.map(p => p.url) : (d.images || []);
+            if (photos.length === 0) photos.push('https://plantsaga.com/logo.png');
 
-            const g = document.getElementById('gallery-scroll');
-            const dots = document.getElementById('gallery-dots');
+            const hero = document.getElementById('hero-image');
+            const thumbRow = document.getElementById('thumbnail-row');
 
-            g.innerHTML = imgs.map(u => `<img src="${u}" class="gallery-item">`).join('');
-            if (imgs.length > 1) {
-                dots.innerHTML = imgs.map((_, i) => `<div class="dot ${i === 0 ? 'active' : ''}"></div>`).join('');
-                g.onscroll = () => {
-                    const idx = Math.round(g.scrollLeft / g.clientWidth);
-                    dots.querySelectorAll('.dot').forEach((dot, i) => dot.classList.toggle('active', i === idx));
-                };
+            hero.src = photos[0];
+
+            if (photos.length > 1) {
+                thumbRow.innerHTML = photos.map((url, i) => `
+                    <div class="thumbnail ${i === 0 ? 'active' : ''}" onclick="switchHero('${url}', this)">
+                        <img src="${url}">
+                    </div>
+                `).join('');
+            } else {
+                thumbRow.style.display = 'none';
             }
 
             // SEO
-            document.title = `${plantData.name} | PlantSaga`;
-            document.getElementById('og-title').content = `${plantData.name} on PlantSaga`;
-            document.getElementById('og-image').content = imgs[0];
+            document.title = `${d.name} | PlantSaga`;
+            document.getElementById('og-title').content = `${d.name} on PlantSaga`;
+            document.getElementById('og-image').content = photos[0];
 
-            document.getElementById('loader').style.opacity = '0';
-            setTimeout(() => {
-                document.getElementById('loader').style.display = 'none';
-                document.getElementById('main-content').style.display = 'block';
-            }, 500);
+            hideLoader();
         }
+
+        window.switchHero = (url, el) => {
+            const hero = document.getElementById('hero-image');
+            if (hero.src === url) return;
+
+            // Fade transition
+            hero.classList.add('fade-out');
+            setTimeout(() => {
+                hero.src = url;
+                hero.classList.remove('fade-out');
+
+                // Active class
+                document.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active'));
+                el.classList.add('active');
+            }, 300);
+        };
 
         function showError(m) {
             document.getElementById('loader').innerHTML = `
-                <div class="error-view">
-                    <ion-icon name="leaf-outline"></ion-icon>
-                    <h2>Specimen Missing</h2>
-                    <p style="color: #64748b; margin-top: 12px;">${m}</p>
-                    <a href="../" style="display:inline-block; margin-top:24px; color:var(--primary); font-weight:700; text-decoration:none;">Go back home</a>
+                <div class="error-msg">
+                    <ion-icon name="alert-circle-outline" style="font-size: 60px; color: #cbd5e1;"></ion-icon>
+                    <h2 style="margin-top: 20px;">Missing Specimen</h2>
+                    <p style="color: #94a3b8; margin-top: 10px;">${m}</p>
+                    <a href="../" style="display:inline-block; margin-top:30px; color:var(--primary); font-weight:700; text-decoration:none;">Return Home</a>
                 </div>
             `;
         }
 
+        function hideLoader() {
+            const l = document.getElementById('loader');
+            l.style.transition = 'opacity 0.6s ease';
+            l.style.opacity = '0';
+            setTimeout(() => {
+                l.style.display = 'none';
+                document.getElementById('main-content').style.display = 'block';
+            }, 600);
+        }
+
         window.launchApp = () => {
             const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
-            const deep = `plantsaga://share/${plantId}`;
+            const deep = `plantsaga://share/${pid}`;
             const store = isIOS ? "https://apps.apple.com/us/app/plantsaga/id6757720295" : "https://play.google.com/store/apps/details?id=plant.care.app";
-
             window.location.href = deep;
             setTimeout(() => { if (!document.hidden) window.location.href = store; }, 2500);
         };
 
-        fetchPlantData();
+        init();
     </script>
 </body>
 
