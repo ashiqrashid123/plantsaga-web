@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- 
-        PlantSaga Shared Plant Preview Page
-        Features: Product-style gallery, Sage Green theme, Pulse conversion button, Emotional onboarding.
+        PlantSaga Shared Plant Preview Page (Split-View Redesign)
+        Features: Two-column desktop layout, Product-style gallery, Sage Green theme, Pulse conversion button, Emotional onboarding.
         Data: Direct path fetching (users/{uid}/plants/{pid}) with global follow-back.
     -->
     <title>PlantSaga | Shared Plant</title>
@@ -59,26 +59,27 @@
             display: flex;
             justify-content: center;
             min-height: 100vh;
+            overflow-x: hidden;
         }
 
-        /* Compact Container */
+        /* Responsive Container */
         .app-container {
             width: 100%;
-            max-width: 500px;
+            max-width: 1100px;
             background: var(--white);
             min-height: 100vh;
             position: relative;
-            box-shadow: 0 0 80px rgba(10, 46, 31, 0.08);
+            box-shadow: 0 0 80px rgba(10, 46, 31, 0.05);
             display: flex;
             flex-direction: column;
         }
 
-        /* Header */
+        /* Header - Top Left Alignment */
         header {
-            padding: 20px;
+            padding: 24px 40px;
             display: flex;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
             background: var(--white);
             z-index: 100;
         }
@@ -95,16 +96,36 @@
         }
 
         .nav-logo {
-            height: 28px;
-            margin-right: 8px;
+            height: 32px;
+            margin-right: 12px;
         }
 
         .brand-name {
             font-family: 'Outfit', sans-serif;
-            font-size: 20px;
+            font-size: 22px;
             font-weight: 800;
             color: var(--secondary);
             letter-spacing: -0.5px;
+        }
+
+        /* Split View Content */
+        .page-content {
+            display: flex;
+            gap: 48px;
+            padding: 0 40px 60px 40px;
+            flex-grow: 1;
+        }
+
+        .col-left {
+            flex: 1.2;
+            min-width: 0;
+        }
+
+        .col-right {
+            flex: 0.8;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
         }
 
         /* Loader */
@@ -136,25 +157,26 @@
 
         /* Product Gallery */
         .gallery-wrap {
-            padding: 10px 20px 20px 20px;
             background: #fff;
+            margin-bottom: 32px;
         }
 
         .hero-image-container {
             width: 100%;
-            height: 400px;
-            background: #fff;
-            border-radius: 24px;
+            height: 450px;
+            background: #f9fafb;
+            border-radius: 28px;
             overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
+            box-shadow: var(--inner-shadow);
         }
 
         .hero-image {
-            max-width: 100%;
-            max-height: 100%;
+            max-width: 95%;
+            max-height: 95%;
             object-fit: contain;
             transition: opacity 0.3s ease;
         }
@@ -169,7 +191,6 @@
             margin-top: 16px;
             overflow-x: auto;
             padding: 4px;
-            justify-content: center;
             scrollbar-width: none;
         }
 
@@ -178,11 +199,11 @@
         }
 
         .thumbnail {
-            width: 64px;
-            height: 64px;
+            width: 72px;
+            height: 72px;
             flex-shrink: 0;
-            border-radius: 14px;
-            border: 2px solid #f3f4f6;
+            border-radius: 16px;
+            border: 2px solid #f1f5f9;
             cursor: pointer;
             overflow: hidden;
             transition: var(--transition);
@@ -192,7 +213,7 @@
         .thumbnail.active {
             border-color: var(--primary);
             transform: scale(1.05);
-            box-shadow: 0 4px 12px rgba(34, 197, 94, 0.2);
+            box-shadow: 0 4px 12px rgba(34, 197, 94, 0.15);
         }
 
         .thumbnail img {
@@ -201,27 +222,39 @@
             object-fit: cover;
         }
 
-        /* Plant Details */
-        .content {
-            padding: 0 24px 120px 24px;
-            flex-grow: 1;
+        /* Plant Header (Right Col) */
+        .plant-header {
+            margin-bottom: 24px;
+        }
+
+        .plant-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 38px;
+            font-weight: 800;
+            color: var(--text-main);
+            line-height: 1.1;
+            margin-bottom: 8px;
+        }
+
+        .scientific-name {
+            font-size: 18px;
+            color: var(--text-muted);
+            font-style: italic;
         }
 
         .badge-wrap {
-            display: flex;
-            justify-content: flex-start;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
         }
 
         .badge {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            background: rgba(34, 197, 94, 0.08);
+            background: rgba(34, 197, 94, 0.06);
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
             color: var(--primary-dark);
-            padding: 8px 16px;
+            padding: 8px 18px;
             border-radius: 100px;
             font-size: 11px;
             font-weight: 800;
@@ -230,56 +263,38 @@
             border: 1px solid rgba(34, 197, 94, 0.1);
         }
 
-        .plant-header {
-            margin-bottom: 24px;
-        }
-
-        .plant-title {
-            font-family: 'Outfit', sans-serif;
-            font-size: 32px;
-            font-weight: 800;
-            color: var(--text-main);
-            line-height: 1.1;
-        }
-
-        .scientific-name {
-            font-size: 16px;
-            color: var(--text-muted);
-            font-style: italic;
-            margin-top: 6px;
-        }
-
-        /* Care Matrix Card */
+        /* Care Matrix Grid (Left Col) */
         .care-card {
             background: #fff;
             border-radius: 28px;
-            padding: 24px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.02);
+            padding: 28px;
             border: 1px solid rgba(0, 0, 0, 0.03);
-            margin-bottom: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.01);
         }
 
         .care-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 24px;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
         }
 
         .care-item {
             display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: 14px;
+            text-align: center;
+            gap: 12px;
         }
 
         .icon-box {
-            width: 44px;
-            height: 44px;
+            width: 48px;
+            height: 48px;
             background: #f8fafc;
-            border-radius: 14px;
+            border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 22px;
+            font-size: 24px;
         }
 
         .water ion-icon {
@@ -301,11 +316,12 @@
         .care-info {
             display: flex;
             flex-direction: column;
+            gap: 2px;
         }
 
         .care-label {
             font-size: 10px;
-            font-weight: 700;
+            font-weight: 800;
             color: var(--text-muted);
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -313,72 +329,48 @@
 
         .care-value {
             font-size: 14px;
-            font-weight: 600;
+            font-weight: 700;
             color: var(--text-main);
         }
 
-        /* About Section */
+        /* About & Onboarding (Right Col) */
+        .about-section {
+            margin-bottom: 32px;
+        }
+
         .about-section h3 {
             font-family: 'Outfit', sans-serif;
-            font-size: 18px;
+            font-size: 20px;
             font-weight: 700;
             margin-bottom: 12px;
             color: var(--secondary);
         }
 
         .description {
-            font-size: 15px;
+            font-size: 16px;
             color: #4b5563;
-            line-height: 1.8;
-            margin-bottom: 40px;
+            line-height: 1.7;
         }
 
-        /* Onboarding Box */
         .onboarding-box {
             background: linear-gradient(135deg, rgba(34, 197, 94, 0.05) 0%, rgba(34, 197, 94, 0.02) 100%);
             border-radius: 24px;
             padding: 24px;
             border: 1px dashed rgba(34, 197, 94, 0.3);
-            margin-bottom: 20px;
-            text-align: center;
+            margin-bottom: 24px;
         }
 
         .onboarding-box p {
-            font-size: 14px;
+            font-size: 15px;
             color: var(--secondary);
             font-weight: 500;
             line-height: 1.6;
         }
 
-        .store-badges {
+        .action-area {
             display: flex;
-            gap: 12px;
-            justify-content: center;
-            margin-bottom: 40px;
-        }
-
-        .store-badge img {
-            height: 40px;
-            width: auto;
-            border-radius: 8px;
-            transition: var(--transition);
-        }
-
-        .store-badge:active img {
-            transform: scale(0.95);
-        }
-
-        /* Fixed Footer */
-        .footer-action {
-            position: fixed;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100%;
-            max-width: 500px;
-            padding: 20px 24px 40px 24px;
-            background: linear-gradient(to top, var(--white) 80%, transparent);
-            z-index: 500;
+            flex-direction: column;
+            gap: 20px;
         }
 
         .btn-main {
@@ -388,14 +380,14 @@
             height: 64px;
             border-radius: 20px;
             font-weight: 700;
-            font-size: 17px;
+            font-size: 18px;
             border: none;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 12px;
             cursor: pointer;
-            box-shadow: 0 20px 40px rgba(34, 197, 94, 0.3);
+            box-shadow: 0 15px 30px rgba(34, 197, 94, 0.25);
             transition: var(--transition);
             animation: pulse 2s infinite;
         }
@@ -416,6 +408,53 @@
 
         .btn-main:active {
             transform: scale(0.96);
+        }
+
+        .store-badges {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .store-badge img {
+            height: 44px;
+            width: auto;
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+
+        .store-badge:active img {
+            transform: scale(0.95);
+        }
+
+        /* Mobile View (Stacking) */
+        @media (max-width: 900px) {
+            header {
+                padding: 20px 24px;
+            }
+
+            .page-content {
+                flex-direction: column;
+                padding: 0 24px 60px 24px;
+                gap: 0;
+            }
+
+            .hero-image-container {
+                height: 350px;
+            }
+
+            .care-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .col-right {
+                margin-top: 40px;
+            }
+
+            .plant-title {
+                font-size: 32px;
+            }
         }
 
         /* Error state */
@@ -444,95 +483,102 @@
         </div>
 
         <div id="main-content" style="display: none;">
-            <div class="gallery-wrap">
-                <div class="hero-image-container">
-                    <img id="hero-image" src="" class="hero-image" alt="Plant Preview"
-                        onerror="this.src='https://plantsaga.com/logo.png'">
-                </div>
-                <div class="thumbnail-row" id="thumbnail-row">
-                    <!-- Thumbnails Injected -->
-                </div>
-            </div>
-
-            <div class="content">
-                <div class="badge-wrap">
-                    <div class="badge">
-                        <ion-icon name="leaf"></ion-icon>
-                        Shared via PlantSaga
+            <main class="page-content">
+                <!-- Left Column: Imagery & Care -->
+                <div class="col-left">
+                    <div class="gallery-wrap">
+                        <div class="hero-image-container">
+                            <img id="hero-image" src="" class="hero-image" alt="Plant Preview"
+                                onerror="this.src='../logo.png'">
+                        </div>
+                        <div class="thumbnail-row" id="thumbnail-row">
+                            <!-- Thumbnails Injected -->
+                        </div>
                     </div>
-                </div>
 
-                <div class="plant-header">
-                    <h1 class="plant-title" id="plant-name">-</h1>
-                    <p class="scientific-name" id="sci-name">-</p>
-                </div>
-
-                <div class="care-card">
-                    <div class="care-grid">
-                        <div class="care-item water">
-                            <div class="icon-box"><ion-icon name="water"></ion-icon></div>
-                            <div class="care-info">
-                                <span class="care-label">Watering</span>
-                                <span class="care-value" id="water">-</span>
+                    <div class="care-card">
+                        <div class="care-grid">
+                            <div class="care-item water">
+                                <div class="icon-box"><ion-icon name="water"></ion-icon></div>
+                                <div class="care-info">
+                                    <span class="care-label">Watering</span>
+                                    <span class="care-value" id="water">-</span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="care-item light">
-                            <div class="icon-box"><ion-icon name="sunny"></ion-icon></div>
-                            <div class="care-info">
-                                <span class="care-label">Light</span>
-                                <span class="care-value" id="light">-</span>
+                            <div class="care-item light">
+                                <div class="icon-box"><ion-icon name="sunny"></ion-icon></div>
+                                <div class="care-info">
+                                    <span class="care-label">Light</span>
+                                    <span class="care-value" id="light">-</span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="care-item temp">
-                            <div class="icon-box"><ion-icon name="thermometer"></ion-icon></div>
-                            <div class="care-info">
-                                <span class="care-label">Temperature</span>
-                                <span class="care-value" id="temp">-</span>
+                            <div class="care-item temp">
+                                <div class="icon-box"><ion-icon name="thermometer"></ion-icon></div>
+                                <div class="care-info">
+                                    <span class="care-label">Temp</span>
+                                    <span class="care-value" id="temp">-</span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="care-item humid">
-                            <div class="icon-box"><ion-icon name="cloud"></ion-icon></div>
-                            <div class="care-info">
-                                <span class="care-label">Humidity</span>
-                                <span class="care-value" id="humidity">-</span>
+                            <div class="care-item humid">
+                                <div class="icon-box"><ion-icon name="cloud"></ion-icon></div>
+                                <div class="care-info">
+                                    <span class="care-label">Humidity</span>
+                                    <span class="care-value" id="humidity">-</span>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="about-section">
-                    <h3>About Plant</h3>
-                    <p class="description" id="description">-</p>
-                </div>
+                <!-- Right Column: Details & CTA -->
+                <div class="col-right">
+                    <div class="badge-wrap">
+                        <div class="badge">
+                            <ion-icon name="leaf"></ion-icon>
+                            Shared via PlantSaga
+                        </div>
+                    </div>
 
-                <div class="onboarding-box">
-                    <p>
-                        Your friend's garden is growing on PlantSaga! 🌿 <br><br>
-                        Join our community to save this plant, get expert care reminders, and start your own flourishing
-                        home garden. Download, login, and click the original link to bring this specimen into your
-                        digital collection.
-                    </p>
-                </div>
+                    <div class="plant-header">
+                        <h1 class="plant-title" id="plant-name">-</h1>
+                        <p class="scientific-name" id="sci-name">-</p>
+                    </div>
 
-                <div class="store-badges">
-                    <a href="https://apps.apple.com/us/app/plantsaga/id6757720295" class="store-badge" target="_blank">
-                        <img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83&amp;releaseDate=1314316800&h=64923838ae1c46294d306443c683b772"
-                            alt="Download on the App Store">
-                    </a>
-                    <a href="https://play.google.com/store/apps/details?id=plant.care.app" class="store-badge"
-                        target="_blank">
-                        <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png"
-                            alt="Get it on Google Play" style="height: 58px; margin-top: -9px;">
-                    </a>
-                </div>
-            </div>
+                    <div class="about-section">
+                        <h3>About Plant</h3>
+                        <p class="description" id="description">-</p>
+                    </div>
 
-            <div class="footer-action">
-                <button class="btn-main" onclick="launchApp()">
-                    <ion-icon name="download-outline" style="font-size: 20px;"></ion-icon>
-                    Open in App to Save
-                </button>
-            </div>
+                    <div class="onboarding-box">
+                        <p>
+                            Your friend's garden is growing on PlantSaga! 🌿 <br><br>
+                            Join our community to save this plant, get expert care reminders, and start your own
+                            flourishing home garden. Download, login, and click the original link to bring this specimen
+                            into your digital collection.
+                        </p>
+                    </div>
+
+                    <div class="action-area">
+                        <button class="btn-main" onclick="launchApp()">
+                            <ion-icon name="download-outline" style="font-size: 20px;"></ion-icon>
+                            Open in App to Save
+                        </button>
+
+                        <div class="store-badges">
+                            <a href="https://apps.apple.com/us/app/plantsaga/id6757720295" class="store-badge"
+                                target="_blank">
+                                <img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83&amp;releaseDate=1314316800&h=64923838ae1c46294d306443c683b772"
+                                    alt="Download on the App Store">
+                            </a>
+                            <a href="https://play.google.com/store/apps/details?id=plant.care.app" class="store-badge"
+                                target="_blank">
+                                <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png"
+                                    alt="Get it on Google Play" style="height: 60px; margin-top: -8px;">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </main>
         </div>
     </div>
 
@@ -567,27 +613,19 @@
 
         async function init() {
             if (!pid) return showError("No specimen ID provided in the link.");
-            console.log("Processing PID:", pid, "| UID:", uid);
 
             try {
                 let data = null;
-                // 1. Try Global Collection
                 const gRef = doc(db, "globalPlants", pid);
                 const gSnap = await getDoc(gRef);
 
                 if (gSnap.exists()) {
-                    console.log("✅ Data found in globalPlants");
                     data = gSnap.data();
                 } else if (uid) {
-                    // 2. Try User Specific Collection
-                    console.log("🔍 Searching user document: users/" + uid + "/plants/" + pid);
                     const uRef = doc(db, "users", uid, "plants", pid);
                     const uSnap = await getDoc(uRef);
-
                     if (uSnap.exists()) {
-                        console.log("✅ Data found in user plants");
                         const raw = uSnap.data();
-                        // Mix with global if linked
                         if (raw.globalPlantId) {
                             const ref = await getDoc(doc(db, "globalPlants", raw.globalPlantId));
                             data = { ...ref.data(), ...raw };
@@ -601,11 +639,7 @@
                 else showError("Specimen not found. It may be part of a private collection.");
             } catch (e) {
                 console.error("Firebase Error:", e);
-                if (e.code === 'permission-denied') {
-                    showError("Access restricted. Sign in to PlantSaga app to view.");
-                } else {
-                    showError("Connection issues. Please try again.");
-                }
+                showError("Unable to load plant data. Please try again later.");
             }
         }
 
@@ -613,23 +647,17 @@
             document.getElementById('plant-name').innerText = d.nickname || d._cachedPlantName || d.name || "Unnamed Specimen";
             document.getElementById('sci-name').innerText = d.scientificName || d._cachedScientificName || "Botanical details in app";
 
-            // Description Fallback Logic
             const desc = d.description || d._cachedDescription || (d.notes && d.notes.length > 0 ? d.notes[0] : null);
             document.getElementById('description').innerText = desc || "A beautiful specimen being nurtured in a private collection.";
 
-            // Care Stats - Matching app fallbacks exactly
             const c = d.careInstructions || {};
             document.getElementById('water').innerText = c.watering?.frequency || "Weekly";
             document.getElementById('light').innerText = c.sunlight?.requirement || "Bright";
             document.getElementById('temp').innerText = c.temperature ? `${c.temperature.min || 18}-${c.temperature.max || 24}°C` : "18-24°C";
             document.getElementById('humidity').innerText = c.humidity?.requirement || "Medium";
 
-            // Gallery Management
             const photos = d.photos ? d.photos.map(p => p.url) : (d.images || []);
-            if (photos.length === 0) photos.push('https://plantsaga.com/logo.png');
-
-            // Clean up to max 4 for optimal speed, but keep more if interactive is desired
-            const displayPhotos = photos.slice(0, 4);
+            if (photos.length === 0) photos.push('../logo.png');
 
             const hero = document.getElementById('hero-image');
             const thumbRow = document.getElementById('thumbnail-row');
@@ -646,7 +674,6 @@
                 thumbRow.style.display = 'none';
             }
 
-            // Social & SEO Fix
             document.title = `${d.nickname || d.name} | PlantSaga`;
             document.getElementById('og-title').content = `${d.nickname || d.name} on PlantSaga`;
             document.getElementById('og-image').content = photos[0];
@@ -657,7 +684,6 @@
         window.switchHero = (url, el) => {
             const hero = document.getElementById('hero-image');
             if (hero.src === url) return;
-
             hero.classList.add('fade-out');
             setTimeout(() => {
                 hero.src = url;
@@ -680,12 +706,12 @@
 
         function hideLoader() {
             const l = document.getElementById('loader');
-            l.style.transition = 'opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
+            l.style.transition = 'opacity 0.6s ease';
             l.style.opacity = '0';
             setTimeout(() => {
                 l.style.display = 'none';
                 document.getElementById('main-content').style.display = 'block';
-            }, 800);
+            }, 600);
         }
 
         window.launchApp = () => {
