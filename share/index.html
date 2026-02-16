@@ -491,56 +491,118 @@
         const db = getFirestore(app);
 
         const params = new URLSearchParams(window.location.search);
-        const pid = params.get('id');
+        const plantId = params.get('id');
 
-        async function init() {
-            if (!pid) return showError("Invalid share link.");
+        async function fetchPlantData() {
+            if (!plantId) {
+                console.warn("⚠️ No plant ID specified in URL.");
+                showError("No plant ID specified.");
+                return;
+            }
+
+            console.log("🔍 Initializing fetch for ID:", plantId);
 
             try {
-                // Fetch Global First
-                let data = null;
-                const gRef = doc(db, "globalPlants", pid);
-                const gSnap = await getDoc(gRef);
+                // 1. Try Global Collection first (Priority)
+                let plantData = null;
+                const gRef = doc(db, "globalPlants", plantId);
 
-                if (gSnap.exists()) {
-                    data = { ...gSnap.data(), isGlobal: true };
-                } else {
-                    // Search in User Collections
-                    const q = query(collectionGroup(db, 'plants'), where('__name__', '==', pid));
-                    const uSnap = await getDocs(q);
-                    if (!uSnap.empty) {
-                        const raw = uSnap.docs[0].data();
-                        if (raw.globalPlantId) {
-                            const ref = await getDoc(doc(db, "globalPlants", raw.globalPlantId));
-                            data = { ...ref.data(), ...raw };
+                try {
+                    const gSnap = await getDoc(gRef);
+                    if (gSnap.exists()) {
+                        console.log("✅ Found in globalPlants");
+                        plantData = { ...gSnap.data(), isGlobal: true };
+                    }
+                } catch (gErr) {
+                    console.error("❌ Global fetch error:", gErr.code, gErr.message);
+                }
+
+                // 2. Fallback: Search across all users for this specific plant ID
+                if (!plantData) {
+                    console.log("🔍 Not found in global, searching User Collections Group...");
+                    try {
+                        // For Collection Group queries, we search where the name/ID matches.
+                        // Note: Collection group query on __name__ requires the relative path if not using documentId()
+                        const q = query(
+                            collectionGroup(db, 'plants'),
+                            where('__name__', '>=', `users/0/plants/${plantId}`), // Attempting to find it in the hierarchy
+                            where('__name__', '<=', `users/z/plants/${plantId}\uf8ff`)
+                        );
+
+                        // Alternate more robust approach for just matching the ID part of the path:
+                        // Firestore doesn't easily allow matching ONLY the end of a path in collectionGroup.
+                        // However, we can try a more direct query if the user has an 'id' field, 
+                        // or we search for the document by its ID if we can.
+
+                        // We'll try the most standard way for a document ID match in a collection group:
+                        const qBasic = query(
+                            collectionGroup(db, 'plants'),
+                            where('__name__', '==', plantId) // This sometimes works depending on the SDK/Firebase version if ID is unique
+                        );
+
+                        console.log("📡 Executing Collection Group queries...");
+                        const querySnapshot = await getDocs(qBasic);
+
+                        if (!querySnapshot.empty) {
+                            console.log("✅ Found in User Plants collection group");
+                            const userPlant = querySnapshot.docs[0].data();
+
+                            // Populating with global info if available
+                            if (userPlant.globalPlantId) {
+                                console.log("🔍 Fetching linked global metadata:", userPlant.globalPlantId);
+                                const gInfoSnap = await getDoc(doc(db, "globalPlants", userPlant.globalPlantId));
+                                if (gInfoSnap.exists()) {
+                                    const gInfo = gInfoSnap.exists() ? gInfoSnap.data() : {};
+                                    plantData = {
+                                        ...gInfo,
+                                        ...userPlant,
+                                        name: userPlant._cachedPlantName || gInfo.name || "Unknown Plant",
+                                        scientificName: userPlant._cachedScientificName || gInfo.scientificName || "",
+                                        description: userPlant._cachedDescription || userPlant.notes?.[0] || gInfo.description || "",
+                                        images: userPlant.photos && userPlant.photos.length > 0
+                                            ? userPlant.photos.map(p => p.url)
+                                            : gInfo.images || []
+                                    };
+                                }
+                            } else {
+                                plantData = userPlant;
+                            }
                         } else {
-                            data = raw;
+                            console.log("❓ Not found in User Plants either.");
+                        }
+                    } catch (uErr) {
+                        console.error("❌ Collection Group Error:", uErr.code, uErr.message);
+                        if (uErr.code === 'permission-denied') {
+                            console.error("🔒 PERMISSION DENIED: Check Firestore rules for collectionGroup('plants').");
                         }
                     }
                 }
 
-                if (data) populate(data);
-                else showError("Plant story not found.");
+                if (plantData) {
+                    renderPlant(plantData);
+                } else {
+                    showError("Specimen Missing. This plant might be private or doesn't exist.");
+                }
 
-            } catch (e) {
-                console.error(e);
-                showError("Connection issues. Please try again.");
+            } catch (error) {
+                console.error("❌ Fatal Fetch Error:", error.code, error.message);
+                showError("Something went wrong while loading the plant.");
             }
         }
 
-        function populate(d) {
-            document.getElementById('plant-name').innerText = d.nickname || d.name;
-            document.getElementById('sci-name').innerText = d.scientificName || "";
-            document.getElementById('plant-desc').innerText = d.description || "Every plant holds a secret. Open the app to discover more about this unique specimen.";
+        function renderPlant(plantData) {
+            document.getElementById('plant-name').innerText = plantData.nickname || plantData.name;
+            document.getElementById('sci-name').innerText = plantData.scientificName || "";
+            document.getElementById('plant-desc').innerText = plantData.description || "Every plant holds a secret. Open the app to discover more about this unique specimen.";
 
-            const care = d.careInstructions || {};
+            const care = plantData.careInstructions || {};
             document.getElementById('water-val').innerText = care.watering?.frequency || "Weekly";
             document.getElementById('light-val').innerText = care.sunlight?.requirement || "Medium";
             document.getElementById('temp-val').innerText = care.temperature ? `${care.temperature.min}-${care.temperature.max}°C` : "18-26°C";
             document.getElementById('humid-val').innerText = care.humidity?.requirement || "Medium";
 
             // Images
-            const imgs = d.photos ? d.photos.map(p => p.url) : (d.images || []);
+            const imgs = plantData.photos ? plantData.photos.map(p => p.url) : (plantData.images || []);
             if (imgs.length === 0) imgs.push('https://plantsaga.com/logo.png');
 
             const g = document.getElementById('gallery-scroll');
@@ -556,8 +618,8 @@
             }
 
             // SEO
-            document.title = `${d.name} | PlantSaga`;
-            document.getElementById('og-title').content = `${d.name} on PlantSaga`;
+            document.title = `${plantData.name} | PlantSaga`;
+            document.getElementById('og-title').content = `${plantData.name} on PlantSaga`;
             document.getElementById('og-image').content = imgs[0];
 
             document.getElementById('loader').style.opacity = '0';
@@ -580,14 +642,14 @@
 
         window.launchApp = () => {
             const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
-            const deep = `plantsaga://share/${pid}`;
+            const deep = `plantsaga://share/${plantId}`;
             const store = isIOS ? "https://apps.apple.com/us/app/plantsaga/id6757720295" : "https://play.google.com/store/apps/details?id=plant.care.app";
 
             window.location.href = deep;
             setTimeout(() => { if (!document.hidden) window.location.href = store; }, 2500);
         };
 
-        init();
+        fetchPlantData();
     </script>
 </body>
 
