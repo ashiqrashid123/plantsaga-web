@@ -5,208 +5,246 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Privacy Policy | PlantSaga</title>
-    <!-- Modern Typography -->
+
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@600;700;800&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap"
         rel="stylesheet">
+
+    <!-- Icons -->
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+
     <style>
         :root {
-            --primary: #0a2e1f;
-            --primary-soft: #1a4d3a;
-            --accent: #d4af37;
-            --sage: #8a9a5b;
-            --bg-warm: #fdfbf7;
-            --text-main: #1c1c1c;
-            --text-muted: #5a5a5a;
+            --primary: #22c55e;
+            --primary-dark: #16a34a;
+            --secondary: #0a2e1f;
+            --sage-bg: #E8EFE8;
+            --text-main: #1a202c;
+            --text-muted: #64748b;
             --white: #ffffff;
-            --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.04);
+            --shadow-soft: 0 10px 40px rgba(10, 46, 31, 0.05);
+            --transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
         }
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-warm);
-            color: var(--text-main);
-            line-height: 1.8;
+        * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
 
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 100px 24px;
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--sage-bg);
+            color: var(--text-main);
+            line-height: 1.7;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 500px;
+            background: var(--white);
+            min-height: 100vh;
+            position: relative;
+            box-shadow: 0 0 80px rgba(10, 46, 31, 0.08);
+            padding-bottom: 60px;
+        }
+
+        header {
+            padding: 24px;
+            display: flex;
+            align-items: center;
+            background: var(--white);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.03);
         }
 
         .back-link {
-            display: inline-flex;
+            display: flex;
             align-items: center;
             gap: 8px;
-            color: var(--primary);
+            color: var(--secondary);
             text-decoration: none;
-            font-weight: 600;
-            margin-bottom: 40px;
-            transition: all 0.3s ease;
+            font-weight: 700;
+            font-size: 15px;
+            transition: var(--transition);
         }
 
-        .back-link:hover {
-            transform: translateX(-5px);
-            color: var(--sage);
+        .back-link:active {
+            transform: scale(0.95);
         }
 
-        .policy-card {
-            background: var(--white);
-            padding: 60px;
-            border-radius: 40px;
-            box-shadow: var(--shadow-soft);
-            border: 1px solid rgba(0, 0, 0, 0.015);
+        .content {
+            padding: 32px 24px;
         }
 
         h1 {
             font-family: 'Outfit', sans-serif;
-            font-size: 3rem;
-            color: var(--primary);
-            margin-bottom: 10px;
-            letter-spacing: -0.02em;
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--secondary);
+            margin-bottom: 8px;
+            line-height: 1.2;
         }
 
         .last-updated {
             color: var(--text-muted);
-            font-size: 0.9rem;
-            margin-bottom: 50px;
+            font-size: 13px;
+            font-weight: 600;
             display: block;
+            margin-bottom: 32px;
+        }
+
+        .policy-section {
+            background: #fcfdfc;
+            border-radius: 24px;
+            padding: 24px;
+            margin-bottom: 24px;
+            border: 1px solid rgba(34, 197, 94, 0.1);
         }
 
         h2 {
             font-family: 'Outfit', sans-serif;
-            font-size: 1.6rem;
-            color: var(--primary);
-            margin-top: 50px;
-            margin-bottom: 20px;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--secondary);
+            margin-bottom: 12px;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
         }
 
-        h2::before {
-            content: "";
-            width: 6px;
-            height: 6px;
-            background: var(--accent);
-            border-radius: 50%;
+        h2 ion-icon {
+            color: var(--primary);
+            font-size: 20px;
         }
 
         p {
-            margin-bottom: 20px;
+            font-size: 14px;
+            color: #4b5563;
+            margin-bottom: 16px;
         }
 
         ul {
-            margin-bottom: 24px;
-            padding-left: 20px;
+            list-style: none;
+            margin-bottom: 16px;
         }
 
         li {
-            margin-bottom: 12px;
+            font-size: 14px;
+            color: #4b5563;
+            padding-left: 24px;
+            position: relative;
+            margin-bottom: 10px;
+        }
+
+        li::before {
+            content: "•";
+            color: var(--primary);
+            font-weight: 900;
+            position: absolute;
+            left: 8px;
         }
 
         .contact-box {
-            background: #f4fef8;
-            padding: 30px;
-            border-radius: 20px;
-            margin-top: 60px;
-            border: 1px solid #e2f0e7;
+            background: var(--secondary);
+            color: #fff;
+            border-radius: 24px;
+            padding: 24px;
+            margin-top: 40px;
+            text-align: center;
         }
 
         .contact-box strong {
-            color: var(--primary);
+            display: block;
+            margin-bottom: 8px;
+            font-size: 16px;
+            font-family: 'Outfit';
         }
 
-        @media (max-width: 600px) {
-            .policy-card {
-                padding: 40px 24px;
-            }
+        .contact-box p {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 0;
+            font-size: 13px;
+        }
 
-            h1 {
-                font-size: 2.2rem;
+        .contact-email {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 15px;
+        }
+
+        @media (max-width: 500px) {
+            .app-container {
+                box-shadow: none;
             }
         }
     </style>
 </head>
 
 <body>
-    <div class="container">
-        <a href="./" class="back-link">← Back to Homepage</a>
 
-        <article class="policy-card">
+    <div class="app-container">
+        <header>
+            <a href="./" class="back-link">
+                <ion-icon name="arrow-back"></ion-icon>
+                Back
+            </a>
+        </header>
+
+        <main class="content">
             <h1>Privacy Policy</h1>
-            <span class="last-updated">Last Updated: January 2, 2026</span>
+            <span class="last-updated">Effective: February 17, 2026</span>
 
-            <p>At PlantSaga, we are committed to protecting your personal data and your privacy. This policy outlines
-                how we collect, use, and safeguard your information in compliance with the General Data Protection
-                Regulation (GDPR) and other applicable privacy laws.</p>
+            <p>At PlantSaga, we believe every plant has a story, and so does your data. We are committed to protecting
+                your privacy while helping your garden grow.</p>
 
-            <h2>1. Information We Collect</h2>
-            <p>We only collect information that is necessary to provide you with the best plant care experience. This
-                includes:</p>
-            <ul>
-                <li><strong>Personal Identity:</strong> Name and email address (provided during account creation).</li>
-                <li><strong>Plant Data:</strong> Photos of plants, species names, and health status logs you upload.
-                </li>
-                <li><strong>Usage Data:</strong> Information on how you interact with our AI diagnostics and community
-                    features.</li>
-            </ul>
+            <div class="policy-section">
+                <h2><ion-icon name="shield-checkmark"></ion-icon> 1. Data Collection</h2>
+                <p>We only collect what's necessary for botanical care:</p>
+                <ul>
+                    <li><strong>Account Info:</strong> Name and email provided by you.</li>
+                    <li><strong>Growth Logs:</strong> Photos and health data of your plants.</li>
+                    <li><strong>Analytics:</strong> How you use our AI features to better the community.</li>
+                </ul>
+            </div>
 
-            <h2>2. Legal Basis for Processing</h2>
-            <p>Under GDPR, we process your data based on:</p>
-            <ul>
-                <li><strong>Your Consent:</strong> For example, when you upload plant photos or sign up for our
-                    newsletter.</li>
-                <li><strong>Contractual Necessity:</strong> To provide you with the services offered by the PlantSaga
-                    app.</li>
-                <li><strong>Legitimate Interests:</strong> To improve our AI technology and ensure the security of our
-                    platform.</li>
-            </ul>
+            <div class="policy-section">
+                <h2><ion-icon name="leaf"></ion-icon> 2. How We Use Data</h2>
+                <p>Your data powers the intelligence of the community:</p>
+                <ul>
+                    <li>To provide tailored care reminders.</li>
+                    <li>To improve AI plant identification accuracy.</li>
+                    <li>To secure your digital garden across devices.</li>
+                </ul>
+            </div>
 
-            <h2>3. Your Data Rights (GDPR)</h2>
-            <p>You have the following rights regarding your personal data:</p>
-            <ul>
-                <li><strong>Right to Access:</strong> You can request a copy of the personal data we hold about you.
-                </li>
-                <li><strong>Right to Rectification:</strong> You can ask us to correct any inaccurate or incomplete
-                    information.</li>
-                <li><strong>Right to Erasure ("Right to be Forgotten"):</strong> You can request that we delete your
-                    data at any time.</li>
-                <li><strong>Right to Data Portability:</strong> You can request to receive your data in a structured,
-                    commonly used format.</li>
-                <li><strong>Right to Object:</strong> You can object to the processing of your data for direct marketing
-                    purposes.</li>
-            </ul>
-
-            <h2>4. Use of AI Technology</h2>
-            <p>PlantSaga utilizes advanced artificial intelligence to analyze plant imagery. These images are used to
-                identify species and diagnose health issues. We process these images securely and never use them for
-                personal identification beyond your plant's needs.</p>
-
-            <h2>5. Data Retention & Security</h2>
-            <p>We retain your data only for as long as necessary to provide our services or as required by law. We
-                implement industry-standard security measures to protect your data from unauthorized access, loss, or
-                misuse.</p>
-
-            <h2>6. International Transfers</h2>
-            <p>Your information may be stored and processed in countries outside of your own. However, we ensure that
-                any international transfers comply with GDPR through standard contractual clauses or other legal
-                safeguards.</p>
+            <div class="policy-section">
+                <h2><ion-icon name="lock-closed"></ion-icon> 3. Your Rights</h2>
+                <p>You are in complete control of your data:</p>
+                <ul>
+                    <li><strong>Access:</strong> Request all data we hold.</li>
+                    <li><strong>Erasure:</strong> Delete your account and all data instantly.</li>
+                    <li><strong>Portability:</strong> Download your garden history anytime.</li>
+                </ul>
+            </div>
 
             <div class="contact-box">
-                <p><strong>Contact Our Data Protection Team</strong></p>
-                <p>If you have any questions about this policy or wish to exercise your data rights, please contact us
-                    at: <br>
-                    <strong>team.plantsaga@gmail.com</strong>
-                </p>
+                <strong>Questions?</strong>
+                <p>Our botanical protection team is here to help.</p>
+                <a href="mailto:team.plantsaga@gmail.com" class="contact-email">team.plantsaga@gmail.com</a>
             </div>
-        </article>
+        </main>
     </div>
+
 </body>
 
 </html>
