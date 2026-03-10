@@ -718,7 +718,7 @@
 
         window.launchApp = () => {
             const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
-            const deep = `plantsaga://share/${pid}`;
+            const deep = `plantsaga://share?uid=${uid || ''}&pid=${pid || ''}`;
             const store = isIOS ? "https://apps.apple.com/us/app/plantsaga/id6757720295" : "https://play.google.com/store/apps/details?id=plant.care.app";
             window.location.href = deep;
             setTimeout(() => { if (!document.hidden) window.location.href = store; }, 2500);
