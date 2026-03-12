@@ -464,6 +464,70 @@
             padding: 60px 40px;
             text-align: center;
         }
+
+        /* Purchase Details (Web Split View) */
+        .purchase-section {
+            margin-bottom: 32px;
+            display: none;
+        }
+
+        .purchase-section h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--secondary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .purchase-card-web {
+            background: #f8fafc;
+            border-radius: 24px;
+            padding: 24px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .purchase-grid-web {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .purchase-item-web {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .purchase-item-web.full {
+            grid-column: span 2;
+        }
+
+        .purchase-label-web {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .purchase-value-web {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .purchase-link-web {
+            color: var(--primary);
+            text-decoration: none;
+            word-break: break-all;
+        }
+
+        .purchase-link-web:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 
@@ -549,6 +613,18 @@
                     <div class="about-section">
                         <h3>About Plant</h3>
                         <p class="description" id="description">-</p>
+                    </div>
+
+                    <div class="purchase-section" id="purchase-section">
+                        <h3 id="purchase-title">
+                            <ion-icon name="cart-outline"></ion-icon>
+                            Purchase Details
+                        </h3>
+                        <div class="purchase-card-web">
+                            <div class="purchase-grid-web" id="purchase-grid">
+                                <!-- Injected via JS -->
+                            </div>
+                        </div>
                     </div>
 
                     <div class="onboarding-box">
@@ -646,6 +722,12 @@
         }
 
         function populate(d) {
+            console.log('Shared Plant Data (Web):', d);
+            if (d.purchaseInfo) {
+                console.log('Shared Plant Purchase Info (Web):', JSON.stringify(d.purchaseInfo, null, 2));
+            } else {
+                console.log('Shared Plant Purchase Info (Web) is UNDEFINED or NULL');
+            }
             document.getElementById('plant-name').innerText = d.nickname || d._cachedPlantName || d.name || "Unnamed Specimen";
             document.getElementById('sci-name').innerText = d.scientificName || d._cachedScientificName || "Botanical details in app";
 
@@ -679,6 +761,105 @@
             document.title = `${d.nickname || d.name} | PlantSaga`;
             document.getElementById('og-title').content = `${d.nickname || d.name} on PlantSaga`;
             document.getElementById('og-image').content = photos[0];
+
+            // Purchase Info Logic
+            const section = document.getElementById('purchase-section');
+            const grid = document.getElementById('purchase-grid');
+            const p = d.purchaseInfo;
+
+            if (p) {
+                section.style.display = 'block';
+                document.getElementById('purchase-title').innerHTML = `
+                    <ion-icon name="${p.isGifted ? 'gift-outline' : 'cart-outline'}"></ion-icon>
+                    ${p.isGifted ? 'Gift Details' : 'Purchase Details'}
+                `;
+
+                let html = `
+                    <div class="purchase-item-web">
+                        <span class="purchase-label-web">${p.isGifted ? 'Gifted By' : 'Store/Nursery'}</span>
+                        <span class="purchase-value-web">${p.source || 'Unknown'}</span>
+                    </div>
+                `;
+
+                if (p.isGifted && p.giftedOccasion) {
+                    html += `
+                        <div class="purchase-item-web">
+                            <span class="purchase-label-web">Occasion</span>
+                            <span class="purchase-value-web">${p.giftedOccasion}</span>
+                        </div>
+                    `;
+                }
+
+                html += `
+                    <div class="purchase-item-web">
+                        <span class="purchase-label-web">Date</span>
+                        <span class="purchase-value-web">${p.date ? (p.date.toDate ? p.date.toDate().toLocaleDateString() : new Date(p.date.seconds * 1000).toLocaleDateString()) : 'Not specified'}</span>
+                    </div>
+                `;
+
+                if (p.purchaseType === 'online' && p.productLink) {
+                    html += `
+                        <div class="purchase-item-web full">
+                            <span class="purchase-label-web">Source/Link</span>
+                            <a href="${p.productLink}" target="_blank" class="purchase-link-web">${p.productLink}</a>
+                        </div>
+                    `;
+                } else if (!p.isGifted) {
+                    html += `
+                        <div class="purchase-item-web">
+                            <span class="purchase-label-web">Type</span>
+                            <span class="purchase-value-web">${p.purchaseType || 'In-Store'}</span>
+                        </div>
+                    `;
+                }
+
+                if (!p.isGifted && p.price) {
+                    html += `
+                        <div class="purchase-item-web">
+                            <span class="purchase-label-web">Price</span>
+                            <span class="purchase-value-web">${p.currency || '$'}${p.price}</span>
+                        </div>
+                    `;
+                }
+
+                if (p.specsAtPurchase) {
+                    const s = p.specsAtPurchase;
+                    if (s.height) {
+                        html += `
+                            <div class="purchase-item-web">
+                                <span class="purchase-label-web">Initial Height</span>
+                                <span class="purchase-value-web">${s.height} ${s.heightUnit || 'cm'}</span>
+                            </div>
+                        `;
+                    }
+                    if (s.isFlowering !== undefined) {
+                        html += `
+                            <div class="purchase-item-web">
+                                <span class="purchase-label-web">Flowers</span>
+                                <span class="purchase-value-web">${s.isFlowering ? (s.flowerCount || 'Yes') : 'No'}</span>
+                            </div>
+                        `;
+                    }
+                    if (s.potSize) {
+                        html += `
+                            <div class="purchase-item-web">
+                                <span class="purchase-label-web">Pot Height</span>
+                                <span class="purchase-value-web">${s.potSize} ${s.potUnit || 'cm'}</span>
+                            </div>
+                        `;
+                    }
+                    if (s.potMaterial) {
+                        html += `
+                            <div class="purchase-item-web">
+                                <span class="purchase-label-web">Pot Material</span>
+                                <span class="purchase-value-web">${s.potMaterial}</span>
+                            </div>
+                        `;
+                    }
+                }
+
+                grid.innerHTML = html;
+            }
 
             hideLoader();
         }
