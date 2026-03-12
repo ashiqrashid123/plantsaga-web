@@ -64,7 +64,6 @@
             overflow-x: hidden;
         }
 
-        /* Responsive Container */
         .app-container {
             width: 100%;
             max-width: 1100px;
@@ -72,16 +71,12 @@
             min-height: 100vh;
             position: relative;
             box-shadow: 0 0 80px rgba(10, 46, 31, 0.05);
-            display: flex;
-            flex-direction: column;
         }
 
-        /* Header - Top Left Alignment */
         header {
             padding: 24px 40px;
             display: flex;
             align-items: center;
-            justify-content: flex-start;
             background: var(--white);
             z-index: 100;
         }
@@ -90,11 +85,6 @@
             display: flex;
             align-items: center;
             text-decoration: none;
-            transition: var(--transition);
-        }
-
-        .header-link:active {
-            transform: scale(0.98);
         }
 
         .nav-logo {
@@ -110,87 +100,21 @@
             letter-spacing: -0.5px;
         }
 
-        /* Split View Content */
-        .page-content {
-            display: flex;
-            gap: 48px;
-            padding: 0 40px 60px 40px;
-            flex-grow: 1;
+        /* Responsive Grid Master */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0;
+            padding: 0 24px 60px 24px;
         }
 
-        .col-left {
-            flex: 1.2;
-            min-width: 0;
+        /* Shared Styling Blocks */
+        section {
+            width: 100%;
         }
 
-        .col-right {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .bottom-row {
-            display: flex;
-            gap: 48px;
-            padding: 0 40px 60px 40px;
-            align-items: flex-start;
-        }
-
-        .bottom-row .about-section {
-            flex: 1.2;
-            min-width: 0;
-        }
-
-        .bottom-row .action-area {
-            flex: 0.8;
-            min-width: 0;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .bottom-row .about-section h3 {
-            font-family: 'Outfit', sans-serif;
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 16px;
-            color: var(--secondary);
-        }
-
-        .bottom-row .description {
-            color: var(--text-muted);
-            font-size: 15px;
-            line-height: 1.7;
-        }
-
-        /* Loader */
-        #loader {
-            position: absolute;
-            inset: 0;
-            background: var(--white);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 2000;
-        }
-
-        .plant-loader {
-            width: 50px;
-            height: 50px;
-            border: 3px solid #f3f4f6;
-            border-top: 3px solid var(--primary);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-
-        /* Product Gallery */
+        /* 1. Gallery */
         .gallery-wrap {
-            background: #fff;
             margin-bottom: 32px;
         }
 
@@ -214,9 +138,7 @@
             transition: opacity 0.3s ease;
         }
 
-        .hero-image.fade-out {
-            opacity: 0;
-        }
+        .hero-image.fade-out { opacity: 0; }
 
         .thumbnail-row {
             display: flex;
@@ -226,57 +148,24 @@
             padding: 4px;
             scrollbar-width: none;
         }
-
-        .thumbnail-row::-webkit-scrollbar {
-            display: none;
-        }
+        .thumbnail-row::-webkit-scrollbar { display: none; }
 
         .thumbnail {
-            width: 72px;
-            height: 72px;
-            flex-shrink: 0;
-            border-radius: 16px;
-            border: 2px solid #f1f5f9;
-            cursor: pointer;
-            overflow: hidden;
-            transition: var(--transition);
+            width: 72px; height: 72px; flex-shrink: 0;
+            border-radius: 16px; border: 2px solid #f1f5f9;
+            cursor: pointer; overflow: hidden; transition: var(--transition);
             background: #fff;
         }
-
         .thumbnail.active {
             border-color: var(--primary);
             transform: scale(1.05);
             box-shadow: 0 4px 12px rgba(34, 197, 94, 0.15);
         }
+        .thumbnail img { width: 100%; height: 100%; object-fit: cover; }
 
-        .thumbnail img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        /* Plant Header (Right Col) */
-        .plant-header {
-            margin-bottom: 24px;
-        }
-
-        .plant-title {
-            font-family: 'Outfit', sans-serif;
-            font-size: 38px;
-            font-weight: 800;
-            color: var(--text-main);
-            line-height: 1.1;
-            margin-bottom: 8px;
-        }
-
-        .scientific-name {
-            font-size: 18px;
-            color: var(--text-muted);
-            font-style: italic;
-        }
-
-        .badge-wrap {
-            margin-bottom: 16px;
+        /* 2. Header & Badge */
+        .plant-header-box {
+            margin-bottom: 32px;
         }
 
         .badge {
@@ -284,8 +173,6 @@
             align-items: center;
             gap: 8px;
             background: rgba(34, 197, 94, 0.06);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
             color: var(--primary-dark);
             padding: 8px 18px;
             border-radius: 100px;
@@ -294,21 +181,41 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             border: 1px solid rgba(34, 197, 94, 0.1);
+            margin-bottom: 16px;
         }
 
-        /* Care Matrix Grid (Left Col) */
+        .plant-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--text-main);
+            line-height: 1.1;
+            margin-bottom: 8px;
+        }
+
+        .scientific-name {
+            font-size: 17px;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        /* 3. Care requirements */
+        .care-section {
+            margin-bottom: 40px;
+        }
+
         .care-card {
             background: #fff;
             border-radius: 28px;
-            padding: 28px;
+            padding: 24px;
             border: 1px solid rgba(0, 0, 0, 0.03);
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.01);
         }
 
         .care-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
         }
 
         .care-item {
@@ -316,211 +223,47 @@
             flex-direction: column;
             align-items: center;
             text-align: center;
-            gap: 12px;
+            gap: 8px;
         }
 
         .icon-box {
-            width: 48px;
-            height: 48px;
+            width: 44px;
+            height: 44px;
             background: #f8fafc;
-            border-radius: 16px;
+            border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
+            font-size: 20px;
         }
 
-        .water ion-icon {
-            color: #3b82f6;
-        }
-
-        .light ion-icon {
-            color: #f59e0b;
-        }
-
-        .temp ion-icon {
-            color: #ef4444;
-        }
-
-        .humid ion-icon {
-            color: #06b6d4;
-        }
-
-        .care-info {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-        }
+        .water ion-icon { color: #3b82f6; }
+        .light ion-icon { color: #f59e0b; }
+        .temp ion-icon { color: #ef4444; }
+        .humid ion-icon { color: #06b6d4; }
 
         .care-label {
-            font-size: 10px;
+            font-size: 9px;
             font-weight: 800;
             color: var(--text-muted);
             text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
 
         .care-value {
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 700;
             color: var(--text-main);
         }
 
-        /* About & Onboarding (Right Col) */
-        .about-section {
-            margin-bottom: 32px;
-        }
-
-        .about-section h3 {
-            font-family: 'Outfit', sans-serif;
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 12px;
-            color: var(--secondary);
-        }
-
-        .description {
-            font-size: 16px;
-            color: #4b5563;
-            line-height: 1.7;
-        }
-
-        .onboarding-box {
-            background: linear-gradient(135deg, rgba(34, 197, 94, 0.05) 0%, rgba(34, 197, 94, 0.02) 100%);
-            border-radius: 24px;
-            padding: 24px;
-            border: 1px dashed rgba(34, 197, 94, 0.3);
-            margin-bottom: 24px;
-        }
-
-        .onboarding-box p {
-            font-size: 15px;
-            color: var(--secondary);
-            font-weight: 500;
-            line-height: 1.6;
-        }
-
-        .action-area {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .btn-main {
-            background: var(--primary);
-            color: #fff;
-            width: 100%;
-            height: 64px;
-            border-radius: 20px;
-            font-weight: 700;
-            font-size: 18px;
-            border: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            cursor: pointer;
-            box-shadow: 0 15px 30px rgba(34, 197, 94, 0.25);
-            transition: var(--transition);
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% {
-                box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4);
-            }
-
-            70% {
-                box-shadow: 0 0 0 15px rgba(34, 197, 94, 0);
-            }
-
-            100% {
-                box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);
-            }
-        }
-
-        .btn-main:active {
-            transform: scale(0.96);
-        }
-
-        .store-badges {
-            display: flex;
-            gap: 12px;
-            justify-content: flex-start;
-            flex-wrap: wrap;
-        }
-
-        .store-badge img {
-            height: 44px;
-            width: auto;
-            border-radius: 8px;
-            transition: var(--transition);
-        }
-
-        .store-badge:active img {
-            transform: scale(0.95);
-        }
-
-        /* Mobile View (Stacking) */
-        @media (max-width: 900px) {
-            header {
-                padding: 20px 24px;
-            }
-
-            .page-content {
-                flex-direction: column;
-                padding: 0 24px 60px 24px;
-                gap: 0;
-            }
-
-            .hero-image-container {
-                height: 350px;
-            }
-
-            .care-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .col-right {
-                margin-top: 40px;
-            }
-
-            .bottom-row {
-                flex-direction: column;
-                padding: 0 24px 60px 24px;
-                gap: 40px;
-            }
-
-            .bottom-row .about-section,
-            .bottom-row .action-area {
-                flex: none;
-                width: 100%;
-            }
-
-            .store-badges {
-                justify-content: center;
-            }
-
-            .plant-title {
-                font-size: 32px;
-            }
-        }
-
-        /* Error state */
-        .error-msg {
-            padding: 60px 40px;
-            text-align: center;
-        }
-
-        /* Purchase Details (Web Split View) */
+        /* 4. Purchase Details */
         .purchase-section {
-            margin-bottom: 32px;
+            margin-bottom: 40px;
             display: none;
         }
 
         .purchase-section h3 {
             font-family: 'Outfit', sans-serif;
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 700;
             margin-bottom: 16px;
             color: var(--secondary);
@@ -532,48 +275,162 @@
         .purchase-card-web {
             background: #f8fafc;
             border-radius: 24px;
-            padding: 24px;
+            padding: 20px;
             border: 1px solid #e2e8f0;
         }
 
         .purchase-grid-web {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
+            grid-template-columns: 1fr;
+            gap: 16px;
         }
 
         .purchase-item-web {
             display: flex;
             flex-direction: column;
-            gap: 4px;
-        }
-
-        .purchase-item-web.full {
-            grid-column: span 2;
+            gap: 2px;
         }
 
         .purchase-label-web {
-            font-size: 11px;
+            font-size: 10px;
             font-weight: 700;
             color: var(--text-muted);
             text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
 
         .purchase-value-web {
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 600;
             color: var(--text-main);
         }
 
-        .purchase-link-web {
-            color: var(--primary);
-            text-decoration: none;
-            word-break: break-all;
+        /* 5. About Plant */
+        .about-section {
+            margin-bottom: 40px;
         }
 
-        .purchase-link-web:hover {
-            text-decoration: underline;
+        .about-section h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--secondary);
+        }
+
+        .description {
+            font-size: 15px;
+            color: #4b5563;
+            line-height: 1.7;
+        }
+
+        /* 6. Onboarding Message */
+        .onboarding-box {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.05) 0%, rgba(34, 197, 94, 0.02) 100%);
+            border-radius: 24px;
+            padding: 24px;
+            border: 1px dashed rgba(34, 197, 94, 0.3);
+            margin-bottom: 24px;
+        }
+
+        .onboarding-box p {
+            font-size: 14px;
+            color: var(--secondary);
+            font-weight: 500;
+            line-height: 1.6;
+        }
+
+        /* 7 & 8. Actions & Links */
+        .action-area {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .btn-main {
+            background: var(--primary);
+            color: #fff;
+            width: 100%;
+            height: 60px;
+            border-radius: 18px;
+            font-weight: 700;
+            font-size: 17px;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            cursor: pointer;
+            box-shadow: 0 12px 24px rgba(34, 197, 94, 0.2);
+            transition: var(--transition);
+        }
+
+        .store-badges {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .store-badge img {
+            height: 40px;
+            width: auto;
+            border-radius: 8px;
+        }
+
+        /* Desktop Adjustments */
+        @media (min-width: 901px) {
+            .content-grid {
+                grid-template-columns: 1.2fr 0.8fr;
+                gap: 48px;
+                padding: 0 40px 60px 40px;
+            }
+
+            header { padding: 32px 40px; }
+
+            /* Desktop Ordering Fix */
+            .gallery-wrap { grid-column: 1; grid-row: 1; margin-bottom: 48px; }
+            .care-section { grid-column: 1; grid-row: 2; margin-bottom: 48px; }
+            .about-section { grid-column: 1; grid-row: 3; }
+
+            .plant-header-box { grid-column: 2; grid-row: 1; }
+            .purchase-section { grid-column: 2; grid-row: 2; }
+            .onboarding-box { grid-column: 2; grid-row: 3; align-self: end; }
+            .action-area { grid-column: 2; grid-row: 4; align-items: flex-start; }
+
+            .hero-image-container { height: 500px; }
+            .care-grid { grid-template-columns: repeat(4, 1fr); }
+            .btn-main { width: 100%; }
+            .store-badges { justify-content: flex-start; }
+            .plant-title { font-size: 44px; }
+            .purchase-grid-web { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        /* Loader */
+        #loader {
+            position: fixed;
+            inset: 0;
+            background: var(--white);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+
+        .plant-loader {
+            width: 50px; height: 50px;
+            border: 3px solid #f3f4f6;
+            border-top: 3px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        /* Error state */
+        .error-msg {
+            padding: 60px 24px;
+            text-align: center;
         }
     </style>
 </head>
@@ -590,25 +447,35 @@
 
         <div id="loader">
             <div class="plant-loader"></div>
-            <p
-                style="margin-top: 20px; color: var(--text-muted); font-size: 13px; font-weight: 700; letter-spacing: 1px;">
+            <p style="margin-top: 20px; color: var(--text-muted); font-size: 13px; font-weight: 700; letter-spacing: 1px;">
                 SYNCING BOTANICAL DATA...</p>
         </div>
 
         <div id="main-content" style="display: none;">
-            <main class="page-content">
-                <!-- Left Column: Imagery & Care -->
-                <div class="col-left">
-                    <div class="gallery-wrap">
-                        <div class="hero-image-container">
-                            <img id="hero-image" src="" class="hero-image" alt="Plant Preview"
-                                onerror="this.src='../logo.png'">
-                        </div>
-                        <div class="thumbnail-row" id="thumbnail-row">
-                            <!-- Thumbnails Injected -->
-                        </div>
+            <main class="content-grid">
+                
+                <!-- 1. Gallery Section -->
+                <section class="gallery-wrap">
+                    <div class="hero-image-container">
+                        <img id="hero-image" src="" class="hero-image" alt="Plant Preview" onerror="this.src='../logo.png'">
                     </div>
+                    <div class="thumbnail-row" id="thumbnail-row">
+                        <!-- Thumbnails Injected -->
+                    </div>
+                </section>
 
+                <!-- 2. Header Box -->
+                <section class="plant-header-box">
+                    <div class="badge">
+                        <ion-icon name="leaf"></ion-icon>
+                        Shared via PlantSaga
+                    </div>
+                    <h1 class="plant-title" id="plant-name">-</h1>
+                    <p class="scientific-name" id="sci-name">-</p>
+                </section>
+
+                <!-- 3. Care Matrix -->
+                <section class="care-section">
                     <div class="care-card">
                         <div class="care-grid">
                             <div class="care-item water">
@@ -641,68 +508,54 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </section>
 
-                <!-- Right Column: Details & CTA -->
-                <div class="col-right">
-                    <div class="badge-wrap">
-                        <div class="badge">
-                            <ion-icon name="leaf"></ion-icon>
-                            Shared via PlantSaga
+                <!-- 4. Purchase Details -->
+                <section class="purchase-section" id="purchase-section">
+                    <h3 id="purchase-title">
+                        <ion-icon name="cart-outline"></ion-icon>
+                        Purchase Details
+                    </h3>
+                    <div class="purchase-card-web">
+                        <div class="purchase-grid-web" id="purchase-grid">
+                            <!-- Injected -->
                         </div>
                     </div>
+                </section>
 
-                    <div class="plant-header">
-                        <h1 class="plant-title" id="plant-name">-</h1>
-                        <p class="scientific-name" id="sci-name">-</p>
-                    </div>
-
-                    <div class="purchase-section" id="purchase-section">
-                        <h3 id="purchase-title">
-                            <ion-icon name="cart-outline"></ion-icon>
-                            Purchase Details
-                        </h3>
-                        <div class="purchase-card-web">
-                            <div class="purchase-grid-web" id="purchase-grid">
-                                <!-- Injected via JS -->
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </main>
-
-            <!-- Bottom Row: About & CTA -->
-            <div class="bottom-row">
-                <div class="about-section">
+                <!-- 5. About Description -->
+                <section class="about-section">
                     <h3>About Plant</h3>
                     <p class="description" id="description">-</p>
-                </div>
+                </section>
 
-                <div class="action-area">
-                    <div class="onboarding-box">
-                        <p>
-                            Your friend's garden is growing on PlantSaga! 🌿 <br><br>
-                            Join our community to save this plant, get expert care reminders, and start your own
-                            flourishing home garden. Download, login, and click the original link to bring this specimen
-                            into your digital collection.
-                        </p>
-                    </div>
+                <!-- 6. Onboarding Box -->
+                <section class="onboarding-box">
+                    <p>
+                        Your friend's garden is growing on PlantSaga! 🌿 <br><br>
+                        Join our community to save this plant, get expert care reminders, and start your own
+                        flourishing home garden. Download, login, and click the original link to bring this specimen
+                        into your digital collection.
+                    </p>
+                </section>
 
+                <!-- 7 & 8. Call to Action & Badges -->
+                <section class="action-area">
                     <button class="btn-main" onclick="launchApp()">
                         <ion-icon name="download-outline" style="font-size: 20px;"></ion-icon>
                         Open in App to Save
                     </button>
 
                     <div class="store-badges">
-                        <a href="https://apps.apple.com/us/app/plantsaga/id6757720295" class="store-badge"
-                            target="_blank">
-                            <img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83&amp;releaseDate=1314316800&h=64923838ae1c46294d306443c683b772"
-                                alt="Download on the App Store">
+                        <a href="https://apps.apple.com/us/app/plantsaga/id6757720295" class="store-badge" target="_blank">
+                            <img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83&amp;releaseDate=1314316800&h=64923838ae1c46294d306443c683b772" alt="Download on the App Store">
+                        </a>
+                        <a href="https://play.google.com/store/apps/details?id=plant.care.app" class="store-badge" target="_blank">
+                            <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" alt="Get it on Google Play">
                         </a>
                     </div>
-                </div>
-            </div>
+                </section>
+            </main>
         </div>
     </div>
 
