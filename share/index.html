@@ -610,11 +610,6 @@
                         <p class="scientific-name" id="sci-name">-</p>
                     </div>
 
-                    <div class="about-section">
-                        <h3>About Plant</h3>
-                        <p class="description" id="description">-</p>
-                    </div>
-
                     <div class="purchase-section" id="purchase-section">
                         <h3 id="purchase-title">
                             <ion-icon name="cart-outline"></ion-icon>
@@ -625,6 +620,11 @@
                                 <!-- Injected via JS -->
                             </div>
                         </div>
+                    </div>
+
+                    <div class="about-section">
+                        <h3>About Plant</h3>
+                        <p class="description" id="description">-</p>
                     </div>
 
                     <div class="onboarding-box">
@@ -774,89 +774,82 @@
                     ${p.isGifted ? 'Gift Details' : 'Purchase Details'}
                 `;
 
-                let html = `
-                    <div class="purchase-item-web">
-                        <span class="purchase-label-web">${p.isGifted ? 'Gifted By' : 'Store/Nursery'}</span>
-                        <span class="purchase-value-web">${p.source || 'Unknown'}</span>
-                    </div>
-                `;
+                let html = '';
 
-                if (p.isGifted && p.giftedOccasion) {
+                if (p.isGifted) {
+                    // Gifted Order: Gifted By, Date, Occasion, Plant Initial Height, Flowers, Pot Height, Pot Material
                     html += `
+                        <div class="purchase-item-web">
+                            <span class="purchase-label-web">Gifted By</span>
+                            <span class="purchase-value-web">${p.source || 'NA'}</span>
+                        </div>
+                        <div class="purchase-item-web">
+                            <span class="purchase-label-web">Date</span>
+                            <span class="purchase-value-web">${p.date ? (p.date.toDate ? p.date.toDate().toLocaleDateString() : new Date(p.date.seconds * 1000).toLocaleDateString()) : 'NA'}</span>
+                        </div>
                         <div class="purchase-item-web">
                             <span class="purchase-label-web">Occasion</span>
-                            <span class="purchase-value-web">${p.giftedOccasion}</span>
+                            <span class="purchase-value-web">${p.giftedOccasion || 'NA'}</span>
                         </div>
                     `;
-                }
-
-                html += `
-                    <div class="purchase-item-web">
-                        <span class="purchase-label-web">Date</span>
-                        <span class="purchase-value-web">${p.date ? (p.date.toDate ? p.date.toDate().toLocaleDateString() : new Date(p.date.seconds * 1000).toLocaleDateString()) : 'Not specified'}</span>
-                    </div>
-                `;
-
-                if (p.purchaseType === 'online' && p.productLink) {
-                    html += `
-                        <div class="purchase-item-web full">
-                            <span class="purchase-label-web">Source/Link</span>
-                            <a href="${p.productLink}" target="_blank" class="purchase-link-web">${p.productLink}</a>
-                        </div>
-                    `;
-                } else if (!p.isGifted) {
+                } else {
+                    // Purchased Order: Type, Store/Nursery, Date, Price, [Location (Offline) / Link (Online)], Height, Flowers, Pot Height, Pot Material
                     html += `
                         <div class="purchase-item-web">
-                            <span class="purchase-label-web">Type</span>
-                            <span class="purchase-value-web">${p.purchaseType || 'In-Store'}</span>
+                            <span class="purchase-label-web">Purchased type</span>
+                            <span class="purchase-value-web">${p.purchaseType === 'online' ? 'Online' : 'In-Store'}</span>
                         </div>
-                    `;
-                }
-
-                if (!p.isGifted && p.price) {
-                    html += `
+                        <div class="purchase-item-web">
+                            <span class="purchase-label-web">Store/Nursery</span>
+                            <span class="purchase-value-web">${p.source || 'NA'}</span>
+                        </div>
+                        <div class="purchase-item-web">
+                            <span class="purchase-label-web">Date</span>
+                            <span class="purchase-value-web">${p.date ? (p.date.toDate ? p.date.toDate().toLocaleDateString() : new Date(p.date.seconds * 1000).toLocaleDateString()) : 'NA'}</span>
+                        </div>
                         <div class="purchase-item-web">
                             <span class="purchase-label-web">Price</span>
-                            <span class="purchase-value-web">${p.currency || '$'}${p.price}</span>
+                            <span class="purchase-value-web">${p.price ? (p.currency || '$') + ' ' + p.price : 'NA'}</span>
                         </div>
                     `;
+
+                    if (p.purchaseType === 'online') {
+                        html += `
+                            <div class="purchase-item-web full">
+                                <span class="purchase-label-web">Store/product link</span>
+                                ${p.productLink ? `<a href="${p.productLink}" target="_blank" class="purchase-link-web">${p.productLink}</a>` : '<span class="purchase-value-web">NA</span>'}
+                            </div>
+                        `;
+                    } else {
+                        html += `
+                            <div class="purchase-item-web">
+                                <span class="purchase-label-web">Location</span>
+                                <span class="purchase-value-web">${p.location ? (p.location.city || p.location.address || 'NA') : 'NA'}</span>
+                            </div>
+                        `;
+                    }
                 }
 
-                if (p.specsAtPurchase) {
-                    const s = p.specsAtPurchase;
-                    if (s.height) {
-                        html += `
-                            <div class="purchase-item-web">
-                                <span class="purchase-label-web">Initial Height</span>
-                                <span class="purchase-value-web">${s.height} ${s.heightUnit || 'cm'}</span>
-                            </div>
-                        `;
-                    }
-                    if (s.isFlowering !== undefined) {
-                        html += `
-                            <div class="purchase-item-web">
-                                <span class="purchase-label-web">Flowers</span>
-                                <span class="purchase-value-web">${s.isFlowering ? (s.flowerCount || 'Yes') : 'No'}</span>
-                            </div>
-                        `;
-                    }
-                    if (s.potSize) {
-                        html += `
-                            <div class="purchase-item-web">
-                                <span class="purchase-label-web">Pot Height</span>
-                                <span class="purchase-value-web">${s.potSize} ${s.potUnit || 'cm'}</span>
-                            </div>
-                        `;
-                    }
-                    if (s.potMaterial) {
-                        html += `
-                            <div class="purchase-item-web">
-                                <span class="purchase-label-web">Pot Material</span>
-                                <span class="purchase-value-web">${s.potMaterial}</span>
-                            </div>
-                        `;
-                    }
-                }
+                // Specs (always at the end for both gifted and purchased)
+                const s = p.specsAtPurchase || {};
+                html += `
+                    <div class="purchase-item-web">
+                        <span class="purchase-label-web">Plant Initial Height</span>
+                        <span class="purchase-value-web">${s.height ? s.height + ' ' + (s.heightUnit || 'cm') : 'NA'}</span>
+                    </div>
+                    <div class="purchase-item-web">
+                        <span class="purchase-label-web">Flowers</span>
+                        <span class="purchase-value-web">${s.isFlowering !== undefined ? (s.isFlowering ? (s.flowerCount || 'Yes') : 'No') : 'NA'}</span>
+                    </div>
+                    <div class="purchase-item-web">
+                        <span class="purchase-label-web">Pot Height</span>
+                        <span class="purchase-value-web">${s.potSize ? s.potSize + ' ' + (s.potUnit || 'cm') : 'NA'}</span>
+                    </div>
+                    <div class="purchase-item-web">
+                        <span class="purchase-label-web">Pot Material</span>
+                        <span class="purchase-value-web">${s.potMaterial || 'NA'}</span>
+                    </div>
+                `;
 
                 grid.innerHTML = html;
             }
