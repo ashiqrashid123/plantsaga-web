@@ -202,38 +202,44 @@
             50% { transform: translateY(-15px) perspective(1200px) rotateY(-12deg); }
         }
 
-        /* --- Legacy & Journey Section --- */
         .legacy-section {
-            padding: 100px 0;
-            background: var(--bg-warm);
-            position: relative;
+            padding: 120px 0;
+            background: #fcfbf7;
         }
 
-        .legacy-content {
-            max-width: 900px;
-            margin: 0 auto;
-            text-align: center;
+        .legacy-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .legacy-viz {
+            border-radius: 40px;
+            overflow: hidden;
+            box-shadow: var(--shadow-premium);
+        }
+
+        .legacy-viz img {
+            width: 100%;
+            display: block;
         }
 
         .legacy-quote {
             font-family: 'Outfit', sans-serif;
-            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            font-size: clamp(2.2rem, 4vw, 3.5rem);
             color: var(--primary);
-            font-weight: 700;
-            line-height: 1.25;
-            margin-bottom: 40px;
-            letter-spacing: -0.02em;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 32px;
+            letter-spacing: -0.04em;
         }
 
-        .legacy-body {
+        .legacy-body p {
             font-size: 1.15rem;
             color: var(--text-muted);
-            line-height: 1.8;
             margin-bottom: 24px;
-            text-align: left;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
+            line-height: 1.7;
         }
 
         /* --- Saga Philosophy --- */
@@ -319,109 +325,163 @@
             line-height: 1.7;
         }
 
-        /* --- Roadmap Section --- */
+        /* --- Roadmap Expansion --- */
         .roadmap-section {
-            padding: 100px 0 160px;
+            padding: 140px 0;
+            background: #fcfbf7;
         }
 
         .roadmap-card {
-            background: linear-gradient(145deg, #1B3022 0%, #254430 100%);
+            background: #ffffff;
             border-radius: 60px;
-            padding: 80px 60px;
-            color: var(--white);
-            position: relative;
-            overflow: hidden;
+            padding: 100px 60px;
+            box-shadow: var(--shadow-premium);
+            border: 1px solid rgba(0,0,0,0.03);
+            text-align: center;
         }
 
         .roadmap-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 40px;
-            margin-top: 60px;
+            margin-top: 80px;
         }
 
         .roadmap-item {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 32px;
-            border-radius: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            text-align: center;
+            padding: 40px;
+            border-radius: 40px;
+            background: #f8faf9;
             transition: var(--transition);
+            border: 1px solid transparent;
         }
 
         .roadmap-item:hover {
-            background: rgba(255, 255, 255, 1);
-            transform: translateY(-10px);
-            border-color: var(--accent);
+            background: var(--white);
+            transform: translateY(-12px);
+            border-color: var(--primary);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.05);
+        }
+
+        .roadmap-art {
+            width: 140px;
+            height: 140px;
+            margin: 0 auto 32px;
+            border-radius: 50%;
+            background-image: url('roadmap_icons_set_1775570991620.png');
+            background-size: 380% auto; /* Zoomed to isolate icons and hide labels */
+            background-repeat: no-repeat;
+            border: 1px solid rgba(0,0,0,0.05);
+            box-shadow: inset 0 4px 12px rgba(0,0,0,0.1);
+            background-color: #f8faf9;
         }
 
         .roadmap-item h4 {
             font-family: 'Outfit', sans-serif;
-            font-size: 1.4rem;
-            margin-bottom: 12px;
-            color: var(--accent);
+            font-size: 1.6rem;
+            color: var(--primary);
+            margin-bottom: 16px;
         }
 
         .roadmap-item p {
-            font-size: 0.95rem;
-            opacity: 0.75;
-            line-height: 1.6;
+            color: var(--text-muted);
+            font-size: 1rem;
+            line-height: 1.7;
         }
 
-        /* --- Footer --- */
-        footer {
-            padding: 100px 0 60px;
-            background: #f1efea;
-            border-radius: 60px 60px 0 0;
+        .cta-container {
+            margin-top: 80px;
             text-align: center;
         }
 
-        .footer-logo {
-            font-family: 'Outfit', sans-serif;
-            font-size: 2.2rem;
-            font-weight: 800;
-            color: var(--primary);
-            margin-bottom: 32px;
-            display: block;
-            text-decoration: none;
-        }
-
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            margin-bottom: 48px;
-            flex-wrap: wrap;
-        }
-
-        .footer-links a {
-            text-decoration: none;
-            color: var(--text-muted);
-            font-weight: 600;
-            font-size: 0.95rem;
-            transition: var(--transition);
-        }
-
-        .footer-links a:hover {
-            color: var(--primary);
-        }
-
-        .contact-pill {
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            background: var(--white);
-            padding: 12px 32px;
+        .primary-cta {
+            background: var(--primary);
+            color: var(--white);
+            padding: 24px 60px;
             border-radius: 100px;
-            color: var(--primary);
+            font-family: 'Outfit', sans-serif;
             font-weight: 700;
+            font-size: 1.25rem;
             text-decoration: none;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-            margin-bottom: 40px;
+            display: inline-block;
             transition: var(--transition);
+            box-shadow: 0 20px 40px rgba(27, 48, 34, 0.2);
         }
 
-        .copyright {
-            color: #94a3b8;
+        .primary-cta:hover {
+            transform: scale(1.05) translateY(-5px);
+            background: var(--primary-soft);
+        }
+
+        /* --- Footer Revamp --- */
+        footer {
+            background: var(--primary);
+            color: var(--white);
+            padding: 120px 0 60px;
+            border-radius: 80px 80px 0 0;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr 1fr;
+            gap: 60px;
+            margin-bottom: 80px;
+        }
+
+        .footer-brand h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 24px;
+            letter-spacing: -0.04em;
+        }
+
+        .footer-brand p {
+            opacity: 0.6;
+            max-width: 300px;
+            font-size: 0.95rem;
+        }
+
+        .footer-col h5 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 24px;
+            color: var(--sage);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col li {
+            margin-bottom: 16px;
+        }
+
+        .footer-col a {
+            color: var(--white);
+            text-decoration: none;
+            opacity: 0.7;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        .footer-col a:hover {
+            opacity: 1;
+            color: var(--white);
+            transform: translateX(5px);
+            display: inline-block;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            opacity: 0.5;
             font-size: 0.85rem;
         }
 
@@ -490,18 +550,16 @@
 
         <!-- Section 2: Legacy & Journey -->
         <section class="legacy-section">
-            <div class="container">
+            <div class="container legacy-grid">
+                <div class="legacy-viz">
+                    <img src="family_legacy_plant_happiness.png" alt="A family laughing and caring for their indoor plants together, showing their digital garden legacy.">
+                </div>
                 <div class="legacy-content">
-                    <p class="legacy-quote">"Your plants aren't just decor; they are a legacy."</p>
+                    <h2 class="legacy-quote">Your plants aren't just decor; they are a legacy.</h2>
                     <div class="legacy-body">
-                        <div>
-                            <p>Transform your plant care from a chore into a journey. PlantSaga is the definitive companion for the modern plant parent, combining cutting-edge AI technology with a thriving global community.</p>
-                            <p style="margin-top: 20px;">The heart of PlantSaga is tracing the history, journey, and story of a plant. Through detailed photo diaries and comprehensive care logs, you create a living archive of every leaf and bloom.</p>
-                        </div>
-                        <div>
-                            <p>By documenting each growth milestone, you're not just watering a plant—you're nurturing a story. When your plant outgrows its space or you're ready for something new, you can pass that legacy to new owners in our Marketplace or preserve its journey in the Memories section.</p>
-                            <p style="margin-top: 20px; font-weight: 700; color: var(--primary);">Document the past. Nurture the present. Seed the future.</p>
-                        </div>
+                        <p>Transform your plant care from a chore into a journey. PlantSaga is the definitive companion for the modern plant parent, combining cutting-edge AI technology with a thriving global community.</p>
+                        <p>The heart of PlantSaga is tracing the history, journey, and story of a plant. Through detailed photo diaries and comprehensive care logs, you create a living archive of every leaf and bloom.</p>
+                        <p style="font-weight: 700; color: var(--primary);">Document the past. Nurture the present. Seed the future.</p>
                     </div>
                 </div>
             </div>
@@ -574,33 +632,33 @@
             </div>
         </section>
 
-        <!-- Section 5: Upcoming Roadmap -->
+        <!-- Section 5: Foundations for the Future -->
         <section class="roadmap-section">
             <div class="container">
                 <div class="roadmap-card">
-                    <h2 class="section-title" style="text-align: center; margin-bottom: 20px;">Foundations for the Future</h2>
-                    <p style="text-align: center; opacity: 0.7; max-width: 600px; margin: 0 auto;">We're building a complete ecosystem for plant lovers. Here's what's sprouting next.</p>
+                    <h2 class="section-title">Foundations for the Future</h2>
+                    <p style="color: var(--text-muted); max-width: 600px; margin: 0 auto 80px;">The botanical ecosystem is evolving. Secure your place in the next generation of plant care.</p>
                     
                     <div class="roadmap-grid">
-                        <!-- Roadmap 1 -->
                         <div class="roadmap-item">
+                            <div class="roadmap-art" style="background-position: 0% 43%;"></div>
                             <h4>Marketplace Alpha</h4>
-                            <p>Buy a plant, inherit its history. View full care logs and growth timelines before you bring a new specimen home.</p>
+                            <p>Buy a plant, inherit its history. View full care logs and growth timelines to ensure you're adopting a healthy, documented specimen.</p>
                         </div>
-                        <!-- Roadmap 2 -->
                         <div class="roadmap-item">
+                            <div class="roadmap-art" style="background-position: 50% 43%;"></div>
                             <h4>Premium Accounts</h4>
-                            <p>Unlock advanced soil moisture analytics, personalized AI consultants, and exclusive botanical insights.</p>
+                            <p>Unlock advanced features, unlimited access, shared plant care, and exclusive botanical insights.</p>
                         </div>
-                        <!-- Roadmap 3 -->
                         <div class="roadmap-item">
+                            <div class="roadmap-art" style="background-position: 100% 43%;"></div>
                             <h4>Community Hub</h4>
-                            <p>Share stories, swap tips, and securely rehome plants while passing along their documented journey to others.</p>
+                            <p>Join our thriving global collective of plant enthusiasts. Share your growth stories, trade wisdom within our botanical mentorship network, and find new homes for your nurtured legacies.</p>
                         </div>
                     </div>
                     
-                    <div style="margin-top: 60px; text-align: center;">
-                        <a href="mailto:team.plantsaga@gmail.com" style="color: var(--accent); font-weight: 700; text-decoration: none; border-bottom: 2px solid var(--accent); padding-bottom: 4px;">Join the Waitlist</a>
+                    <div class="cta-container">
+                        <a href="https://plantsaga.com/download/" class="primary-cta">Begin Your Saga Today</a>
                     </div>
                 </div>
             </div>
@@ -609,21 +667,38 @@
 
     <footer>
         <div class="container">
-            <a href="./" class="footer-logo">PlantSaga</a>
-            <a href="mailto:team.plantsaga@gmail.com" class="contact-pill">
-                <ion-icon name="mail-outline"></ion-icon>
-                team.plantsaga@gmail.com
-            </a>
-            
-            <div class="footer-links">
-                <a href="faq.html">FAQ</a>
-                <a href="privacy.html">Privacy Policy</a>
-                <a href="https://www.instagram.com/team.plantsaga/" target="_blank">Instagram</a>
-                <a href="https://www.linkedin.com/company/plantsaga" target="_blank">LinkedIn</a>
-                <a href="https://www.facebook.com/profile.php?id=61572106220903" target="_blank">Facebook</a>
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <h2>PlantSaga</h2>
+                    <p>The definitive companion for the modern plant parent. Plant doctor, care reminders, Documenting history, nurturing legacies; building a complete plant marketplace.</p>
+                </div>
+                <div class="footer-col">
+                    <h5>Product</h5>
+                    <ul>
+                        <li><a href="https://plantsaga.com/download/">Download App</a></li>
+                        <li><a href="faq.html">FAQ Support</a></li>
+                        <li><a href="mailto:team.plantsaga@gmail.com">Contact Team</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h5>Connect</h5>
+                    <ul>
+                        <li><a href="https://www.instagram.com/team.plantsaga/" target="_blank">Instagram</a></li>
+                        <li><a href="https://www.linkedin.com/company/plantsaga" target="_blank">LinkedIn</a></li>
+                        <li><a href="https://www.facebook.com/profile.php?id=61572106220903" target="_blank">Facebook</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h5>Policies</h5>
+                    <ul>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                    </ul>
+                </div>
             </div>
-
-            <p class="copyright">© 2026 PlantSaga. All botanical rights reserved.</p>
+            <div class="footer-bottom">
+                <p>© 2026 PlantSaga. All botanical rights reserved.</p>
+                <p>Designed for the Modern Garden.</p>
+            </div>
         </div>
     </footer>
 
