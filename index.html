@@ -112,7 +112,7 @@
         .hero {
             position: relative;
             padding-top: 120px;
-            padding-bottom: 60px;
+            padding-bottom: 30px;
             min-height: 80vh;
             display: flex;
             align-items: center;
@@ -208,7 +208,7 @@
         }
 
         .legacy-section {
-            padding: 80px 0;
+            padding: 40px 0;
             background: linear-gradient(to bottom, var(--bg-warm), var(--bg-subtle));
             color: var(--white);
         }
@@ -250,7 +250,7 @@
 
         /* --- Saga Philosophy --- */
         .saga-philosophy {
-            padding: 60px 0;
+            padding: 30px 0;
             background: linear-gradient(135deg, var(--primary) 0%, var(--obsidian) 100%);
             color: var(--white);
             border-radius: 80px;
@@ -286,7 +286,7 @@
 
         /* --- Intelligence Features --- */
         .features {
-            padding: 80px 0;
+            padding: 40px 0;
             background: var(--bg-warm);
         }
 
@@ -362,7 +362,7 @@
 
         /* --- Roadmap Expansion --- */
         .roadmap-section {
-            padding: 80px 0;
+            padding: 40px 0;
             background: var(--bg-subtle);
         }
 
@@ -534,13 +534,209 @@
             font-size: 0.85rem;
         }
 
+        /* --- Photo Diary Section --- */
+        .photo-diary-section {
+            padding: 60px 0 40px;
+            background: linear-gradient(to bottom, var(--bg-subtle), var(--bg-warm));
+        }
+
+        .photo-diary-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        .diary-text h2 {
+            margin-bottom: 24px;
+            text-align: left;
+        }
+
+        .diary-text p {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+            line-height: 1.7;
+        }
+
+        .diary-visual {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .ui-mockup {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            animation: float-card 8s ease-in-out infinite;
+            transition: var(--transition);
+        }
+
+        @keyframes float-card {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(0.5deg); }
+        }
+
+        .mockup-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 15px;
+        }
+
+        .mockup-header span {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--white);
+        }
+
+        .mockup-header ion-icon {
+            font-size: 24px;
+            color: var(--primary);
+        }
+
+        /* --- Unique Photo Diary Styles --- */
+
+
+
+
+
+
+
+        .timeline-dot {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--primary);
+            box-shadow: 0 0 10px var(--primary);
+            transition: var(--transition);
+            transform: translate(-50%, -50%);
+        }
+
+        .timeline-item:hover .timeline-dot {
+            transform: translate(-50%, -50%) scale(1.5);
+            background: var(--white);
+            box-shadow: 0 0 15px var(--white);
+        }
+
+        .timeline-img {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            border-radius: 24px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+            background-image: url('monstera_growth_stages.png');
+            background-size: 200% 200%;
+            background-repeat: no-repeat;
+            border: 2px solid rgba(255, 255, 255, 0.05);
+            transition: var(--transition);
+        }
+
+        .timeline-item:hover .timeline-img {
+            transform: scale(1.1);
+            border-color: var(--primary);
+            box-shadow: 0 0 30px rgba(34, 197, 94, 0.3);
+        }
+
+        .timeline-img.stage-1 { background-position: 0% 0%; }
+        .timeline-img.stage-2 { background-position: 100% 0%; }
+        .timeline-img.stage-3 { background-position: 0% 100%; }
+        .timeline-img.stage-4 { background-position: 100% 100%; }
+
+        /* Vertical Items (1 & 2) */
+        .timeline-item.v-item .timeline-img {
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .timeline-item.v-item .timeline-content {
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 250px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        /* Horizontal Items (3 & 4) */
+        .timeline-item.h-item .timeline-img {
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .timeline-item.h-item .timeline-content {
+            bottom: 160px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        /* Content Styles */
+        .timeline-content .date {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--primary);
+            letter-spacing: 0.05em;
+        }
+
+        .timeline-content .label {
+            font-size: 0.95rem;
+            color: var(--text-main);
+            font-weight: 500;
+        }
+
+        /* Diary Text Inside Timeline */
+        .timeline .diary-text {
+            position: absolute;
+            top: 20px;
+            left: 350px;
+            width: 400px;
+            text-align: left;
+        }
+
+        .timeline-img.stage-1 { background-position: 0% 0%; }
+        .timeline-img.stage-2 { background-position: 100% 0%; }
+        .timeline-img.stage-3 { background-position: 0% 100%; }
+        .timeline-img.stage-4 { background-position: 100% 100%; }
+
+        .timeline-content {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .timeline-content .date {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--primary);
+            letter-spacing: 0.05em;
+        }
+
+        .timeline-content .label {
+            font-size: 0.95rem;
+            color: var(--text-main);
+            font-weight: 500;
+        }
+
         /* Mobile Adjustments */
         @media (max-width: 1024px) {
-            .hero-grid, .features-grid, .roadmap-grid, .legacy-body {
+            .hero-grid, .features-grid, .roadmap-grid, .legacy-body, .photo-diary-grid {
                 grid-template-columns: 1fr;
             }
 
-            .hero-visual {
+            .hero-visual, .diary-visual {
                 order: -1;
                 margin-bottom: 40px;
             }
@@ -559,6 +755,117 @@
                 padding: 60px 30px;
             }
         }
+        /* --- Unique Photo Diary Styles --- */
+        .pd-flex-wrapper {
+            display: flex !important;
+            gap: 60px;
+            align-items: stretch;
+            max-width: 1200px;
+            margin: 30px auto;
+            position: relative;
+            background: #0B130E;
+            padding: 40px;
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .pd-timeline-v {
+            width: 200px;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .pd-timeline-v::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 20px;
+            bottom: 0;
+            width: 2px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .pd-timeline-item {
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .pd-timeline-dot {
+            position: absolute;
+            left: -5px;
+            top: 20px;
+            width: 12px;
+            height: 12px;
+            background: var(--primary);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--primary);
+        }
+
+        .pd-timeline-img {
+            width: 120px;
+            height: 120px;
+            border-radius: 16px;
+            background-image: url('monstera_growth_stages.png');
+            background-size: 200% 200%;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 12px;
+        }
+
+        .pd-timeline-h-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .pd-diary-text {
+            margin-bottom: 40px;
+        }
+
+        .pd-timeline-h {
+            display: flex;
+            gap: 40px;
+            position: relative;
+            padding-top: 20px;
+            border-top: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .pd-timeline-h .pd-timeline-item {
+            flex: 1;
+            padding-left: 0;
+        }
+
+        .pd-timeline-h .pd-timeline-dot {
+            top: -26px;
+            left: 20px;
+        }
+
+        .pd-timeline-content {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .pd-timeline-content .date {
+            font-size: 0.8rem;
+            color: var(--primary);
+            font-weight: 600;
+            letter-spacing: 0.05em;
+        }
+
+        .pd-timeline-content .label {
+            font-size: 0.95rem;
+            color: var(--text-main);
+            font-weight: 500;
+        }
+
+        .pd-stage-1 { background-position: 0% 0%; }
+        .pd-stage-2 { background-position: 100% 0%; }
+        .pd-stage-3 { background-position: 0% 100%; }
+        .pd-stage-4 { background-position: 100% 100%; }
     </style>
 </head>
 
@@ -620,6 +927,76 @@
                 <h2 class="section-title">Smart AI Plant Care & Digital Garden Diary.</h2>
                 <p style="font-size: 1.1rem; opacity: 0.8;">Tracing history, preserving memories, and fostering botanical wisdom through technology.</p>
             </div>
+        </section>
+
+        <!-- Photo Diary Section -->
+        <section class="photo-diary-section">
+            <div class="container">
+                <div class="pd-flex-wrapper">
+                    <!-- Left Column: Vertical Timeline -->
+                    <div class="pd-timeline-v">
+                        <!-- Item 1 -->
+                        <div class="pd-timeline-item">
+                            <div class="pd-timeline-dot"></div>
+                            <div class="pd-timeline-img pd-stage-1"></div>
+                            <div class="pd-timeline-content">
+                                <span class="date">AUGUST 2025</span>
+                                <span class="label">Day 1: My New Monstera Cutting</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Item 2 -->
+                        <div class="pd-timeline-item">
+                            <div class="pd-timeline-dot"></div>
+                            <div class="pd-timeline-img pd-stage-2"></div>
+                            <div class="pd-timeline-content">
+                                <span class="date">OCTOBER 2025</span>
+                                <span class="label">Repotted and Growing!</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Right Column: Content & Horizontal Timeline -->
+                    <div class="pd-timeline-h-container">
+                        <!-- Main Content -->
+                        <div class="pd-diary-text">
+                            <div style="color: var(--primary); font-weight: 600; letter-spacing: 0.1em; font-size: 0.9rem; margin-bottom: 8px;">PHOTO DIARY</div>
+                            <h2 class="section-title" style="color: var(--primary);">They grow up so fast, don’t they? 🥹🌱</h2>
+                            <p>Every plant parent knows the feeling of looking at a massive, thriving indoor jungle and thinking, "I remember when you were just a tiny cutting!" With PlantSaga's Photo Diary, you never have to rely on memory alone. Document your plant's entire journey—from the day you brought it home, to its first new leaf, to its stunning maturity.</p>
+                            <p>Look back at your progress, celebrate the milestones, and see exactly how far your green thumb has come. 📈💚</p>
+                        </div>
+                        
+
+                        
+
+                        
+
+
+                        
+                            <!-- Horizontal Timeline -->
+                            <div class="pd-timeline-h">
+                                <!-- Item 3 -->
+                                <div class="pd-timeline-item">
+                                    <div class="pd-timeline-dot"></div>
+                                    <div class="pd-timeline-img pd-stage-3"></div>
+                                    <div class="pd-timeline-content">
+                                        <span class="date">JANUARY 2026</span>
+                                        <span class="label">First Fenestrations!</span>
+                                    </div>
+                                </div>
+                                
+                                <!-- Item 4 -->
+                                <div class="pd-timeline-item">
+                                    <div class="pd-timeline-dot"></div>
+                                    <div class="pd-timeline-img pd-stage-4"></div>
+                                    <div class="pd-timeline-content">
+                                        <span class="date">MARCH 2026</span>
+                                        <span class="label">Our Lush Star</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
         </section>
 
         <!-- Section 4: Contextual Intelligence (Features) -->
