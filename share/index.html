@@ -17,6 +17,9 @@
     <meta property="og:title" id="og-title" content="Check out this plant on PlantSaga">
     <meta property="og:description" id="og-desc" content="Every plant has a story. Open PlantSaga to see more.">
     <meta property="og:image" id="og-image" content="https://plantsaga.com/logo.png">
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta property="og:type" content="website">
 
     <!-- Fonts -->
@@ -216,6 +219,15 @@
             width: 100%;
         }
 
+        .growth-section .section-title {
+            border-left: 3px solid var(--primary);
+            padding-left: 12px;
+            background: linear-gradient(90deg, rgba(34, 197, 94, 0.12), transparent);
+            padding-top: 4px;
+            padding-bottom: 4px;
+            border-radius: 4px;
+        }
+
         .timeline-container {
             display: flex;
             gap: 16px;
@@ -230,6 +242,7 @@
         }
         .timeline-card {
             flex: 0 0 240px;
+            height: 280px;
             scroll-snap-align: start;
             background: rgba(166, 123, 91, 0.1);
             backdrop-filter: blur(10px);
@@ -245,14 +258,22 @@
         .timeline-card:hover {
             transform: translateY(-4px);
         }
-        .timeline-img {
+        .timeline-img-wrap {
+            flex-grow: 1;
+            min-height: 0;
+            overflow: hidden;
             width: 100%;
-            height: 160px;
-            object-fit: cover;
             border-bottom: 1px solid rgba(166, 123, 91, 0.15);
         }
+        .timeline-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
         .timeline-content {
-            padding: 14px;
+            flex-shrink: 0;
+            height: auto;
+            padding: 10px 14px;
         }
         .timeline-date {
             font-size: 12px;
@@ -882,7 +903,9 @@
             // Head Metadata
             document.title = `${d.nickname || d.name || 'Plant'} | PlantSaga`;
             document.getElementById('og-title').content = `${d.nickname || d.name || 'Plant'} on PlantSaga`;
-            document.getElementById('og-image').content = photos[0];
+            const mainImage = photos[0];
+            document.getElementById('og-image').content = mainImage;
+            document.querySelector('meta[property="og:image"]')?.setAttribute("content", mainImage);
 
             // Location Badge Logic
             const locBadge = document.getElementById('location-badge');
@@ -958,7 +981,9 @@
                     
                     return `
                         <div class="timeline-card">
-                            <img class="timeline-img" src="${item.imageUrl || item.url || '../logo.png'}" alt="Growth photo" onerror="this.src='../logo.png'">
+                            <div class="timeline-img-wrap">
+                                <img class="timeline-img" src="${item.imageUrl || item.url || '../logo.png'}" alt="Growth photo" onerror="this.src='../logo.png'">
+                            </div>
                             <div class="timeline-content">
                                 <div class="timeline-date">${formattedDate}</div>
                                 ${item.note ? `<div class="timeline-note">${item.note}</div>` : ''}
