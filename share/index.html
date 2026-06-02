@@ -70,7 +70,8 @@
 
         .app-container {
             width: 100%;
-            max-width: 1100px;
+            max-width: 800px;
+            margin: 0 auto;
             background: var(--white);
             flex-grow: 1;
             position: relative;
@@ -80,7 +81,7 @@
         }
 
         header {
-            padding: 24px 40px;
+            padding: 24px 32px;
             display: flex;
             align-items: center;
             background: var(--white);
@@ -106,27 +107,26 @@
             letter-spacing: -0.5px;
         }
 
-        /* Responsive Grid Master */
+        /* Responsive Unified Flow */
         .content-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 0;
-            padding: 0 24px 60px 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+            padding: 0 32px 120px 32px;
         }
 
-        /* Shared Styling Blocks */
         section {
             width: 100%;
         }
 
-        /* 1. Gallery */
-        .gallery-wrap {
-            margin-bottom: 32px;
+        /* 1. Hero Image Section */
+        .hero-wrap {
+            margin-bottom: 8px;
         }
 
         .hero-image-container {
             width: 100%;
-            height: 450px;
+            height: 480px;
             background: #121f18;
             border-radius: 28px;
             overflow: hidden;
@@ -134,14 +134,14 @@
             align-items: center;
             justify-content: center;
             position: relative;
-            box-shadow: var(--inner-shadow);
+            box-shadow: var(--shadow-soft);
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .hero-image {
-            max-width: 95%;
-            max-height: 95%;
-            object-fit: contain;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
             transition: opacity 0.3s ease;
         }
 
@@ -172,7 +172,7 @@
 
         /* 2. Header & Badge */
         .plant-header-box {
-            margin-bottom: 32px;
+            margin-bottom: 8px;
         }
 
         .badge {
@@ -188,7 +188,12 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             border: 1px solid rgba(34, 197, 94, 0.1);
-            margin-bottom: 16px;
+        }
+
+        .location-badge {
+            background: rgba(166, 123, 91, 0.15);
+            color: #d4c5b3;
+            border: 1px solid rgba(166, 123, 91, 0.2);
         }
 
         .plant-title {
@@ -206,11 +211,161 @@
             font-style: italic;
         }
 
-        /* 3. Care requirements */
-        .care-section {
-            margin-bottom: 40px;
+        /* 3. Growth Timeline Glassmorphic styles */
+        .growth-section {
+            width: 100%;
         }
 
+        .timeline-container {
+            display: flex;
+            gap: 16px;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scrollbar-width: none;
+            padding: 4px 4px 16px 4px;
+            margin-top: 12px;
+        }
+        .timeline-container::-webkit-scrollbar {
+            display: none;
+        }
+        .timeline-card {
+            flex: 0 0 240px;
+            scroll-snap-align: start;
+            background: rgba(166, 123, 91, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(166, 123, 91, 0.2);
+            border-radius: 20px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+        .timeline-card:hover {
+            transform: translateY(-4px);
+        }
+        .timeline-img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            border-bottom: 1px solid rgba(166, 123, 91, 0.15);
+        }
+        .timeline-content {
+            padding: 14px;
+        }
+        .timeline-date {
+            font-size: 12px;
+            font-weight: 700;
+            color: #d4c5b3;
+            margin-bottom: 6px;
+        }
+        .timeline-note {
+            font-size: 13px;
+            color: #c5b8a5;
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .timeline-empty-card {
+            width: 100%;
+            background: rgba(166, 123, 91, 0.08);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px dashed rgba(166, 123, 91, 0.3);
+            border-radius: 20px;
+            padding: 32px 24px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+        .lock-icon-box {
+            width: 48px;
+            height: 48px;
+            background: rgba(166, 123, 91, 0.15);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            color: #a67b5b;
+        }
+        .timeline-empty-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #e4dacf;
+        }
+        .timeline-empty-subtitle {
+            font-size: 13px;
+            color: #a39482;
+        }
+
+        .section-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--secondary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* 4. Purchase Details */
+        .purchase-section {
+            display: none;
+        }
+
+        .purchase-card-web {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 24px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .purchase-grid-web {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+        }
+
+        .purchase-item-web {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .purchase-item-web.full {
+            grid-column: 1 / -1;
+        }
+
+        .purchase-label-web {
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .purchase-value-web {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .purchase-link-web {
+            color: var(--primary);
+            text-decoration: underline;
+            word-break: break-all;
+            font-size: 14px;
+        }
+
+        /* 5. Care requirements */
         .care-card {
             background: rgba(255, 255, 255, 0.02);
             border-radius: 28px;
@@ -263,81 +418,19 @@
             color: var(--text-main);
         }
 
-        /* 4. Purchase Details */
-        .purchase-section {
-            margin-bottom: 40px;
-            display: none;
-        }
-
-        .purchase-section h3 {
-            font-family: 'Outfit', sans-serif;
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 16px;
-            color: var(--secondary);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .purchase-card-web {
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 24px;
-            padding: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .purchase-grid-web {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 16px;
-        }
-
-        .purchase-item-web {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-        }
-
-        .purchase-label-web {
-            font-size: 10px;
-            font-weight: 700;
-            color: var(--text-muted);
-            text-transform: uppercase;
-        }
-
-        .purchase-value-web {
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--text-main);
-        }
-
-        /* 5. About Plant */
-        .about-section {
-            margin-bottom: 40px;
-        }
-
-        .about-section h3 {
-            font-family: 'Outfit', sans-serif;
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 12px;
-            color: var(--secondary);
-        }
-
+        /* 6. About Plant */
         .description {
             font-size: 15px;
             color: var(--text-muted);
             line-height: 1.7;
         }
 
-        /* 6. Onboarding Message */
+        /* 7. Onboarding Message */
         .onboarding-box {
             background: linear-gradient(135deg, rgba(34, 197, 94, 0.15) 0%, rgba(34, 197, 94, 0.05) 100%);
             border-radius: 24px;
             padding: 24px;
             border: 1px dashed rgba(34, 197, 94, 0.4);
-            margin-bottom: 24px;
         }
 
         .onboarding-box p {
@@ -347,7 +440,7 @@
             line-height: 1.6;
         }
 
-        /* 7 & 8. Actions & Links */
+        /* 8. Actions & Links */
         .action-area {
             display: flex;
             flex-direction: column;
@@ -372,6 +465,9 @@
             box-shadow: 0 12px 24px rgba(34, 197, 94, 0.2);
             transition: var(--transition);
         }
+        .btn-main:hover {
+            background: var(--primary-dark);
+        }
 
         .store-badges {
             display: flex;
@@ -386,42 +482,105 @@
             border-radius: 8px;
         }
 
-        /* Desktop Adjustments */
-        @media (max-width: 1024px) {
-            .grid-master {
-                grid-template-columns: 1fr;
+        /* Sticky Bottom CTA */
+        .sticky-cta {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 800px;
+            background: rgba(24, 20, 16, 0.85); /* Warm earth-tone dark glass */
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-top: 1px solid rgba(166, 123, 91, 0.2);
+            border-left: 1px solid rgba(166, 123, 91, 0.1);
+            border-right: 1px solid rgba(166, 123, 91, 0.1);
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1100;
+            box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.4);
+            box-sizing: border-box;
+            transition: transform 0.3s ease;
+        }
+        .sticky-cta-content {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        .sticky-cta-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: #f4f7f5;
+            font-family: 'Outfit', sans-serif;
+        }
+        .sticky-cta-desc {
+            font-size: 12px;
+            color: #a7c1b1;
+        }
+        .btn-sticky-cta {
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            padding: 10px 18px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(34, 197, 94, 0.2);
+            transition: var(--transition);
+        }
+        .btn-sticky-cta:hover {
+            background: var(--primary-dark);
+        }
+
+        /* Responsive Layout Rules */
+        @media (max-width: 800px) {
+            .app-container {
+                border-left: none;
+                border-right: none;
+                box-shadow: none;
             }
-            .image-side {
-                position: relative;
-                top: 0;
-                height: auto;
+            .content-grid {
+                padding: 0 16px 120px 16px;
+                gap: 24px;
+            }
+            .hero-image-container {
+                height: 360px;
+                border-radius: 0;
+                border: none;
+                margin-left: -16px;
+                margin-right: -16px;
+                width: calc(100% + 32px);
+            }
+            .sticky-cta {
+                border-left: none;
+                border-right: none;
+                border-top-left-radius: 16px;
+                border-top-right-radius: 16px;
+                padding: 12px 16px;
+            }
+            .sticky-cta-title {
+                font-size: 13px;
+            }
+            .sticky-cta-desc {
+                font-size: 11px;
+            }
+            .btn-sticky-cta {
+                padding: 8px 14px;
+                font-size: 13px;
             }
         }
 
-
-        @media (min-width: 901px) {
-            .content-grid {
-                grid-template-columns: 1.2fr 0.8fr;
-                gap: 48px;
-                padding: 0 40px 60px 40px;
-            }
-
-            header { padding: 32px 40px; }
-
-            /* Desktop Ordering Fix */
-            .gallery-wrap { grid-column: 1; grid-row: 1; margin-bottom: 48px; }
-            .care-section { grid-column: 1; grid-row: 2; margin-bottom: 48px; }
-            .about-section { grid-column: 1; grid-row: 3; }
-
-            .plant-header-box { grid-column: 2; grid-row: 1; }
-            .purchase-section { grid-column: 2; grid-row: 2; }
-            .onboarding-box { grid-column: 2; grid-row: 3; align-self: end; }
-            .action-area { grid-column: 2; grid-row: 4; align-items: flex-start; }
-
-            .hero-image-container { height: 500px; }
+        @media (min-width: 801px) {
+            header { padding: 24px 40px; }
+            .content-grid { padding: 0 40px 120px 40px; }
+            .hero-image-container { height: 480px; }
             .care-grid { grid-template-columns: repeat(4, 1fr); }
-            .btn-main { width: 100%; }
-            .store-badges { justify-content: flex-start; }
             .plant-title { font-size: 44px; }
             .purchase-grid-web { grid-template-columns: repeat(2, 1fr); }
         }
@@ -474,8 +633,8 @@
         <div id="main-content" style="display: none;">
             <main class="content-grid">
                 
-                <!-- 1. Gallery Section -->
-                <section class="gallery-wrap">
+                <!-- 1. Hero Image Section -->
+                <section class="hero-wrap">
                     <div class="hero-image-container">
                         <img id="hero-image" src="" class="hero-image" alt="Plant Preview" onerror="this.src='../logo.png'">
                     </div>
@@ -486,16 +645,50 @@
 
                 <!-- 2. Header Box -->
                 <section class="plant-header-box">
-                    <div class="badge">
-                        <ion-icon name="leaf"></ion-icon>
-                        Shared via PlantSaga
-                    </div>
                     <h1 class="plant-title" id="plant-name">-</h1>
                     <p class="scientific-name" id="sci-name">-</p>
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px;">
+                        <div class="badge">
+                            <ion-icon name="leaf"></ion-icon>
+                            Shared via PlantSaga
+                        </div>
+                        <div class="badge location-badge" id="location-badge" style="display: none;">
+                            <ion-icon name="location-outline"></ion-icon>
+                            <span id="plant-location">-</span>
+                        </div>
+                    </div>
                 </section>
 
-                <!-- 3. Care Matrix -->
+                <!-- 3. Growth Journey Section -->
+                <section class="growth-section">
+                    <h3 class="section-title">
+                        <ion-icon name="images-outline"></ion-icon>
+                        Growth Journey
+                    </h3>
+                    <div class="timeline-container" id="timeline-row-container">
+                        <!-- Dynamic timeline cards injected -->
+                    </div>
+                </section>
+
+                <!-- 4. Purchase Details -->
+                <section class="purchase-section" id="purchase-section">
+                    <h3 class="section-title" id="purchase-title">
+                        <ion-icon name="cart-outline"></ion-icon>
+                        Purchase Details
+                    </h3>
+                    <div class="purchase-card-web">
+                        <div class="purchase-grid-web" id="purchase-grid">
+                            <!-- Injected -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 5. Care Matrix -->
                 <section class="care-section">
+                    <h3 class="section-title">
+                        <ion-icon name="heart-outline"></ion-icon>
+                        Care Needs
+                    </h3>
                     <div class="care-card">
                         <div class="care-grid">
                             <div class="care-item water">
@@ -530,26 +723,16 @@
                     </div>
                 </section>
 
-                <!-- 4. Purchase Details -->
-                <section class="purchase-section" id="purchase-section">
-                    <h3 id="purchase-title">
-                        <ion-icon name="cart-outline"></ion-icon>
-                        Purchase Details
-                    </h3>
-                    <div class="purchase-card-web">
-                        <div class="purchase-grid-web" id="purchase-grid">
-                            <!-- Injected -->
-                        </div>
-                    </div>
-                </section>
-
-                <!-- 5. About Description -->
+                <!-- 6. About Description -->
                 <section class="about-section">
-                    <h3>About Plant</h3>
+                    <h3 class="section-title">
+                        <ion-icon name="information-circle-outline"></ion-icon>
+                        About Plant
+                    </h3>
                     <p class="description" id="description">-</p>
                 </section>
 
-                <!-- 6. Onboarding Box -->
+                <!-- 7. Onboarding Box -->
                 <section class="onboarding-box">
                     <p>
                         Your friend's garden is growing on PlantSaga! 🌿 <br><br>
@@ -559,7 +742,7 @@
                     </p>
                 </section>
 
-                <!-- 7 & 8. Call to Action & Badges -->
+                <!-- 8. Call to Action & Badges -->
                 <section class="action-area">
                     <button class="btn-main" onclick="launchApp()">
                         <ion-icon name="download-outline" style="font-size: 20px;"></ion-icon>
@@ -578,6 +761,14 @@
             </main>
         </div>
 
+        <!-- Sticky Bottom CTA Banner -->
+        <div class="sticky-cta" id="sticky-cta">
+            <div class="sticky-cta-content">
+                <span class="sticky-cta-title">Start your own plant diary</span>
+                <span class="sticky-cta-desc">Download PlantSaga</span>
+            </div>
+            <button class="btn-sticky-cta" onclick="launchApp()">Get the App</button>
+        </div>
 
     <!-- Firebase -->
     <script type="importmap">
@@ -647,19 +838,29 @@
             } else {
                 console.log('Shared Plant Purchase Info (Web) is UNDEFINED or NULL');
             }
+            
+            // Set Names
             document.getElementById('plant-name').innerText = d.nickname || d._cachedPlantName || d.name || "Unnamed Specimen";
             document.getElementById('sci-name').innerText = d.scientificName || d._cachedScientificName || "Botanical details in app";
 
+            // Description
             const desc = d.description || d._cachedDescription || (d.notes && d.notes.length > 0 ? d.notes[0] : null);
             document.getElementById('description').innerText = desc || "A beautiful specimen being nurtured in a private collection.";
 
+            // Care Needs (Safely with optional chaining)
             const c = d.careInstructions || {};
             document.getElementById('water').innerText = c.watering?.frequency || "Weekly";
             document.getElementById('light').innerText = c.sunlight?.requirement || "Bright";
-            document.getElementById('temp').innerText = c.temperature ? `${c.temperature.min || 18}-${c.temperature.max || 24}°C` : "18-24°C";
+            
+            const tempMin = c.temperature?.min !== undefined ? c.temperature.min : 18;
+            const tempMax = c.temperature?.max !== undefined ? c.temperature.max : 24;
+            const tempUnit = c.temperature?.unit === 'fahrenheit' ? '°F' : '°C';
+            document.getElementById('temp').innerText = `${tempMin}-${tempMax}${tempUnit}`;
+            
             document.getElementById('humidity').innerText = c.humidity?.requirement || "Medium";
 
-            const photos = d.photos ? d.photos.map(p => p.url) : (d.images || []);
+            // Hero and Gallery
+            const photos = d.photos ? d.photos.map(p => p.url || p) : (d.images || []);
             if (photos.length === 0) photos.push('../logo.png');
 
             const hero = document.getElementById('hero-image');
@@ -668,6 +869,7 @@
             hero.src = photos[0];
 
             if (photos.length > 1) {
+                thumbRow.style.display = 'flex';
                 thumbRow.innerHTML = photos.map((url, i) => `
                     <div class="thumbnail ${i === 0 ? 'active' : ''}" onclick="switchHero('${url}', this)">
                         <img src="${url}" loading="lazy">
@@ -677,9 +879,104 @@
                 thumbRow.style.display = 'none';
             }
 
-            document.title = `${d.nickname || d.name} | PlantSaga`;
-            document.getElementById('og-title').content = `${d.nickname || d.name} on PlantSaga`;
+            // Head Metadata
+            document.title = `${d.nickname || d.name || 'Plant'} | PlantSaga`;
+            document.getElementById('og-title').content = `${d.nickname || d.name || 'Plant'} on PlantSaga`;
             document.getElementById('og-image').content = photos[0];
+
+            // Location Badge Logic
+            const locBadge = document.getElementById('location-badge');
+            const plantLoc = document.getElementById('plant-location');
+            let locText = "";
+            if (d.location) {
+                if (typeof d.location === 'object') {
+                    const type = d.location.type || "";
+                    const room = d.location.room || "";
+                    if (type) locText += type.charAt(0).toUpperCase() + type.slice(1);
+                    if (room) {
+                        if (locText) locText += " • ";
+                        locText += room;
+                    }
+                } else if (typeof d.location === 'string') {
+                    locText = d.location.charAt(0).toUpperCase() + d.location.slice(1);
+                }
+            }
+            if (d.plant_place_location) {
+                if (locText) {
+                    if (!locText.toLowerCase().includes(d.plant_place_location.toLowerCase())) {
+                        locText += " • " + d.plant_place_location;
+                    }
+                } else {
+                    locText = d.plant_place_location;
+                }
+            }
+
+            if (locText) {
+                plantLoc.innerText = locText;
+                locBadge.style.display = 'inline-flex';
+            } else {
+                locBadge.style.display = 'none';
+            }
+
+            // Growth Journey Timeline Logic
+            const timelineRow = document.getElementById('timeline-row-container');
+            let diaryPhotos = d.diaryPhotos || [];
+            if (diaryPhotos.length > 0) {
+                // Sort descending by date
+                diaryPhotos = [...diaryPhotos].sort((a, b) => {
+                    const getMs = (item) => {
+                        if (!item) return 0;
+                        if (item.photoDate) {
+                            if (typeof item.photoDate.toMillis === 'function') return item.photoDate.toMillis();
+                            if (item.photoDate.seconds) return item.photoDate.seconds * 1000;
+                            if (item.photoDate instanceof Date) return item.photoDate.getTime();
+                            return new Date(item.photoDate).getTime();
+                        }
+                        if (item.createdAt) {
+                            if (typeof item.createdAt.toMillis === 'function') return item.createdAt.toMillis();
+                            if (item.createdAt.seconds) return item.createdAt.seconds * 1000;
+                            if (item.createdAt instanceof Date) return item.createdAt.getTime();
+                            return new Date(item.createdAt).getTime();
+                        }
+                        return 0;
+                    };
+                    return getMs(b) - getMs(a);
+                });
+
+                timelineRow.innerHTML = diaryPhotos.map((item, idx) => {
+                    const getMs = (dateObj) => {
+                        if (!dateObj) return 0;
+                        if (typeof dateObj.toMillis === 'function') return dateObj.toMillis();
+                        if (dateObj instanceof Date) return dateObj.getTime();
+                        if (dateObj.seconds) return dateObj.seconds * 1000;
+                        return new Date(dateObj).getTime();
+                    };
+                    const photoTime = getMs(item.photoDate || item.createdAt);
+                    const formattedDate = photoTime > 0 
+                        ? new Date(photoTime).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+                        : 'Unknown Date';
+                    
+                    return `
+                        <div class="timeline-card">
+                            <img class="timeline-img" src="${item.imageUrl || item.url || '../logo.png'}" alt="Growth photo" onerror="this.src='../logo.png'">
+                            <div class="timeline-content">
+                                <div class="timeline-date">${formattedDate}</div>
+                                ${item.note ? `<div class="timeline-note">${item.note}</div>` : ''}
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            } else {
+                timelineRow.innerHTML = `
+                    <div class="timeline-empty-card">
+                        <div class="lock-icon-box">
+                            <ion-icon name="lock-closed-outline"></ion-icon>
+                        </div>
+                        <div class="timeline-empty-title">No growth history recorded.</div>
+                        <div class="timeline-empty-subtitle">Start a visual diary with PlantSaga Premium.</div>
+                    </div>
+                `;
+            }
 
             // Purchase Info Logic
             const section = document.getElementById('purchase-section');
@@ -696,7 +993,6 @@
                 let html = '';
 
                 if (p.isGifted) {
-                    // Gifted Order: Gifted By, Date, Occasion, Plant Initial Height, Flowers, Pot Height, Pot Material
                     html += `
                         <div class="purchase-item-web">
                             <span class="purchase-label-web">Gifted By</span>
@@ -712,7 +1008,6 @@
                         </div>
                     `;
                 } else {
-                    // Purchased Order: Type, Store/Nursery, Date, Price, [Location (Offline) / Link (Online)], Height, Flowers, Pot Height, Pot Material
                     html += `
                         <div class="purchase-item-web">
                             <span class="purchase-label-web">Purchased type</span>
@@ -771,6 +1066,8 @@
                 `;
 
                 grid.innerHTML = html;
+            } else {
+                section.style.display = 'none';
             }
 
             hideLoader();
