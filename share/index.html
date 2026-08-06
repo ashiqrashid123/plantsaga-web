@@ -784,7 +784,7 @@
             cursor: grabbing;
         }
 
-        /* Image — dynamically sized via JS to fill viewport */
+        /* Image — dynamically sized via JS to fill viewport, crisp on Retina */
         .lightbox-img {
             display: block;
             border-radius: 12px;
@@ -792,6 +792,8 @@
             pointer-events: auto;
             opacity: 1;
             transition: opacity 0.25s ease, width 0.2s ease, height 0.2s ease;
+            image-rendering: high-quality;
+            image-rendering: -webkit-optimize-contrast;
         }
         .lightbox-img.loading {
             opacity: 0;
@@ -818,7 +820,7 @@
             animation: spin 0.9s linear infinite;
         }
 
-        /* Navigation arrows — permanently visible */
+        /* Navigation arrows — desktop only, hidden on mobile/tablet */
         .lightbox-nav-btn {
             position: absolute;
             top: 50%;
@@ -851,6 +853,13 @@
         }
         .lightbox-prev-btn { left: 16px; }
         .lightbox-next-btn { right: 16px; }
+
+        /* Hide nav arrows on mobile & tablet — swipe-only UX */
+        @media (max-width: 768px) {
+            .lightbox-nav-btn {
+                display: none !important;
+            }
+        }
 
         /* Bottom caption bar — sleek integrated strip */
         .lightbox-caption-bar {
@@ -906,13 +915,6 @@
             .lightbox-img {
                 border-radius: 8px;
             }
-            .lightbox-nav-btn {
-                width: 40px;
-                height: 40px;
-                font-size: 20px;
-            }
-            .lightbox-prev-btn { left: 8px; }
-            .lightbox-next-btn { right: 8px; }
             .lightbox-caption-bar {
                 padding: 16px 16px;
             }
@@ -1312,8 +1314,10 @@
                         ? new Date(photoTime).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
                         : 'Unknown Date';
 
+                    const thumbUrl = item.imageUrl || item.url || '../logo.png';
                     return {
-                        url: item.imageUrl || item.url || '../logo.png',
+                        url: thumbUrl,
+                        highResUrl: getHighResUrl(thumbUrl),
                         dateStr: formattedDate,
                         note: item.note || ''
                     };
@@ -1512,6 +1516,30 @@
         let lastTapTime = 0;
         let isNavigating = false;
 
+        /**
+         * Extract the original, uncompressed image URL from a Firebase Storage
+         * thumbnail URL. Firebase Extensions (e.g., Resize Images) generate
+         * thumbnails with suffixes like _200x200, _400x400, _thumb, etc.
+         * Stripping these gives us the original hi-res source file.
+         */
+        function getHighResUrl(url) {
+            if (!url || url === '../logo.png') return url;
+            try {
+                // Firebase Storage URLs: strip common resize-suffix patterns
+                // from the filename portion before the query string.
+                // e.g. photo_200x200.jpg → photo.jpg
+                //      photo_thumb.jpg   → photo.jpg
+                //      photo_600x600.webp → photo.webp
+                let cleaned = url.replace(
+                    /(_\d+x\d+|_thumb|_small|_medium|_large|_compressed)(?=\.[a-zA-Z]+(?:[?#]|$))/gi,
+                    ''
+                );
+                return cleaned;
+            } catch (e) {
+                return url;
+            }
+        }
+
         const lbEls = {}; // cached DOM elements
         function getLbEl(id) {
             if (!lbEls[id]) lbEls[id] = document.getElementById(id);
@@ -1548,11 +1576,12 @@
          */
         function fitImageToViewport(imgEl, natW, natH) {
             if (!natW || !natH) return;
-            const isMobile = window.innerWidth <= 600;
+            const isMobile = window.innerWidth <= 768;
             // Available area: full viewport minus top header + bottom caption
+            // On mobile, no arrows → minimal side padding for edge-to-edge imagery
             const padTop = isMobile ? 60 : 70;
             const padBottom = isMobile ? 70 : 80;
-            const padSide = isMobile ? 16 : 80; // space for nav arrows
+            const padSide = isMobile ? 8 : 80; // mobile: near edge-to-edge; desktop: space for nav arrows
             const availW = window.innerWidth - (padSide * 2);
             const availH = window.innerHeight - padTop - padBottom;
             const imgRatio = natW / natH;
@@ -1616,40 +1645,64 @@
                 noteText.style.display = 'none';
             }
 
-            // Show/hide nav
+            // Show/hide nav (arrows hidden via CSS on ≤768px anyway)
             const showNav = growthPhotosList.length > 1;
             prevBtn.style.display = showNav ? 'flex' : 'none';
             nextBtn.style.display = showNav ? 'flex' : 'none';
 
-            // Preload then reveal at maximized viewport size
+            // Preload hi-res image then reveal at maximized viewport size
             img.classList.add('loading');
             showSpinner(true);
             resetZoomState();
 
+            // Use the high-resolution URL for the lightbox (not the thumbnail)
+            const hiResUrl = item.highResUrl || item.url;
+
             const preloader = new Image();
             preloader.onload = () => {
-                img.src = item.url;
+                img.src = hiResUrl;
                 fitImageToViewport(img, preloader.naturalWidth, preloader.naturalHeight);
                 img.classList.remove('loading');
                 showSpinner(false);
                 isNavigating = false;
             };
             preloader.onerror = () => {
-                img.src = '../logo.png';
-                img.style.width = '200px';
-                img.style.height = '200px';
-                img.classList.remove('loading');
-                showSpinner(false);
-                isNavigating = false;
+                // Fallback: try the original thumbnail URL before giving up
+                if (hiResUrl !== item.url) {
+                    const fallback = new Image();
+                    fallback.onload = () => {
+                        img.src = item.url;
+                        fitImageToViewport(img, fallback.naturalWidth, fallback.naturalHeight);
+                        img.classList.remove('loading');
+                        showSpinner(false);
+                        isNavigating = false;
+                    };
+                    fallback.onerror = () => {
+                        img.src = '../logo.png';
+                        img.style.width = '200px';
+                        img.style.height = '200px';
+                        img.classList.remove('loading');
+                        showSpinner(false);
+                        isNavigating = false;
+                    };
+                    fallback.src = item.url;
+                } else {
+                    img.src = '../logo.png';
+                    img.style.width = '200px';
+                    img.style.height = '200px';
+                    img.classList.remove('loading');
+                    showSpinner(false);
+                    isNavigating = false;
+                }
             };
-            preloader.src = item.url;
+            preloader.src = hiResUrl;
 
-            // Prefetch neighbors
+            // Prefetch neighbors at hi-res
             if (growthPhotosList.length > 1) {
                 const nextIdx = (currentPhotoIdx + 1) % growthPhotosList.length;
                 const prevIdx = (currentPhotoIdx - 1 + growthPhotosList.length) % growthPhotosList.length;
-                new Image().src = growthPhotosList[nextIdx].url;
-                new Image().src = growthPhotosList[prevIdx].url;
+                new Image().src = growthPhotosList[nextIdx].highResUrl || growthPhotosList[nextIdx].url;
+                new Image().src = growthPhotosList[prevIdx].highResUrl || growthPhotosList[prevIdx].url;
             }
         }
 
