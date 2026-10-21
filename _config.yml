@@ -1,0 +1,3 @@
+# Serve app-link association files from the hidden well-known directory.
+include:
+  - .well-known

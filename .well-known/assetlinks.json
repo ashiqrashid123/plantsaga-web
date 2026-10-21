@@ -1,0 +1,14 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "plant.care.app",
+      "sha256_cert_fingerprints": [
+        "76:11:74:B0:87:11:B4:03:D4:BA:8C:85:48:73:27:8E:E3:9C:60:D4:E5:33:6E:C1:F5:67:3D:3B:1B:FC:DB:D5"
+      ]
+    }
+  }
+]
