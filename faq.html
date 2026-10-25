@@ -1,491 +1,166 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FAQ | PlantSaga - Every Plant Has a Story</title>
-    <meta name="description" content="Frequently Asked Questions about PlantSaga. Everything you need to know about plant care, reminders, and how to use the app.">
-    <link rel="canonical" href="https://plantsaga.com/faq">
-
-    <!-- Modern Typography -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
-
-    <style>
-        :root {
-            --primary: #22c55e;
-            --primary-soft: #16a34a;
-            --accent: #ca8a04;
-            --sage: #8a9a5b;
-            --bg-warm: #080d0a;
-            --text-main: #f4f7f5;
-            --text-muted: #a7c1b1;
-            --inner-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.02);
-            --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-            --obsidian: #080d0a;
-            --sage: #a7c1b1;
-            --glass-border: rgba(255, 255, 255, 0.1);
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-warm);
-            color: var(--text-main);
-            line-height: 1.7;
-            overflow-x: hidden;
-        }
-
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 0 24px;
-        }
-
-        /* Top Navigation */
-        nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            background: var(--glass);
-            backdrop-filter: var(--glass-blur);
-            z-index: 1000;
-            padding: 16px 0;
-            border-bottom: 1px solid var(--glass-border);
-        }
-
-        .nav-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            text-decoration: none;
-        }
-
-        .nav-logo {
-            width: 42px;
-            height: 42px;
-            border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(10, 46, 31, 0.1);
-        }
-
-        .brand-name {
-            font-family: 'Outfit', sans-serif;
-            font-size: 1.6rem;
-            font-weight: 800;
-            color: var(--text-main);
-            letter-spacing: -0.02em;
-        }
-
-        /* Page Header */
-        .page-header {
-            padding-top: 160px;
-            padding-bottom: 60px;
-            text-align: center;
-        }
-
-        h1 {
-            font-family: 'Outfit', sans-serif;
-            font-size: clamp(2.5rem, 5vw, 4rem);
-            font-weight: 800;
-            color: var(--text-main);
-            margin-bottom: 16px;
-            letter-spacing: -0.03em;
-        }
-
-        .header-tagline {
-            font-size: 1.2rem;
-            color: var(--text-muted);
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        /* FAQ Section */
-        .faq-section {
-            margin-bottom: 100px;
-        }
-
-        .faq-item {
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 20px;
-            margin-bottom: 16px;
-            border: 1px solid var(--glass-border);
-            overflow: hidden;
-            transition: var(--transition);
-            backdrop-filter: blur(16px);
-        }
-
-        .faq-item:hover {
-            box-shadow: var(--shadow-bold);
-            transform: translateY(-2px);
-        }
-
-        .faq-question {
-            padding: 24px 32px;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            user-select: none;
-        }
-
-        .faq-question h3 {
-            font-family: 'Outfit', sans-serif;
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: var(--text-main);
-            line-height: 1.4;
-        }
-
-        .faq-icon {
-            width: 24px;
-            height: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: var(--transition);
-            color: var(--accent);
-        }
-
-        .faq-item.active .faq-icon {
-            transform: rotate(180deg);
-        }
-
-        .faq-answer {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-            background: rgba(255, 255, 255, 0.01);
-        }
-
-        .faq-item.active .faq-answer {
-            max-height: 500px;
-        }
-
-        .faq-answer-content {
-            padding: 0 32px 32px 32px;
-            color: var(--text-muted);
-            font-size: 1.05rem;
-            line-height: 1.6;
-        }
-
-        /* Footer */
-        footer {
-            padding: 80px 0 40px;
-            background: rgba(255, 255, 255, 0.03);
-            text-align: center;
-            border-radius: 48px 48px 0 0;
-            margin-top: 60px;
-        }
-
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            margin-top: 20px;
-        }
-
-        .footer-links a {
-            color: var(--text-muted);
-            text-decoration: none;
-            font-size: 0.95rem;
-            font-weight: 600;
-            transition: var(--transition);
-        }
-
-        .footer-links a:hover {
-            color: var(--primary);
-        }
-
-        @media (max-width: 600px) {
-            .faq-question {
-                padding: 20px;
-            }
-            .faq-answer-content {
-                padding: 0 20px 20px 20px;
-            }
-        }
-    </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PlantSaga | Help & frequently asked questions</title>
+<meta name="description" content="Get clear answers about PlantSaga care routines, growth journals, AI suggestions, sharing and Free or Premium access.">
+<meta name="theme-color" content="#075d4b">
+<link rel="canonical" href="https://plantsaga.com/faq.html">
+<link rel="icon" href="logo.png">
+<meta property="og:type" content="website">
+<meta property="og:title" content="PlantSaga | Help & frequently asked questions">
+<meta property="og:description" content="Get clear answers about PlantSaga care routines, growth journals, AI suggestions, sharing and Free or Premium access.">
+<meta property="og:url" content="https://plantsaga.com/faq.html">
+<meta property="og:image" content="https://plantsaga.com/logo.png">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css">
+<script src="site.js" defer>
+</script>
 </head>
-
 <body>
-    <nav>
-        <div class="container nav-content">
-            <a href="./" class="brand">
-                <img src="logo.png" alt="PlantSaga Logo" class="nav-logo">
-                <span class="brand-name">PlantSaga</span>
-            </a>
-        </div>
-    </nav>
-
-    <div class="container">
-        <header class="page-header">
-            <h1>Frequently Asked Questions</h1>
-            <p class="header-tagline">Everything you need to know about growing your botanical story with PlantSaga.</p>
-        </header>
-
-        <section class="faq-section">
-            <div class="faq-item">
-                <div class="faq-question">
-                    <h3>How to add a plant and care task?</h3>
-                    <div class="faq-icon">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                    </div>
-                </div>
-                <div class="faq-answer">
-                    <div class="faq-answer-content">
-                        Tap the floating '+' icon on the Home screen or 'Add Plant' in My Garden. You can identify your plant using the camera or add it manually. Once added, you can set custom watering, fertilizing, and misting schedules.
-                    </div>
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question">
-                    <h3>How can I set a reminder?</h3>
-                    <div class="faq-icon">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                    </div>
-                </div>
-                <div class="faq-answer">
-                    <div class="faq-answer-content">
-                        Open any plant in My Garden, tap the 'Reminders' icon, and set your schedule for watering, misting, or fertilizing.
-                    </div>
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question">
-                    <h3>What is My Garden?</h3>
-                    <div class="faq-icon">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                    </div>
-                </div>
-                <div class="faq-answer">
-                    <div class="faq-answer-content">
-                        Your personal digital sanctuary where you track your plant collection, health status, and growth progress.
-                    </div>
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question">
-                    <h3>What is Plants You'll Love?</h3>
-                    <div class="faq-icon">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                    </div>
-                </div>
-                <div class="faq-answer">
-                    <div class="faq-answer-content">
-                        A personalized discovery carousel on your Home screen that suggests plants based on your local weather, environment, and previous interests.
-                    </div>
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question">
-                    <h3>What is Shared with Me?</h3>
-                    <div class="faq-icon">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                    </div>
-                </div>
-                <div class="faq-answer">
-                    <div class="faq-answer-content">
-                        A gallery for plants shared by your friends. You can view their care stats and save them to your own collection.
-                    </div>
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question">
-                    <h3>What is Discovery Wishlist?</h3>
-                    <div class="faq-icon">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                    </div>
-                </div>
-                <div class="faq-answer">
-                    <div class="faq-answer-content">
-                        Found a plant you love in the Discovery tab? Heart it to save it here until you're ready to bring it home.
-                    </div>
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question">
-                    <h3>How accurate is the Dr. Plant diagnosis?</h3>
-                    <div class="faq-icon">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                    </div>
-                </div>
-                <div class="faq-answer">
-                    <div class="faq-answer-content">
-                        Dr. Plant uses advanced AI trained on thousands of botanical datasets. While highly accurate for common issues, we always recommend checking the "Care History" to see if your watering or lighting habits have changed recently.
-                    </div>
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question">
-                    <h3>Why does the Light Meter suggest moving my plant?</h3>
-                    <div class="faq-icon">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                    </div>
-                </div>
-                <div class="faq-answer">
-                    <div class="faq-answer-content">
-                        The meter measures actual "Lux" (light intensity). Even if a room feels bright to you, it might be "Low Light" for a tropical plant. We use thresholds (100/300/800 Lux) to ensure your plant can photosynthesize effectively.
-                    </div>
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question">
-                    <h3>How does the Weather Station help my plants?</h3>
-                    <div class="faq-icon">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                    </div>
-                </div>
-                <div class="faq-answer">
-                    <div class="faq-answer-content">
-                        The app syncs with your local weather. If it's exceptionally hot or raining, our AI "Care Insights" will suggest adjusting your watering schedule to match the current environment.
-                    </div>
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question">
-                    <h3>Can I snooze a watering reminder?</h3>
-                    <div class="faq-icon">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                    </div>
-                </div>
-                <div class="faq-answer">
-                    <div class="faq-answer-content">
-                        Yes! If the soil is still damp, you can snooze the task. Dr. Plant will remember this and help you adjust the frequency for next time.
-                    </div>
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question">
-                    <h3>What happens if I miss a task?</h3>
-                    <div class="faq-icon">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                    </div>
-                </div>
-                <div class="faq-answer">
-                    <div class="faq-answer-content">
-                        Missed tasks are logged in your "Care History." This helps you track long-term patterns if your plant starts showing signs of stress.
-                    </div>
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question">
-                    <h3>If I share a plant, can people see my location?</h3>
-                    <div class="faq-icon">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                    </div>
-                </div>
-                <div class="faq-answer">
-                    <div class="faq-answer-content">
-                        No. Sharing only sends the plant's nickname, species, care stats, and photos. Your personal account details and precise location are never shared.
-                    </div>
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question">
-                    <h3>Can I stop sharing a plant after I've sent the link?</h3>
-                    <div class="faq-icon">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                    </div>
-                </div>
-                <div class="faq-answer">
-                    <div class="faq-answer-content">
-                        Yes. If you delete the plant from your "My Garden" or change your privacy settings, the shared link will automatically show a "Specimen Missing" message to others.
-                    </div>
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question">
-                    <h3>How do I sync my data across devices?</h3>
-                    <div class="faq-icon">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                    </div>
-                </div>
-                <div class="faq-answer">
-                    <div class="faq-answer-content">
-                        As long as you are logged in with the same account, your garden, wishlist, and reminders sync automatically via our secure cloud.
-                    </div>
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question">
-                    <h3>What is the "Daily Insight"?</h3>
-                    <div class="faq-icon">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                    </div>
-                </div>
-                <div class="faq-answer">
-                    <div class="faq-answer-content">
-                        It's a masterclass in plant care! Each day, you'll receive a new tip or "Lunar Guide" insight to help you become a better plant parent.
-                    </div>
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question">
-                    <h3>I found a bug! How do I report it?</h3>
-                    <div class="faq-icon">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                    </div>
-                </div>
-                <div class="faq-answer">
-                    <div class="faq-answer-content">
-                        We love feedback! Tap the "Contact Support" button at the bottom of the profile page or email us at <a href="mailto:team.plantsaga@gmail.com" style="color: var(--primary); font-weight: 600; text-decoration: none;">team.plantsaga@gmail.com</a>.
-                    </div>
-                </div>
-            </div>
-        </section>
-    </div>
-
-    <footer>
-        <div class="container">
-            <p style="font-size: 1.1rem; color: var(--primary); font-weight: 600;">Document the past. Nurture the present. Seed the future.</p>
-            <div class="footer-links">
-                <a href="./">Home</a>
-                <a href="privacy.html">Privacy Policy</a>
-                <a href="https://www.instagram.com/team.plantsaga/" target="_blank" rel="noopener">Instagram</a>
-                <a href="https://www.linkedin.com/company/plantsaga" target="_blank" rel="noopener">LinkedIn</a>
-                <a href="https://www.facebook.com/profile.php?id=61572106220903" target="_blank" rel="noopener">Facebook</a>
-            </div>
-            <p style="margin-top: 40px; font-size: 0.8rem; color: #999;">© 2026 PlantSaga. All rights reserved.</p>
-        </div>
-    </footer>
-
-    <script>
-        document.querySelectorAll('.faq-question').forEach(question => {
-            question.addEventListener('click', () => {
-                const item = question.parentNode;
-                item.classList.toggle('active');
-            });
-        });
-    </script>
+<a class="skip" href="#main">Skip to content</a>
+<header class="header">
+<nav class="wrap nav" aria-label="Main navigation">
+<a href="./" class="brand">
+<img src="logo.png" alt="" width="36" height="36">PlantSaga</a>
+<button class="menu-toggle" aria-expanded="false" aria-controls="navigation">Menu</button>
+<div class="navlinks" id="navigation">
+<a href="index.html#features">Features</a>
+<a href="index.html#journey">Growth journey</a>
+<a href="index.html#plans">Free &amp; Premium</a>
+<a href="faq.html">Help</a>
+</div>
+<a class="button" href="download/">Get the app <span aria-hidden="true">↗</span>
+</a>
+</nav>
+</header>
+<main id="main">
+<div class="wrap">
+<div class="page-intro">
+<span class="eyebrow">We’re here to help</span>
+<h1>A little guidance<br>for your growing journey.</h1>
+<p>Clear answers about caring, learning and keeping your plant memories in PlantSaga.</p>
+</div>
+<div class="faq">
+<details>
+<summary>How do I add a plant and a care routine?</summary>
+<p>Open Garden and choose Add plant. Identify a plant from a photo or enter its details manually. Open the plant to add care tasks such as watering or feeding, then review your tasks in Today or your care schedule.</p>
+</details>
+<details>
+<summary>What is My Garden?</summary>
+<p>Garden brings your own plants, their photos, notes and care history together. Group plants by spaces such as Kitchen, Living Room, Balcony or Outdoors.</p>
+</details>
+<details>
+<summary>How do reminders work?</summary>
+<p>Create a care task and choose its timing in the app. Allow notifications on your device if you want reminder alerts. Notification delivery also depends on your device settings. Check the soil and the plant before watering; a reminder is a prompt to check, not a reason to water automatically.</p>
+</details>
+<details>
+<summary>Can I snooze or skip a task?</summary>
+<p>Yes. Use the available task actions to move a reminder or skip an occurrence. Review your routine if the timing no longer suits your plant. Snoozing is not a guaranteed automatic AI adjustment to future care.</p>
+</details>
+<details>
+<summary>What happens if I miss a task?</summary>
+<p>The app keeps care history so you can review completed and missed care. Recurring routines continue according to their schedule; check the app for any overdue care and changes you need to make.</p>
+</details>
+<details>
+<summary>Can I care for a whole room at once?</summary>
+<p>Premium bulk care lets you select plants in Garden and record a care action for the group. Update to the latest version for available bulk-care controls. Check each plant first: plants in the same room may still need different care.</p>
+</details>
+<details>
+<summary>How do growth journals and Before &amp; After work?</summary>
+<p>Open a plant’s growth journey to add photos and see changes over time. Before & After lets you compare growth moments and share a graphic. Photo allowances and comparison controls depend on your plan and app version.</p>
+</details>
+<details>
+<summary>What are Discover and the Discovery Wishlist?</summary>
+<p>Discover helps you explore plants and learn about them. Save plants you are interested in to your Discovery Wishlist. A wishlist is separate from the plants you own in Garden; collection limits depend on your plan.</p>
+</details>
+<details>
+<summary>What is Shared with Me?</summary>
+<p>Save a plant someone has shared with you so you can return to its shared page. Viewing a shared plant does not give you permission to edit the owner’s plant or change their care tasks.</p>
+</details>
+<details>
+<summary>Can someone view my shared plant without the app?</summary>
+<p>Yes. A shared plant link opens a webpage for that plant. Friends can view the available shared information there; they can also open PlantSaga when the app and device support it.</p>
+</details>
+<details>
+<summary>What should I check before sharing a plant?</summary>
+<p>Review the plant details, photos and notes that appear in its shared view before sending a link. Anyone who receives or is forwarded a link may be able to view that shared information. Avoid including personal or sensitive details in plant content you share.</p>
+</details>
+<details>
+<summary>Can AI tell me exactly what is wrong with my plant?</summary>
+<p>AI provides suggestions and possible explanations, not a guaranteed identification or diagnosis. Check the plant’s soil, light and care history, and seek a qualified local expert when needed.</p>
+</details>
+<details>
+<summary>Does the weather change my schedule automatically?</summary>
+<p>Weather information can give useful context for plant care. Check your actual growing conditions, soil moisture and existing routine before changing a task. Do not assume that local rain reached an indoor or sheltered plant, or that every schedule adjusts automatically.</p>
+</details>
+<details>
+<summary>How accurate is the Light Lab?</summary>
+<p>Light measurements are estimates and depend on your device, sensor availability and the measurement method shown in the app. Use them to compare positions and learn about a space, rather than as a replacement for a calibrated horticultural meter.</p>
+</details>
+<details>
+<summary>Should I follow the Moon Guide to decide when to water?</summary>
+<p>The Moon Guide includes lunar information, gardening traditions and practical care checks. Lunar traditions are not a guarantee of better growth. Prioritise your plant’s condition, soil moisture, light and the season when deciding what to do.</p>
+</details>
+<details>
+<summary>What can I learn from Tools Guide and Daily Insights?</summary>
+<p>Tools Guide explains equipment, uses and practical choices, with additional utilities for Premium where available. Daily Insights offers short plant-care ideas. Apply advice to your own plant, growing space and local conditions.</p>
+</details>
+<details>
+<summary>Is PlantSaga free to use?</summary>
+<p>Yes. You can start with Free, which includes a personal Garden, care routines and access to discovery and learning features, within usage limits. Premium adds more capacity and advanced utilities. Check the app for current availability and limits.</p>
+</details>
+<details>
+<summary>How does the introductory Premium offer work?</summary>
+<p>Eligible accounts can explore an introductory Premium offer in the app. The current model includes a 30-day introductory period and up to three eligible 14-day extensions. Eligibility and extension windows apply; the app shows the current offer and what happens when it ends.</p>
+</details>
+<details>
+<summary>Can I use the same Garden on iOS and Android?</summary>
+<p>Sign in to the same PlantSaga account to access synced account data on supported devices. Internet access is needed for cloud updates and AI features. Guest use does not provide the same account-based sync.</p>
+</details>
+<details>
+<summary>How can I contact support or suggest a feature?</summary>
+<p>Use the support or feedback options in Profile, or email <a href="mailto:team.plantsaga@gmail.com">team.plantsaga@gmail.com</a>. Include your app version and device model when reporting a problem, and avoid sending passwords or sensitive account details.</p>
+</details>
+</div>
+<div class="support-card">
+<h2>Still have a question?</h2>
+<p>Tell us what you’re trying to do. We’d love to help.</p>
+<a class="button" href="mailto:team.plantsaga@gmail.com">Contact the PlantSaga team</a>
+</div>
+</div>
+</main>
+<footer>
+<div class="wrap">
+<div class="footer-grid">
+<div>
+<a href="./" class="brand">
+<img src="logo.png" alt="" width="36" height="36">PlantSaga</a>
+<p>Care for today.<br>Keep the story growing.</p>
+</div>
+<div class="footer-links">
+<h3>Explore</h3>
+<a href="download/">Download PlantSaga</a>
+<a href="faq.html">Help &amp; FAQs</a>
+<a href="privacy.html">Privacy policy</a>
+</div>
+<div class="footer-links">
+<h3>Stay in touch</h3>
+<a href="mailto:team.plantsaga@gmail.com">Contact the team</a>
+<a href="https://www.instagram.com/team.plantsaga/">Instagram</a>
+<a href="https://www.linkedin.com/company/plantsaga">LinkedIn</a>
+<a href="https://www.facebook.com/profile.php?id=61572106220903">Facebook</a>
+</div>
+</div>
+<div class="footer-bottom">
+<span>© 2026 PlantSaga. All rights reserved.</span>
+<span>For windowsills, balconies and gardens everywhere.</span>
+</div>
+</div>
+</footer>
 </body>
-
 </html>
